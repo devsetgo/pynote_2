@@ -35,17 +35,26 @@ class CreateAccountForm(StarletteForm):
 
     email = TextField(
         "Email address",
-        validators=[DataRequired("Please enter your email address"), Email(),],
+        validators=[
+            DataRequired("Please enter your email address"),
+            Email(),
+        ],
     )
     user_name = TextField(
         "User Name",
         validators=[DataRequired("Please enter a user_name"), letter_number_only],
     )
     first_name = TextField(
-        "First Name", validators=[DataRequired("Please enter your first name"),]
+        "First Name",
+        validators=[
+            DataRequired("Please enter your first name"),
+        ],
     )
     last_name = TextField(
-        "Last Name", validators=[DataRequired("Please enter your last name"),]
+        "Last Name",
+        validators=[
+            DataRequired("Please enter your last name"),
+        ],
     )
     password = PasswordField(
         "Password",
@@ -67,12 +76,17 @@ class CreateAccountForm(StarletteForm):
 
 class AccountLoginForm(StarletteForm):
     user_name = TextField(
-        "User Name", validators=[DataRequired("Please enter a user_name"),],
+        "User Name",
+        validators=[
+            DataRequired("Please enter a user_name"),
+        ],
     )
     password = PasswordField(
         "Password",
         widget=PasswordInput(hide_value=False),
-        validators=[DataRequired("Please enter your password"),],
+        validators=[
+            DataRequired("Please enter your password"),
+        ],
     )
 
 

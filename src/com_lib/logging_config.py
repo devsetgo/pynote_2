@@ -50,4 +50,3 @@ def config_log():
     logging.basicConfig(
         handlers=[InterceptHandler()], level=settings.LOGURU_LOGGING_LEVEL.upper()
     )
-

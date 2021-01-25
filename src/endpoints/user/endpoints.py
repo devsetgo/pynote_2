@@ -12,7 +12,7 @@ from starlette_wtf import csrf_protect
 from app_functions import login_required
 from app_functions.crud_ops import execute_one_db
 from app_functions.crud_ops import fetch_one_db
-from app_functions.db_setup import users,user_login_failures
+from app_functions.db_setup import users, user_login_failures
 from com_lib.pass_lib import encrypt_pass
 from endpoints.admin.crud import create_review_user
 from endpoints.user import crud as user_crud
@@ -22,16 +22,17 @@ from resources import templates
 
 page_url = "/user"
 
+
 @csrf_protect
 async def login(request):
     logger.debug(f"request")
     form = await forms.AccountLoginForm.from_formdata(request)
     form_data = await request.form()
-    
+
     if await form.validate_on_submit():
         logger.critical(form_data)
         user_name = form_data["user_name"]
-        user_name=user_name.lower()
+        user_name = user_name.lower()
         pwd = form_data["password"]
         logger.debug(f"user_name: {user_name}, pwd: {pwd}")
 
@@ -51,9 +52,14 @@ async def login(request):
         logger.info(f"updating last login for {user_name}")
         if result == False:
             client_host = request.client.host
-            fail_values:dict={'id':str(uuid.uuid4()),'date_created':datetime.datetime.now(),"user_name":user_name,'ip_address':client_host}
-            fail_query=user_login_failures.insert()
-            await execute_one_db(query=fail_query,values=fail_values)
+            fail_values: dict = {
+                "id": str(uuid.uuid4()),
+                "date_created": datetime.datetime.now(),
+                "user_name": user_name,
+                "ip_address": client_host,
+            }
+            fail_query = user_login_failures.insert()
+            await execute_one_db(query=fail_query, values=fail_values)
             logger.warning(f"User login failure for {user_name} from {client_host}")
             form.user_name.errors.append(f"user_name or Password is invalid")
 
@@ -170,11 +176,11 @@ async def forgot_password(request):
 
 @login_required.require_login
 async def profile(request):
-    user_name= request.session["user_name"]
+    user_name = request.session["user_name"]
 
-    user_data= await user_crud.user_info(user_name=user_name)
+    user_data = await user_crud.user_info(user_name=user_name)
 
     status_code = 200
     template = f"{page_url}/profile.html"
-    context = {"request": request,'user_data':user_data}
+    context = {"request": request, "user_data": user_data}
     return templates.TemplateResponse(template, context, status_code=status_code)

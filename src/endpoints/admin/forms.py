@@ -9,4 +9,6 @@ class ApprovalReviewForm(StarletteForm):
     """ Approve or Reject User """
 
     is_active = BooleanField()
-    is_admin = BooleanField("Admin",)
+    is_admin = BooleanField(
+        "Admin",
+    )

@@ -12,6 +12,7 @@ from app_functions import login_required
 
 page_url = "/dashboard_pages"
 
+
 @login_required.require_login
 async def dashboard(request):
     """
@@ -26,12 +27,10 @@ async def dashboard(request):
     logger.info("page accessed: /dashboard")
     return templates.TemplateResponse(template, context)
 
+
 async def about_page(request):
 
     template = f"about.html"
     context = {"request": request}
     logger.info(f"page accessed: /{template}")
     return templates.TemplateResponse(template, context)
-
-
-

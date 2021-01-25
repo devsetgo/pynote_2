@@ -10,6 +10,7 @@ from resources import templates
 
 from app_functions import login_required
 
+
 @login_required.require_login
 async def homepage(request):
 
@@ -41,6 +42,3 @@ async def about_page(request):
     context = {"request": request}
     logger.info(f"page accessed: /{template}")
     return templates.TemplateResponse(template, context)
-
-
-

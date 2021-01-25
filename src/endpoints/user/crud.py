@@ -62,7 +62,7 @@ async def user_info(user_name: str):
 
     try:
         result = await fetch_one_db(query=query)
-        
+
         return result
 
     except Exception as e:

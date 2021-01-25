@@ -41,7 +41,6 @@ async def valid_login(user_name: str, pwd: str):
 
     if user_data == None:
         result = False
-        
 
         return result
 

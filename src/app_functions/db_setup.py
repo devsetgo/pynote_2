@@ -3,7 +3,22 @@
 import logging
 
 import databases
-from sqlalchemy import Column, Table,String,Boolean, DateTime,Date,Integer,Float,ForeignKey,Text,create_engine,pool,MetaData,schema
+from sqlalchemy import (
+    Column,
+    Table,
+    String,
+    Boolean,
+    DateTime,
+    Date,
+    Integer,
+    Float,
+    ForeignKey,
+    Text,
+    create_engine,
+    pool,
+    MetaData,
+    schema,
+)
 from loguru import logger
 
 from settings import SQLALCHEMY_DATABASE_URI
@@ -40,7 +55,7 @@ users = Table(
     Column("user_id", String, primary_key=True),
     Column("user_name", String, index=True, unique=True),
     Column("password", String, index=True),
-    Column("email", String, index=True), #, unique=True),
+    Column("email", String, index=True),  # , unique=True),
     Column("first_name", String, index=True),
     Column("last_name", String, index=True),
     Column("is_active", Boolean, index=True),
@@ -70,7 +85,7 @@ user_login_failures = Table(
     Column("date_created", DateTime, index=True),
     Column("user_name", String, index=True),
     Column("ip_address", String, index=True),
-    )
+)
 
 notes = Table(
     "notes",

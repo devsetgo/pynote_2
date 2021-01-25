@@ -60,7 +60,7 @@ if USE_ENV.lower() == "dotenv":
 
     # Sendgrid
     SENDGRID_API_KEY = config("SENDGRID_API_KEY", default="none")
-    #security config
+    # security config
     LOGIN_TIMEOUT = int(config("LOGIN_TIMEOUT", default=120))
     # LOGIN_TIMEOUT=int(LOGIN_TIMEOUT)
 
@@ -71,7 +71,7 @@ if USE_ENV.lower() == "dotenv":
     ADMIN_CREATE = config("ADMIN_CREATE", default="False")
     ADMIN_USER_NAME = config("ADMIN_USER_NAME", default=None)
     ADMIN_USER_KEY = config("ADMIN_USER_KEY", default=None)
-    ADMIN_USER_EMAIL = config("ADMIN_USER_EMAIL",default=None)
+    ADMIN_USER_EMAIL = config("ADMIN_USER_EMAIL", default=None)
 else:
     logger.info(f"external configuration is for use with {USE_ENV.lower()}")
     # docker variables
@@ -88,32 +88,32 @@ else:
 
     # Sendgrid
     SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
-    #security config
+    # security config
     LOGIN_TIMEOUT = config("LOGIN_TIMEOUT", default=120)
     if LOGIN_TIMEOUT is None:
         LOGIN_TIMEOUT = 120
     else:
         LOGIN_TIMEOUT = int(LOGIN_TIMEOUT)
     # Loguru settings
-    #LOGURU_RETENTION = config("LOGURU_RETENTION", default="10 days")
+    # LOGURU_RETENTION = config("LOGURU_RETENTION", default="10 days")
     #     LOGURU_ROTATION = config("LOGURU_ROTATION", default="10 MB")
     # LOGURU_LOGGING_LEVEL = config("LOGURU_LOGGING_LEVEL", default="WARNING")
     LOGURU_RETENTION = os.environ["LOGURU_RETENTION"]
     if LOGURU_RETENTION is None:
         LOGURU_RETENTION = "10 days"
-    
+
     LOGURU_ROTATION = os.environ["LOGURU_ROTATION"]
     if LOGURU_ROTATION is None:
         LOGURU_ROTATION = "100 MB"
-    
+
     LOGURU_LOGGING_LEVEL = os.environ["LOGURU_LOGGING_LEVEL"]
     if LOGURU_LOGGING_LEVEL is None:
         LOGURU_LOGGING_LEVEL = "INFO"
-    
+
     ADMIN_CREATE = os.environ["ADMIN_CREATE"]
-    if ADMIN_CREATE.lower()==None:
-        ADMIN_CREATE=False
+    if ADMIN_CREATE.lower() == None:
+        ADMIN_CREATE = False
 
     ADMIN_USER_NAME = os.environ["ADMIN_USER_NAME"]
     ADMIN_USER_KEY = os.environ["ADMIN_USER_KEY"]
-    ADMIN_USER_EMAIL=os.environ["ADMIN_USER_EMAIL"]
+    ADMIN_USER_EMAIL = os.environ["ADMIN_USER_EMAIL"]

@@ -51,11 +51,18 @@ def send_user_approved(to_email: str):
 
 
 def send_email(to_email: str, subject: str, message_body: str):
-    sg = sendgrid.SendGridAPIClient(
-        api_key="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"
-    )
+    sg = sendgrid.SendGridAPIClient(api_key="")
     data = {
-        "personalizations": [{"to": [{"email": to_email,}], "subject": subject}],
+        "personalizations": [
+            {
+                "to": [
+                    {
+                        "email": to_email,
+                    }
+                ],
+                "subject": subject,
+            }
+        ],
         "from": {"email": "admin@devsetgo.com"},
         "content": [{"type": "text/html", "value": message_body}],
     }
