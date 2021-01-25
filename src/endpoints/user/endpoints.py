@@ -179,7 +179,10 @@ async def profile(request):
     user_name = request.session["user_name"]
 
     user_data = await user_crud.user_info(user_name=user_name)
-
+    user_data = dict(user_data)
+    pop_list:list = ['password','first_login','from_config']
+    for p in pop_list:
+        user_data.pop(p,None)
     status_code = 200
     template = f"{page_url}/profile.html"
     context = {"request": request, "user_data": user_data}

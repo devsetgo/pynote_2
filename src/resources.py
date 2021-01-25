@@ -62,6 +62,13 @@ async def create_admin():
                 "user_name": settings.ADMIN_USER_NAME.lower(),
                 "password": hashed_pwd,
                 "email": settings.ADMIN_USER_EMAIL,
+                "address": "123 Maple St",
+                "city": "Clearwater",
+                "state": "Florida",
+                "country": "USA",
+                "postal": "33761",
+                "phone": "727-456-7890",
+                "mobile_phone":"727-456-7890",
                 # system created fields
                 "user_id": str(uuid.uuid4()),
                 "date_created": datetime.datetime.now(),

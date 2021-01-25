@@ -58,14 +58,31 @@ users = Table(
     Column("email", String, index=True),  # , unique=True),
     Column("first_name", String, index=True),
     Column("last_name", String, index=True),
+    Column("address", String, index=True),
+    Column("city", String, index=True),
+    Column("state", String, index=True),
+    Column("country", String, index=True),
+    Column("postal", String, index=True),
+    Column("phone", String, index=True),
+    Column("mobile_phone", String, index=True),
     Column("is_active", Boolean, index=True),
     Column("is_admin", Boolean, index=True),
     Column("first_login", Boolean, index=True),
     Column("from_config", Boolean, index=True),
     Column("date_created", DateTime, index=True),
     Column("last_login", DateTime, index=True),
+
 )
 
+user_profiles =Table(
+    "user_profiles",
+    metadata,
+    Column("id", String, index=True, primary_key=True),
+    Column("user_id", String, index=True),
+    Column("name", String, index=True),
+    Column("link", String, index=True),
+    )
+    
 user_approval = Table(
     "user_approval",
     metadata,
