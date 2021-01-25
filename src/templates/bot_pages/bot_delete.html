@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block page_title %}| Delete Account {{bot_data.twitter_name|title}}{% endblock %}
+{% block page_stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
+{% endblock %}
+{% block page_breadcrumb %} {{bot_data.twitter_name|title}} Delete Account{% endblock %}
+{% block page_head_title %}{{bot_data.twitter_name|title}} Delete Account{% endblock %}
+{% block body %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-8">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Delete Bot @{{bot_data.twitter_name|title}}</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form action="/bots/delete/{{bot_data.twitter_name}}" method="post">
+            {{ form.csrf_token }}
+
+            <div class="row">
+
+              <div class="col-6">
+                <br>
+                <div class="input-group mb-5">
+                  <h6><strong>You must type the bot name "{{bot_data.twitter_name}}" exactly.
+                    <br>
+                     WARNING: This is a nonrecoverable action.</strong></h6>
+                  <br>
+                  {{ form.twitter_name(placeholder='Twitter Name') }}
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fab fa-twitter"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="row">
+              <div class="col-8">
+                <div class="col-4 align-content-center">
+                  <br>
+                  <button type="submit" class="btn btn-primary btn-block" title="Create Bot in deactivated mode">Create
+                    Bot</button>
+                  <br>
+                </div>
+                <!-- /.col -->
+              </div>
+            </div>
+        </div>
+        </form>
+      </div>
+      <!-- /.card -->
+
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block page_sidebar_content %}
+<div class="p-3">
+  <h5>Title</h5>
+  <p>Sidebar content</p>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<!-- page scripts-->
+<script src="{{ url_for('static' , path='plugins/toastr/toastr.min.js') }}"></script>
+{% for field, errors in form.errors.items() %}
+<script type=text/javascript>
+  toastr.error("{{', '.join(errors)}}", "{{form[field].id }}")
+</script>
+{% endfor %}
+{% endblock %}

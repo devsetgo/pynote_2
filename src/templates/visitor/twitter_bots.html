@@ -1,0 +1,75 @@
+<section class="page-section portfolio" id="twitterbot">
+    <div class="container">
+        <!-- Portfolio Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Twitter Bots</h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fab fa-twitter"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Portfolio Grid Items-->
+        <div class="row">
+
+            {% for bot in bots_all %}
+            <!-- Twitter Bot-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#{{bot.twitter_name}}">
+                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                        <div class="portfolio-item-caption-content text-center text-white"><i
+                                class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    <img class="img-fluid" src="static/bot_images/{{ bot.image_name }}" alt="" />
+                </div>
+            </div>
+
+            <div class="portfolio-modal modal fade" id="{{bot.twitter_name}}" tabindex="-1" role="dialog"
+                aria-labelledby="{{bot.twitter_name}}" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                        <div class="modal-body text-center">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-8">
+                                        <!-- Portfolio Modal - Title-->
+                                        <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">
+                                            @{{bot.twitter_name|upper}}</h2>
+                                        <!-- Icon Divider-->
+                                        <div class="divider-custom">
+                                            <div class="divider-custom-line"></div>
+                                            <div class="divider-custom-icon"><i class="fab fa-twitter"></i></div>
+                                            <div class="divider-custom-line"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <!-- Portfolio Modal - Image-->
+                                                <img class="img-fluid rounded"
+                                                    src="static/bot_images/{{ bot.image_name }}" alt="" />
+                                                <!-- Portfolio Modal - Text-->
+                                                <p class="mb-5">{{bot.description}}</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <a class="twitter-timeline"
+                                                    href="https://twitter.com/{{ bot.twitter_name }}?ref_src=twsrc%5Etfw">Tweets
+                                                    by @{{bot.twitter_name|title}}</a>
+                                                <script async src="https://platform.twitter.com/widgets.js"
+                                                    charset="utf-8"></script>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary" href="#" data-dismiss="modal"><i
+                                                class="fas fa-times fa-fw"></i>Close Window</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+            {% endfor %}
+        </div>
+    </div>
+</section>

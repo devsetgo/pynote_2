@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block page_title %}| Bot Lyrics{% endblock %}
+{% block page_stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
+{% endblock %}
+{% block page_breadcrumb %} Bot Lyrics{% endblock %}
+{% block page_head_title %}Bot Lyrics{% endblock %}
+{% block body %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Widget: user widget style 1 -->
+        <div class="card card-widget widget-user">
+          <!-- Add the bg color to the header using any of the bg-* classes -->
+          <div class="widget-user-header bg-black">
+            <h3 class="widget-user-user_name"><a href="https://twitter.com/{{bot_data.twitter_name}}"
+                target="_blank">@{{bot_data.twitter_name|upper}}</a></h3>
+          </div>
+          <div class="widget-user-image">
+            <img class="img-circle elevation-2" src="../../static/bot_images/{{ bot_data.image_name }}"
+              alt="User Avatar">
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <h6 class="widget-user-desc">Next Lyric: <strong>{{ current_lyric.lyric_line }}</strong></h6>
+            </div>
+            <div class="row">
+
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <span class="description-text">Followers</span>
+                  <h5 class="description-header">1,001</h5>
+
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <span class="description-text">Following</span>
+                  <h5 class="description-header">241</h5>
+
+
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4">
+                <div class="description-block">
+                  <span class="description-text">Tweets</span>
+                  <h5 class="description-header">3202</h5>
+
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <span class="description-text">Active Bot</span>
+
+                  <h5 class="description-header"><a
+                      href="/bots/activate/{{ bot_data.twitter_name }}">{{bot_data.is_active}}</a></h5>
+
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+
+                  <span class="description-text">Current Sequence</span>
+                  <h5 class="description-header">{{bot_data.current_lyric_sequence}}</h5>
+
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4">
+                <div class="description-block">
+                  <span class="description-text">Bot Lyrics</span>
+                  <h5 class="description-header"><a href="/bots/lyrics/{{ bot_data.twitter_name }}">Lyrics</a></h5>
+
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-6">
+                <strong>Description: </strong>
+                <br>
+                {{bot_data.description}}
+              </div>
+              <div class="col-2">
+                <form action="/bots/lyrics/{{bot_data.twitter_name}}/squence" method="post">
+                  <button type="submit" class="btn btn-primary btn-block" title="Increment +1 current lyric sequence">+ 1</button>
+                </form>
+              </div>
+              <div class="col-3">
+              <a href="/bots/delete/{{bot_data.twitter_name}}/">
+                <button type="submit" class="btn btn-danger btn-block" title="Increment +1 current lyric sequence">Delete</button>
+              </a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <strong>Lyrics: </strong>
+                <br>
+                <ul>
+                  {% for lyric in lyric_data %}
+                  <li>{{ lyric.sequence }} - {{ lyric.lyric_line }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+        </div>
+        <!-- /.widget-user -->
+      </div>
+      <!-- /.col -->
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Update Lyrics for @{{bot_data.twitter_name|title}}</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form action="/bots/lyrics/{{bot_data.twitter_name}}" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+              <div class="col-8">
+                <br>
+                <div class="col-4 align-content-center">
+                  <!-- <input type="file" id="file" name="file" > -->
+                  {{ form.lyric_file(placeholder='Lyric File') }}
+                </div>
+
+                <div class="col-4 align-content-center">
+                  <br>
+                  <button type="submit" class="btn btn-primary btn-block" title="Create Bot in deactivated mode">Add
+                    Lyrics</button>
+                  <br>
+                </div>
+                <!-- /.col -->
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <!-- /.card -->
+
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block page_sidebar_content %}
+<div class="p-3">
+  <h5>Title</h5>
+  <p>Sidebar content</p>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<!-- page scripts-->
+<script src="{{ url_for('static' , path='plugins/toastr/toastr.min.js') }}"></script>
+
+{% for field, errors in form.errors.items() %}
+<script type=text/javascript>
+  toastr.error("{{', '.join(errors)}}", "{{form[field].id }}")
+</script>
+{% endfor %}
+
+{% endblock %}

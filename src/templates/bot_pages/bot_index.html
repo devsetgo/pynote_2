@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block page_title %}| Bots Index{% endblock %}
+{% block page_stylesheet %}{% endblock %}
+{% block page_breadcrumb %} Bots Index{% endblock %}
+{% block page_head_title %}Bots Index{% endblock %}
+{% block body %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      {% for bot in bots|sort(attribute='is_active', reverse = True) %}
+      <div class="col-md-4">
+        <!-- Widget: user widget style 1 -->
+        <div class="card card-widget widget-user">
+          <!-- Add the bg color to the header using any of the bg-* classes -->
+          <div class="widget-user-header bg-black">
+            <h3 class="widget-user-user_name"><a href="https://twitter.com/{{bot.twitter_name}}"
+                target="_blank">@{{bot.twitter_name|upper}}</a></h3>
+            <h5 class="widget-user-desc">{{bot.bot_name|upper}}</h5>
+          </div>
+          <div class="widget-user-image">
+            <img class="img-circle elevation-2" src="../static/bot_images/{{ bot.image_name }}"
+              alt="User Avatar">
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <span class="description-text">Followers</span>
+                  <h5 class="description-header">1,001</h5>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <span class="description-text">Following</span>
+                  <h5 class="description-header">241</h5>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4">
+                <div class="description-block">
+                  <span class="description-text">Tweets</span>
+                  <h5 class="description-header">3202</h5>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <span class="description-text">Active Bot</span>
+                  <h5 class="description-header"><a href="/bots/activate/{{ bot.twitter_name }}">{{bot.is_active}}</a></h5>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <span class="description-text">Update</span>
+                  <h5 class="description-header"><a href="/bots/update/{{ bot.twitter_name }}">Info</a></h5>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+              <div class="col-sm-4">
+                <div class="description-block">
+                  <span class="description-text">Bot Lyrics</span>
+                  <h5 class="description-header"><a href="/bots/lyrics/{{ bot.twitter_name }}">Lyrics</a></h5>
+                </div>
+                <!-- /.description-block -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-12">
+                <strong>Description: </strong>
+                <br>
+                {{bot.description}}
+              </div>
+            </div>
+            <!-- /.row -->
+          </div>
+        </div>
+        <!-- /.widget-user -->
+      </div>
+      <!-- /.col -->
+      {% endfor %}
+      <!-- ./col -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+{% block page_sidebar_content %}
+<div class="p-3">
+  <h5>Title</h5>
+  <p>Sidebar content</p>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<!-- page scripts-->
+{% endblock %}

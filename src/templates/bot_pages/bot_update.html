@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block page_title %}| Update Bot{% endblock %}
+{% block page_stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
+{% endblock %}
+{% block page_breadcrumb %} Update Bot{% endblock %}
+{% block page_head_title %}Update Bot{% endblock %}
+{% block body %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Update Bot</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form action="/bots/update/{{bot_data.twitter_name}}" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+
+              <div class="col-5">
+                <br>
+                <div class="input-group mb-3">
+                  {{ form.twitter_name(placeholder='Twitter Name',value=bot_data.twitter_name,readonly=true) }}
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fab fa-twitter"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  {{ form.consumer_key(placeholder='Consumer Key',value=bot_data.consumer_key) }}
+
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-key"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  {{ form.access_token(placeholder='Access Token',value=bot_data.access_token) }}
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-coins"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-5">
+                <br>
+                <div class="input-group mb-2">
+
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-images"> </span>
+                    </div>
+                  </div>
+                  {{ form.bot_image(placeholder='Bot Image File') }}
+                </div>
+
+                <div class="input-group mb-3">
+                  {{ form.consumer_secret(placeholder='Consumer Secret',value=bot_data.consumer_secret) }}
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-user-secret"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  {{ form.access_token_secret(placeholder='Access Token Secret',value=bot_data.access_token_secret) }}
+
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-mask"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-8 align-content-center">
+                <div class="input-group mb-4">
+
+                  <textarea cols="60" id="description" name="description" placeholder="Twitter Account Descriptions"
+                    required rows="5">{{ bot_data.description }}</textarea>
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-book-open"></span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- /.col -->
+
+            <div class="row">
+
+              <div class="col-8">
+                <div class="col-4 align-content-center">
+                  <br>
+                  <button type="submit" class="btn btn-primary btn-block" title="Create Bot in deactivated mode">Update
+                    Bot</button>
+                  <br>
+                </div>
+                <!-- /.col -->
+              </div>
+            </div>
+        </div>
+        </form>
+      </div>
+      <!-- /.card -->
+
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block page_sidebar_content %}
+<div class="p-3">
+  <h5>Title</h5>
+  <p>Sidebar content</p>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<!-- page scripts-->
+<script src="{{ url_for('static' , path='plugins/toastr/toastr.min.js') }}"></script>
+
+{% for field, errors in form.errors.items() %}
+<script type=text/javascript>
+  toastr.error("{{', '.join(errors)}}", "{{form[field].id }}")
+</script>
+{% endfor %}
+
+
+{% endblock %}
