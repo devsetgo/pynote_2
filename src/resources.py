@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-import logging
-import datetime
 import asyncio
+import datetime
+import logging
+import uuid
+
 from loguru import logger
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
-import uuid
-from app_functions import db_setup
-from app_functions.db_setup import create_db
 
 import settings
-from com_lib.pass_lib import encrypt_pass
+from app_functions import db_setup
 from app_functions.crud_ops import execute_one_db, fetch_all_db
-from app_functions.db_setup import users
+from app_functions.db_setup import create_db, users
 from com_lib.logging_config import config_log
+from com_lib.pass_lib import encrypt_pass
 
 # templates and static files
 templates = Jinja2Templates(directory="templates")
@@ -68,7 +68,7 @@ async def create_admin():
                 "country": "USA",
                 "postal": "33761",
                 "phone": "727-456-7890",
-                "mobile_phone":"727-456-7890",
+                "mobile_phone": "727-456-7890",
                 # system created fields
                 "user_id": str(uuid.uuid4()),
                 "date_created": datetime.datetime.now(),

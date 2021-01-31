@@ -5,10 +5,9 @@ from loguru import logger
 from starlette.exceptions import HTTPException
 from starlette.responses import RedirectResponse
 
+from app_functions import login_required
 from endpoints.bots import crud as bot_crud
 from resources import templates
-
-from app_functions import login_required
 
 page_url = "/dashboard_pages"
 

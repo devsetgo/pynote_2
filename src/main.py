@@ -6,27 +6,24 @@ from loguru import logger
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
-from starlette.routing import Mount
-from starlette.routing import Route
+from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
-from starlette_prometheus import PrometheusMiddleware
-from starlette_prometheus import metrics
+from starlette_prometheus import PrometheusMiddleware, metrics
 from starlette_wtf import CSRFProtectMiddleware
 
 import resources
 import settings
 from app_functions import exceptions
-from com_lib.logging_config import config_log
 from app_functions.logger_middleware import LoggerMiddleware
+from com_lib.logging_config import config_log
 from endpoints.admin import endpoints as admin_pages
-from endpoints.dashboard import endpoints as dash_pages
-from endpoints.notes import endpoints as note_pages
 from endpoints.bots import endpoints as bot_pages
+from endpoints.dashboard import endpoints as dash_pages
 from endpoints.health import endpoints as health_pages
 from endpoints.main import endpoints as main_pages
+from endpoints.notes import endpoints as note_pages
 from endpoints.user import endpoints as user_pages
 from resources import init_app
-
 
 routes = [
     Route("/", main_pages.homepage, name="dashboard", methods=["GET", "POST"]),
@@ -57,7 +54,7 @@ routes = [
         "/notes",
         routes=[
             Route("/", endpoint=note_pages.notes_index, methods=["GET"]),
-            Route("/new", endpoint=note_pages.notes_new, methods=["GET","POST"]),
+            Route("/new", endpoint=note_pages.notes_new, methods=["GET", "POST"]),
         ],
         name="notes",
     ),

@@ -3,23 +3,23 @@
 import logging
 
 import databases
+from loguru import logger
 from sqlalchemy import (
-    Column,
-    Table,
-    String,
     Boolean,
-    DateTime,
+    Column,
     Date,
-    Integer,
+    DateTime,
     Float,
     ForeignKey,
+    Integer,
+    MetaData,
+    String,
+    Table,
     Text,
     create_engine,
     pool,
-    MetaData,
     schema,
 )
-from loguru import logger
 
 from settings import SQLALCHEMY_DATABASE_URI
 
@@ -71,18 +71,17 @@ users = Table(
     Column("from_config", Boolean, index=True),
     Column("date_created", DateTime, index=True),
     Column("last_login", DateTime, index=True),
-
 )
 
-user_profiles =Table(
+user_profiles = Table(
     "user_profiles",
     metadata,
     Column("id", String, index=True, primary_key=True),
     Column("user_id", String, index=True),
     Column("name", String, index=True),
     Column("link", String, index=True),
-    )
-    
+)
+
 user_approval = Table(
     "user_approval",
     metadata,
