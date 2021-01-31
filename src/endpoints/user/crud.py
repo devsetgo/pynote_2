@@ -6,9 +6,7 @@ import uuid
 from loguru import logger
 from sqlalchemy.sql import and_
 
-from app_functions.crud_ops import execute_one_db
-from app_functions.crud_ops import fetch_all_db
-from app_functions.crud_ops import fetch_one_db
+from app_functions.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
 from app_functions.db_setup import users
 
 
@@ -61,7 +59,7 @@ async def user_info(user_name: str):
     logger.info(query)
 
     try:
-        
+
         result = await fetch_one_db(query=query)
         return result
 

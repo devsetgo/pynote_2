@@ -3,21 +3,18 @@ import datetime
 import logging
 import uuid
 
-from sqlalchemy.sql.functions import user
-
 from loguru import logger
+from sqlalchemy.sql.functions import user
 from starlette.responses import RedirectResponse
 from starlette_wtf import csrf_protect
 
 from app_functions import login_required
-from app_functions.crud_ops import execute_one_db
-from app_functions.crud_ops import fetch_one_db
-from app_functions.db_setup import users, user_login_failures
+from app_functions.crud_ops import execute_one_db, fetch_one_db
+from app_functions.db_setup import user_login_failures, users
 from com_lib.pass_lib import encrypt_pass
 from endpoints.admin.crud import create_review_user
 from endpoints.user import crud as user_crud
-from endpoints.user import form_validators
-from endpoints.user import forms
+from endpoints.user import form_validators, forms
 from resources import templates
 
 page_url = "/user"
@@ -180,9 +177,9 @@ async def profile(request):
 
     user_data = await user_crud.user_info(user_name=user_name)
     user_data = dict(user_data)
-    pop_list:list = ['password','first_login','from_config']
+    pop_list: list = ["password", "first_login", "from_config"]
     for p in pop_list:
-        user_data.pop(p,None)
+        user_data.pop(p, None)
     status_code = 200
     template = f"{page_url}/profile.html"
     context = {"request": request, "user_data": user_data}

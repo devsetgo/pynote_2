@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import logging
-from typing import Callable
 from datetime import datetime, timedelta
+from typing import Callable
+
 from loguru import logger
 from starlette.requests import Request
-from starlette.responses import RedirectResponse
-from starlette.responses import Response
+from starlette.responses import RedirectResponse, Response
+
 import settings
 
 

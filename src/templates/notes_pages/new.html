@@ -1,68 +1,59 @@
 {% extends "base.html" %}
-{% block page_title %}| Pypi Check{% endblock %}
+{% block page_title %}| New Note{% endblock %}
 {% block page_stylesheet %}
 <link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
 {% endblock %}
-{% block page_breadcrumb %} Pypi Check{% endblock %}
-{% block page_head_title %}Pypi Check{% endblock %}
+{% block page_breadcrumb %} New Note{% endblock %}
+{% block page_head_title %}New Note{% endblock %}
 {% block body %}
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
     <div class="row">
-      <!-- left column -->
-      <div class="col-md-6">
-        <!-- general form elements -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Pypi Update</h3>
-          </div>
-          <!-- /.card-header -->
-
-          <!-- form start -->
-
-          <div class="row">
-
-            <div class="col-5">
-              <form action="/pypi/" method="post" enctype="multipart/form-data">
-                {{ form.csrf_token }}
-                <br>
-                <div class="input-group mb-5">
-                  {{ form.requirements(placeholder='Paste Requirements.txt here',rows='10',cols='80') }}
-                  <!-- <div class="input-group-append">
-                    <div class="input-group-text">
-                      <span class="fab fa-twitter"></span>
-                    </div>
-                  </div> -->
-                </div>
-                <div class="input-group mb-5">
-                  <br>
-                  <button type="submit" class="btn btn-primary btn-block" title="Create Bot in deactivated mode">Check
-                    For Updates</button>
-                  <br>
-
-                </div>
-              </form>
-            </div>
-            <div class="col-5">
-              <p></p>
-              <!-- <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="50"
-                aria-valuemin="0" aria-valuemax="100" style="width:50%">
-                  50%
-                </div>
-              </div> -->
-            </div>
-          </div>
-
-          <!-- /.col -->
+      <div class="card card-secondary col-sm-12">
+        <div class="card-header">
+          <h3 class="card-title">Create a New Note</h3>
         </div>
-
+        <!-- /.card-header -->
+        <div class="card-body">
+          <form action="/notes/new" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="input-group mb-5">
+                  {{ form.note(placeholder='Enter your note') }}
+                </div>
+                <div class="input-group mb-5">
+                  <p>
+                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note">Submit</button>
+                  </p>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="input-group mb-3">
+                  {{ form.mood(placeholder="Select an option") }}
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-clipboard-check" title="Select an option"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  {{ form.tags(placeholder="Select one or More Options", multiple=true)}}
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-clipboard-check" title="Select an option"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </form>
+        </div>
+        <!-- /.card-body -->
       </div>
-
       <!-- /.card -->
-
     </div>
+
     <!-- /.row -->
   </div>
   <!-- /.container-fluid -->
