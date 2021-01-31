@@ -1,22 +1,22 @@
-aiofiles==0.6.0 # from 0.5.0
-aiosqlite==0.16.1 # from 0.12.0
-alembic==1.5.2 # from 1.4.2
-apscheduler==3.7.0 # from 3.6.3
-asyncpg==0.21.0 # from 0.20.1
+aiofiles==0.6.0
+aiosqlite==0.16.1
+alembic==1.5.3 # from 1.5.2
+apscheduler==3.7.0
+asyncpg==0.21.0
 click==7.1.2
-databases[postgresql]==0.4.1 # from 0.3.2
-email-validator==1.1.2 # from 1.1.0
+databases[postgresql]==0.4.1
+email-validator==1.1.2
 gunicorn==20.0.4
-httpx==0.16.1 # from 0.12.1
+httpx==0.16.1
 itsdangerous==1.1.0
-jinja2==2.11.3
-loguru==0.5.3 # from 0.4.1
-passlib[bcrypt]==1.7.4 # from 1.7.2
-pytz==2020.5 # from 2020.1
+jinja2==2.11.2
+loguru==0.5.3
+passlib[bcrypt]==1.7.4
+pytz==2020.5
 safe==0.4
-sendgrid==6.5.0 # from 6.3.0
-starlette==0.14.1 # from 0.13.4
-starlette-wtf==0.3.0 # from 0.2.2
-tweepy==3.10.0 # from 3.8.0
-uvicorn==0.13.3 # from 0.11.5
-starlette-prometheus==0.7.0 # from 0.6.0
+sendgrid==6.5.0
+starlette==0.14.1
+starlette-wtf==0.3.0
+tweepy==3.10.0
+uvicorn==0.13.3
+starlette-prometheus==0.7.0

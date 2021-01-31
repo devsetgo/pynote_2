@@ -57,6 +57,7 @@ routes = [
         "/notes",
         routes=[
             Route("/", endpoint=note_pages.notes_index, methods=["GET"]),
+            Route("/new", endpoint=note_pages.notes_new, methods=["GET","POST"]),
         ],
         name="notes",
     ),

@@ -61,8 +61,8 @@ async def user_info(user_name: str):
     logger.info(query)
 
     try:
+        
         result = await fetch_one_db(query=query)
-
         return result
 
     except Exception as e:
