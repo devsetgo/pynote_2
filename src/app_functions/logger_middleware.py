@@ -12,7 +12,7 @@ class LoggerMiddleware(BaseHTTPMiddleware):
         method = request.method
         url = request.url
         client = request.client.host
-        print(type(url), type(client))
+        # print(type(url), type(client))
         logger.info(f"{method.capitalize()} request via {url} accessed from {client}")
         # response.headers['Custom'] = 'Example'
         return response

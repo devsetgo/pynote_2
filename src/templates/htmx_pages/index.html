@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block page_title %}| DataTables{% endblock %}
+{% block page_stylesheet %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{{ url_for('static' , path='plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+
+{% endblock %}
+{% block page_breadcrumb %} DataTables{% endblock %}
+{% block page_head_title %}DataTables Page{% endblock %}
+{% block body %}
+<!-- Main content -->
+
+<section class="content">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">HTMX Example</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <div class="tab-list">
+          <a hx-get="/htmx/tab1" class="selected">Tab 1</a>
+          <a hx-get="/htmx/tab2">Tab 2</a>
+          <a hx-get="/htmx/tab3">Tab 3</a>
+        </div>
+        
+        <h3> 
+          Search Contacts 
+          <span class="htmx-indicator"> 
+            <img src="/img/bars.svg"/> Searching... 
+           </span> 
+        </h3>
+        <input class="form-control" type="text" 
+               name="search" placeholder="Begin Typing To Search Users..." 
+               hx-post="/htmx/user_search" 
+               hx-trigger="keyup changed delay:500ms" 
+               hx-target="#search-results" 
+               hx-indicator=".htmx-indicator">
+        
+        <table class="table">
+            <thead>
+            <tr>
+              <th>group name</th>
+              <th>date</th>
+              <th>group type</th>
+              
+            </tr>
+            </thead>
+            <tbody id="search-results">
+              {% include "htmx_pages/user_data.html" %}
+            </tbody>
+        </table>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Your Notes</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table id="notes" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Rendering engine</th>
+                <th>Browser</th>
+                <th>Platform(s)</th>
+                <th>Engine version</th>
+                <th>CSS grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for n in notes %}
+              <tr>
+                <td>Trident</td>
+                <td>Internet
+                  Explorer 4.0
+                </td>
+                <td>Win 95+</td>
+                <td> 4</td>
+                <td>X</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Rendering engine</th>
+                <th>Browser</th>
+                <th>Platform(s)</th>
+                <th>Engine version</th>
+                <th>CSS grade</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+
+      <!-- /.card -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}
+
+{% block page_sidebar_content %}
+<!-- blank and demo script adds page configuration example -->
+<!-- <div class="p-3">
+  <h5>Title</h5>
+  <p>Sidebar content</p>
+</div> -->
+{% endblock %}
+{% block page_scripts %}
+<!-- page scripts-->
+<!-- DataTables -->
+<script src="{{ url_for('static' , path='plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ url_for('static' , path='plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+<!-- Load from unpkg -->
+<script src="https://unpkg.com/htmx.org@1.1.0"></script>
+<!-- AdminLTE App -->
+
+<!-- AdminLTE for demo purposes -->
+<script src="{{ url_for('static' , path='dist/js/demo.js') }}"></script>
+<!-- page script -->
+<script>
+  $(function () {
+
+    $('#notes').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+    });
+  });
+</script>
+{% endblock %}
