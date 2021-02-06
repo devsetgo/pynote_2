@@ -13,6 +13,7 @@
     {% if request.session.user_name %}
 
     <nav class="mt-2">
+      {% include "htmx_pages/nav.html" %}
       {% include "notes_pages/nav.html" %}
       {% if request.session.admin == true %}
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">

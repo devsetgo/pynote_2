@@ -22,6 +22,7 @@ from endpoints.dashboard import endpoints as dash_pages
 from endpoints.health import endpoints as health_pages
 from endpoints.main import endpoints as main_pages
 from endpoints.notes import endpoints as note_pages
+from endpoints.htmx import endpoints as htmx_pages
 from endpoints.user import endpoints as user_pages
 from resources import init_app
 
@@ -55,6 +56,17 @@ routes = [
         routes=[
             Route("/", endpoint=note_pages.notes_index, methods=["GET"]),
             Route("/new", endpoint=note_pages.notes_new, methods=["GET", "POST"]),
+        ],
+        name="notes",
+    ),
+        Mount(
+        "/htmx",
+        routes=[
+            Route("/", endpoint=htmx_pages.htmx_index, methods=["GET","POST","PUT","DELETE"]),
+            Route("/new", endpoint=htmx_pages.htmx_new, methods=["GET", "POST"]),
+            Route("/user_search", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
+            Route("/tab2", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
+            Route("/tab3", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
         ],
         name="notes",
     ),
