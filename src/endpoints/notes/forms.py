@@ -5,8 +5,10 @@ import re
 from loguru import logger
 from starlette_wtf import StarletteForm
 import wtforms
+
 # import SelectField, SelectMultipleField, TextAreaField, TextField
 from wtforms import validators
+
 #  import DataRequired, EqualTo, Length, ValidationError
 
 # from com_lib.pass_lib import char_check
@@ -14,7 +16,7 @@ from wtforms import validators
 
 
 class NewNote(StarletteForm):
-    
+
     note = wtforms.TextAreaField(
         "Requirements",
         render_kw={"rows": 10, "cols": 80},
@@ -23,9 +25,16 @@ class NewNote(StarletteForm):
             validators.Length(min=1, max=5000),
         ],
     )
-    mood =wtforms.SelectField("Choose an option", choices=["-","happy","sad","left of center"], validate_choice=False)
-    tags =wtforms.SelectMultipleField("Choose one or more", choices=[('1','C++'),('2','Python'),('3','JAVA')],default = ['1', '3'])
-
+    mood = wtforms.SelectField(
+        "Choose an option",
+        choices=["-", "happy", "sad", "left of center"],
+        validate_choice=False,
+    )
+    tags = wtforms.SelectMultipleField(
+        "Choose one or more",
+        choices=[("1", "C++"), ("2", "Python"), ("3", "JAVA")],
+        default=["1", "3"],
+    )
 
 
 # choices=[('cpp', 'C++'), ('py', 'Python'), ('text', 'Plain Text')]

@@ -8,7 +8,7 @@ from loguru import logger
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-import settings
+from settings import config_settings
 from app_functions import db_setup
 from app_functions.crud_ops import execute_one_db, fetch_all_db
 from app_functions.db_setup import create_db, users
@@ -46,22 +46,22 @@ async def create_admin():
 
     await asyncio.sleep(0.5)
 
-    if settings.ADMIN_CREATE.lower() == "true":
+    if config_settings.admin_create == True:
         check_query = users.select()
         check_result = await fetch_all_db(query=check_query)
         logger.debug(str(check_result))
 
         if len(check_result) == 0:
 
-            hashed_pwd = encrypt_pass(settings.ADMIN_USER_KEY)
+            hashed_pwd = encrypt_pass(config_settings.admin_user_key)
             values = {
                 # input fields
                 "first_name": "admin",
                 "last_name": "istrator",
                 "last_login": datetime.datetime.now(),
-                "user_name": settings.ADMIN_USER_NAME.lower(),
+                "user_name": config_settings.admin_user_name.lower(),
                 "password": hashed_pwd,
-                "email": settings.ADMIN_USER_EMAIL,
+                "email": config_settings.admin_user_email,
                 "address": "123 Maple St",
                 "city": "Clearwater",
                 "state": "Florida",
@@ -85,7 +85,7 @@ async def create_admin():
                 logging.debug(type(db_result))
             except Exception as e:
                 logger.warning(
-                    f"An error occurred trying to update {settings.ADMIN_USER_NAME.lower()}"
+                    f"An error occurred trying to update {config_settings.admin_user_name.lower()}"
                 )
                 return "error"
 

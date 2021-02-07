@@ -27,7 +27,7 @@ async def login(request):
     form_data = await request.form()
 
     if await form.validate_on_submit():
-        logger.critical(form_data)
+        logger.debug(form_data)
         user_name = form_data["user_name"]
         user_name = user_name.lower()
         pwd = form_data["password"]

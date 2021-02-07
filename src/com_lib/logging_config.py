@@ -7,7 +7,7 @@ from loguru import logger
 # from settings import LOGURU_LOGGING_LEVEL
 # from settings import LOGURU_RETENTION
 # from settings import LOGURU_ROTATION
-import settings
+from settings import config_settings
 
 
 def config_log():
@@ -18,12 +18,12 @@ def config_log():
     # add new configuration
     logger.add(
         log_path,  # log file path
-        level=settings.LOGURU_LOGGING_LEVEL.upper(),  # logging level
+        level=config_settings.loguru_logging_level.upper(),  # logging level
         format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",  # format of log
         enqueue=True,  # set to true for async or multiprocessing logging
         backtrace=False,  # turn to false if in production to prevent data leaking
-        rotation=settings.LOGURU_ROTATION,  # file size to rotate
-        retention=settings.LOGURU_RETENTION,  # how long a the logging data persists
+        rotation=config_settings.loguru_rotation,  # file size to rotate
+        retention=config_settings.loguru_retention,  # how long a the logging data persists
         compression="zip",  # log rotation compression
         serialize=False,  # if you want it JSON style, set to true. But also change the format
     )
@@ -48,5 +48,5 @@ def config_log():
             )
 
     logging.basicConfig(
-        handlers=[InterceptHandler()], level=settings.LOGURU_LOGGING_LEVEL.upper()
+        handlers=[InterceptHandler()], level=config_settings.loguru_logging_level.upper()
     )

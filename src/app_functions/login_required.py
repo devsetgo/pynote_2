@@ -6,8 +6,8 @@ from typing import Callable
 from loguru import logger
 from starlette.requests import Request
 from starlette.responses import RedirectResponse, Response
-
-import settings
+from app_functions import token_manager
+from settings import config_settings
 
 
 def require_login(endpoint: Callable) -> Callable:
@@ -20,7 +20,7 @@ def require_login(endpoint: Callable) -> Callable:
             return RedirectResponse(url="/user/login", status_code=303)
 
         else:
-            one_twenty = datetime.utcnow() - timedelta(minutes=settings.LOGIN_TIMEOUT)
+            one_twenty = datetime.utcnow() - timedelta(minutes=config_settings.login_timeout)
             current: bool = one_twenty < datetime.strptime(
                 request.session["updated"], "%Y-%m-%d %H:%M:%S.%f"
             )
@@ -35,5 +35,5 @@ def require_login(endpoint: Callable) -> Callable:
             logger.info(f"user {request.session['user_name']} within window: {current}")
             request.session["updated"] = str(datetime.utcnow())
         return await endpoint(request)
-
     return check_login
+

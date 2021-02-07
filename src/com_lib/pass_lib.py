@@ -8,6 +8,7 @@ from passlib.hash import bcrypt
 
 import settings
 
+# https://pypi.org/project/Safe/
 
 def encrypt_pass(pwd: str) -> str:
     hashed_pwd = bcrypt.using(rounds=13).hash(pwd)
