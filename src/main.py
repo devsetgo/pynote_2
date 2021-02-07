@@ -12,7 +12,7 @@ from starlette_prometheus import PrometheusMiddleware, metrics
 from starlette_wtf import CSRFProtectMiddleware
 
 import resources
-import settings
+from settings import config_settings
 from app_functions import exceptions
 from app_functions.logger_middleware import LoggerMiddleware
 from com_lib.logging_config import config_log
@@ -59,10 +59,14 @@ routes = [
         ],
         name="notes",
     ),
-        Mount(
+    Mount(
         "/htmx",
         routes=[
-            Route("/", endpoint=htmx_pages.htmx_index, methods=["GET","POST","PUT","DELETE"]),
+            Route(
+                "/",
+                endpoint=htmx_pages.htmx_index,
+                methods=["GET", "POST", "PUT", "DELETE"],
+            ),
             Route("/new", endpoint=htmx_pages.htmx_new, methods=["GET", "POST"]),
             Route("/user_search", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
             Route("/tab2", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
@@ -94,8 +98,8 @@ routes = [
 
 
 middleware = [
-    Middleware(SessionMiddleware, secret_key=settings.SECRET_KEY),
-    Middleware(CSRFProtectMiddleware, csrf_secret=settings.CSRF_SECRET),
+    Middleware(SessionMiddleware, secret_key=config_settings.secret_key,max_age=600,same_site="strict"),
+    Middleware(CSRFProtectMiddleware, csrf_secret=config_settings.csrf_secret),
     # Middleware(PrometheusMiddleware),
     Middleware(LoggerMiddleware),
 ]
@@ -107,8 +111,14 @@ exception_handlers = {
 }
 
 init_app()
+
+if config_settings.release_env == "prd":
+    debug_value=False
+else:
+    debug_value=config_settings.debug
+
 app = Starlette(
-    debug=settings.DEBUG,
+    debug=debug_value,
     routes=routes,
     middleware=middleware,
     exception_handlers=exception_handlers,
@@ -120,4 +130,4 @@ app.add_route("/metrics/", metrics)
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info", debug=settings.DEBUG)
+    uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info", debug=debug_value)

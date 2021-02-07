@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
 from os import stat_result
+import re
 
 from loguru import logger
 from starlette.exceptions import HTTPException
-from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse, JSONResponse
 
 from app_functions import login_required
 from app_functions.db_setup import users
@@ -12,10 +13,14 @@ from endpoints.notes.functions import users_notes
 from endpoints.user import crud as user_crud
 from resources import templates
 from endpoints.notes import forms
+import httpx
+
+client = httpx.AsyncClient()
 
 
-section="htmx"
+section = "htmx"
 page_url = f"/{section}_pages"
+
 
 @login_required.require_login
 async def htmx_index(request):
@@ -49,11 +54,11 @@ async def htmx_new(request):
     logger.debug(f"request")
     form = await forms.NewNote.from_formdata(request)
     form_data = await request.form()
-    form.note.data='this is my textarea content!'
-    form.mood.data='sad'
+    form.note.data = "this is my textarea content!"
+    form.mood.data = "sad"
     if await form.validate_on_submit():
         logger.critical(dict(form_data))
-        logger.warning(form_data['tags'])
+        logger.warning(form_data["tags"])
     template = f"{page_url}/new.html"
     context = {
         "request": request,
@@ -62,19 +67,21 @@ async def htmx_new(request):
     logger.info(f"page accessed: /{section}/new")
     return templates.TemplateResponse(template, context)
 
-import httpx
-client = httpx.AsyncClient()
 
-
+@login_required.require_login
 async def filler(request):
+
+    if request.method == "GET":
+        return JSONResponse({"error": "go away"})
+
     form_data = await request.form()
     para = form_data["search"]
     logger.critical(para)
-    url=f'https://test-api.devsetgo.com/api/v1/groups/list?groupName={para}'
+    url = f"https://test-api.devsetgo.com/api/v1/groups/list?groupName={para}"
     r = await client.get(url)
 
     resp = r.json()
-    user_data = resp['groups']
+    user_data = resp["groups"]
 
     context = {
         "request": request,
@@ -83,3 +90,6 @@ async def filler(request):
     template = f"{page_url}/user_data.html"
     logger.info(f"page accessed: /{section}/search")
     return templates.TemplateResponse(template, context)
+
+
+# https://www.starlette.io/requests/

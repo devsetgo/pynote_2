@@ -14,6 +14,7 @@ from endpoints.notes import forms
 
 page_url = "/notes_pages"
 
+
 @login_required.require_login
 async def notes_index(request):
     """
@@ -46,11 +47,11 @@ async def notes_new(request):
     logger.debug(f"request")
     form = await forms.NewNote.from_formdata(request)
     form_data = await request.form()
-    form.note.data='this is my textarea content!'
-    form.mood.data='sad'
+    form.note.data = "this is my textarea content!"
+    form.mood.data = "sad"
     if await form.validate_on_submit():
         logger.critical(dict(form_data))
-        logger.warning(form_data['tags'])
+        logger.warning(form_data["tags"])
     template = f"{page_url}/new.html"
     context = {
         "request": request,
