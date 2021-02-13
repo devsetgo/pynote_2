@@ -6,7 +6,6 @@ from typing import Callable
 from loguru import logger
 from starlette.requests import Request
 from starlette.responses import RedirectResponse, Response
-from app_functions import token_manager
 from settings import config_settings
 
 
