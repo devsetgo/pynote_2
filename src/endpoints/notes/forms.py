@@ -31,10 +31,17 @@ class NewNote(StarletteForm):
         validate_choice=False,
     )
     tags = wtforms.SelectMultipleField(
-        "Choose one or more",
-        choices=[("1", "C++"), ("2", "Python"), ("3", "JAVA")],
-        default=["1", "3"],
+        "tags",
+        # query_factory=lambda: User.query.all(),
+        choices=[("1", "dev"), ("2", "life"), ("3", "code")],
+        widget=wtforms.widgets.ListWidget(prefix_label=False),
+        option_widget=wtforms.widgets.CheckboxInput(),
     )
+    # tags = wtforms.SelectMultipleField(
+    #     "Choose one or more",
+    #     choices=[("1", "C++"), ("2", "Python"), ("3", "JAVA")],
+    #     default=["1", "3"],
+    # )
 
 
 # choices=[('cpp', 'C++'), ('py', 'Python'), ('text', 'Plain Text')]

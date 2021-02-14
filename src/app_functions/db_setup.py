@@ -15,6 +15,7 @@ from sqlalchemy import (
     MetaData,
     String,
     Table,
+    JSON,
     Text,
     create_engine,
     pool,
@@ -109,6 +110,7 @@ notes = Table(
     Column("id", String, index=True, primary_key=True),
     Column("user_name", String(50), index=True, unique=True),
     Column("note", String(5000), index=True),
+    Column("tags", JSON()),
     Column("feeling", String(20), index=True),
     Column("word_count", Integer, index=True),
     Column("char_count", Integer, index=True),
@@ -117,4 +119,14 @@ notes = Table(
     Column("date_created", DateTime),
     Column("date_updated", DateTime),
 )
-
+tags = Table(
+    "tags",
+    metadata,
+    Column("id", String, index=True, primary_key=True),
+    Column("name", String(50), index=True),
+    Column("user_id", String(50), index=True),
+    Column("is_active", Boolean, index=True),
+    Column("cannot_delete", Boolean, index=True),
+    Column("date_created", DateTime),
+    Column("date_updated", DateTime),
+)
