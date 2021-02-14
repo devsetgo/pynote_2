@@ -5,8 +5,8 @@ from loguru import logger
 from starlette.responses import RedirectResponse
 from starlette_wtf import csrf_protect
 
-from app_functions import login_required
-from app_functions.email_service import send_user_approved, send_user_reject
+from core import login_required
+from core.email_service import send_user_approved, send_user_reject
 from endpoints.admin import crud as admin_crud
 from endpoints.admin import forms
 from resources import templates

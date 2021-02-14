@@ -5,9 +5,9 @@ import uuid
 
 from loguru import logger
 
-from app_functions.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
-from app_functions.db_setup import user_approval, users
-from app_functions.email_service import send_user_review
+from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
+from core.db_setup import user_approval, users
+from core.email_service import send_user_review
 
 
 async def get_all_approvals():

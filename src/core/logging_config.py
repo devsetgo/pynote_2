@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-from pathlib import Path, PurePath, PurePosixPath
+from pathlib import Path
 
 from loguru import logger
 

@@ -2,7 +2,6 @@
 """
 Application health endpoints
 """
-import logging
 
 from loguru import logger
 from starlette.applications import Starlette

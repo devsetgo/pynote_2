@@ -1,25 +1,20 @@
 # -*- coding: utf-8 -*-
 
-import logging
 
 import databases
 from loguru import logger
 from sqlalchemy import (
+    JSON,
     Boolean,
     Column,
-    Date,
     DateTime,
     Float,
-    ForeignKey,
     Integer,
     MetaData,
     String,
     Table,
-    JSON,
-    Text,
     create_engine,
     pool,
-    schema,
 )
 
 from settings import config_settings
@@ -110,6 +105,7 @@ notes = Table(
     Column("id", String, index=True, primary_key=True),
     Column("user_id", String(50), index=True),
     Column("note", String(5000), index=True),
+    Column("preview", String(200), index=True),
     Column("tags", JSON()),
     Column("mood", String(20), index=True),
     Column("word_count", Integer, index=True),

@@ -6,7 +6,7 @@ import unittest
 
 import pytest
 
-from com_lib.file_functions import (
+from core.file_functions import (
     create_sample_files,
     get_data_directory_list,
     open_csv,

@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 import datetime
-import logging
 import uuid
 
 from loguru import logger
-from sqlalchemy.sql.functions import user
 from starlette.responses import RedirectResponse
 from starlette_wtf import csrf_protect
 
-from app_functions import login_required
-from app_functions.crud_ops import execute_one_db, fetch_one_db
-from app_functions.db_setup import user_login_failures, users
-from com_lib.pass_lib import encrypt_pass
+from core import login_required
+from core.crud_ops import execute_one_db, fetch_one_db
+from core.db_setup import user_login_failures, users
+from core.pass_lib import encrypt_pass
 from endpoints.admin.crud import create_review_user
 from endpoints.user import crud as user_crud
 from endpoints.user import form_validators, forms
@@ -68,7 +66,7 @@ async def login(request):
             # get user user_name
 
             request.session["user_name"] = user_data["user_name"]
-            request.session["updated"] = str(datetime.datetime.utcnow())
+            request.session["updated"] = str(datetime.datetime.now())
             request.session["admin"] = user_data["is_admin"]
             request.session[
                 "realname"

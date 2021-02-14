@@ -13,7 +13,7 @@ config = context.config
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
-# from app_functions.db_setup import metadata
+# from core.db_setup import metadata
 # from main import app
 # from settings import SQLALCHEMY_DATABASE_URI
 # config.set_main_option('sqlalchemy.url', SQLALCHEMY_DATABASE_URI)

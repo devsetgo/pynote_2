@@ -5,16 +5,12 @@ For local development, use a .env file to set
 environment variables.
 """
 
+
 # import os
 import secrets
-from datetime import datetime
 from functools import lru_cache
-import logging
-import os
-import secrets
 
-from loguru import logger
-from pydantic import AnyUrl, BaseSettings, EmailStr
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):

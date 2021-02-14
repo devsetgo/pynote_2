@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 import datetime
-import logging
 import uuid
 
 from loguru import logger
-from sqlalchemy.sql import and_
+from textblob import TextBlob
 
-from app_functions.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
-from app_functions.db_setup import notes
+from core.crud_ops import execute_one_db, fetch_all_db
+from core.db_setup import notes
 from endpoints.user import crud as user_crud
+from sqlalchemy import and_
 
 # get notes for user
-async def users_notes(user_name: str):
+async def get_users_notes(user_name: str):
     user_data = await user_crud.user_info(user_name=user_name)
     query = notes.select()  # .where(notes.c.user_id == user_data['id'])
     results = await fetch_all_db(query=query)
@@ -19,35 +19,44 @@ async def users_notes(user_name: str):
     return results
 
 
+async def get_note_id(user_name: str,note_id:str):
+
+    user_data = await user_crud.user_info(user_name=user_name)
+    query = notes.select().where(and_(notes.c.user_id == user_data['id'], notes.c.id == note_id))
+    results = await fetch_all_db(query=query)
+    logger.critical(f"HERE {results}")
+    return results
+
+
+async def get_users_tags(user_name: str):
+    return "x"
+
 async def add_new_note(data: dict, user_name: str):
     logger.critical(data)
     user_data = await user_crud.user_info(user_name=user_name)
 
+    note = data["form_data"]["note"]
+    sent = sentiment_check(text_str=note)
     query = notes.insert()
     values: dict = {
         "id": str(uuid.uuid4()),
         "user_id": user_data["id"],
-        "note": data["form_data"]["note"],
+        "note": note,
+        "preview": note[0:100],
         "tags": data["tags"],
         "mood": data["form_data"]["mood"],
-        "word_count": 1,
-        "char_count": 1,
-        "sentiment_polarity": 1,
-        "sentiment_subjectivity": 1.1,
-        "date_created": datetime.datetime.utcnow(),
-        "date_updated": datetime.datetime.utcnow(),
+        "word_count": len(note.strip().split(" ")),
+        "char_count": len(note),
+        "sentiment_polarity": sent.polarity,
+        "sentiment_subjectivity": sent.subjectivity,
+        "date_created": datetime.datetime.now(),
+        "date_updated": datetime.datetime.now(),
     }
     await execute_one_db(query=query, values=values)
     return "new note complete"
 
-    # Column("id", String, index=True, primary_key=True),
-    # Column("user_name", String(50), index=True, unique=True),
-    # Column("note", String(5000), index=True),
-    # Column("tags", JSON()),
-    # Column("feeling", String(20), index=True),
-    # Column("word_count", Integer, index=True),
-    # Column("char_count", Integer, index=True),
-    # Column("sentiment_polarity", Float, index=True),
-    # Column("sentiment_subjectivity", Float, index=True),
-    # Column("date_created", DateTime),
-    # Column("date_updated", DateTime),
+
+def sentiment_check(text_str: str):
+    data = TextBlob(text_str)
+    result = data.sentiment
+    return result

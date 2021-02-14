@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-import logging
 
 from loguru import logger
-from starlette.exceptions import HTTPException
 from starlette.responses import RedirectResponse
 
-from app_functions import login_required
-from app_functions.db_setup import users
-from endpoints.notes.functions import users_notes, add_new_note
+from core import login_required
+from endpoints.notes import forms
+from endpoints.notes.functions import add_new_note, get_users_notes,get_note_id
 from endpoints.user import crud as user_crud
 from resources import templates
-from endpoints.notes import forms
+
 
 page_url = "/notes_pages"
 
@@ -25,7 +23,7 @@ async def notes_index(request):
     user_data: dict = dict(user_data)
     user_data.pop("password")
 
-    notes_result = await users_notes(user_name=user_name)
+    notes_result = await get_users_notes(user_name=user_name)
 
     template = f"{page_url}/index.html"
     context = {
@@ -47,10 +45,12 @@ async def notes_new(request):
     logger.debug(f"request")
     form = await forms.NewNote.from_formdata(request)
     form_data = await request.form()
-    form.note.data = "this is my textarea content!"
+    import silly
+    form.note.data = silly.paragraph(length=10)
     form.mood.data = "sad"
+    form.tags.life = "On"
     # ToDo: make query to get Tags by user and standard
-    some_tags = ["dev", "life", "code", "this", "that", "another", "and another"]
+    some_tags = [{"life": True},{"dev": False}, {"code": False}, {"this": False}, {"that": False}, {"another": False}, {"and another": False}]
     if await form.validate_on_submit():
         logger.debug(dict(form_data))
 
@@ -76,3 +76,26 @@ async def notes_new(request):
     }
     logger.info("page accessed: /notes/new")
     return templates.TemplateResponse(template, context)
+
+@login_required.require_login
+async def notes_id(request):
+    """
+    Index page for notes
+    """
+    note_id = request.path_params["note_id"]
+    user_name = request.session["user_name"]
+    user_data = await user_crud.user_info(user_name=user_name)
+    user_data: dict = dict(user_data)
+    user_data.pop("password")
+
+    notes_result = await get_note_id(user_name=user_name,note_id=note_id)
+
+    template = f"{page_url}/note_id.html"
+    context = {
+        "request": request,
+        "user_data": user_data,
+        "note": notes_result,
+    }
+    logger.info(f"page accessed: /notes/{note_id}")
+    return templates.TemplateResponse(template, context)
+

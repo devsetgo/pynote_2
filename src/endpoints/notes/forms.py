@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
-import logging
-import re
 
-from loguru import logger
-from starlette_wtf import StarletteForm
 import wtforms
+from starlette_wtf import StarletteForm
 
 # import SelectField, SelectMultipleField, TextAreaField, TextField
 from wtforms import validators
 
 #  import DataRequired, EqualTo, Length, ValidationError
 
-# from com_lib.pass_lib import char_check
-# from com_lib.pass_lib import check_strength
+# from core.pass_lib import char_check
+# from core.pass_lib import check_strength
 
 
 class NewNote(StarletteForm):

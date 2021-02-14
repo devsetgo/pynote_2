@@ -2,7 +2,6 @@
 
 from starlette_wtf import StarletteForm
 from wtforms import BooleanField
-from wtforms.validators import EqualTo
 
 
 class ApprovalReviewForm(StarletteForm):

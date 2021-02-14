@@ -26,34 +26,34 @@
           <a hx-get="/htmx/tab2">Tab 2</a>
           <a hx-get="/htmx/tab3">Tab 3</a>
         </div>
-        
-        <h3> 
-          Search Contacts 
-          <span class="htmx-indicator"> 
-            <img src="/img/bars.svg"/> Searching... 
-           </span> 
+
+        <h3>
+          Search Contacts
+          <span class="htmx-indicator">
+            <img src="/img/bars.svg"/> Searching...
+           </span>
         </h3>
-        <input class="form-control" type="text" 
-               name="search" placeholder="Begin Typing To Search Users..." 
-               hx-post="/htmx/user_search" 
-               hx-trigger="keyup changed delay:500ms" 
-               hx-target="#search-results" 
+        <input class="form-control" type="text"
+               name="search" placeholder="Begin Typing To Search Users..."
+               hx-post="/htmx/user_search"
+               hx-trigger="keyup changed delay:500ms"
+               hx-target="#search-results"
                hx-indicator=".htmx-indicator">
-        
+
         <table class="table">
             <thead>
             <tr>
               <th>group name</th>
               <th>date</th>
               <th>group type</th>
-              
+
             </tr>
             </thead>
             <tbody id="search-results">
               {% include "htmx_pages/user_data.html" %}
             </tbody>
         </table>
-        
+
         </div>
       </div>
     </div>
