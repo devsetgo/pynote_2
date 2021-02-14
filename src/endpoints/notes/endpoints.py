@@ -49,6 +49,7 @@ async def notes_new(request):
     form_data = await request.form()
     form.note.data = "this is my textarea content!"
     form.mood.data = "sad"
+    # ToDo: make query to get Tags by user and standard
     some_tags = ["dev", "life", "code", "this", "that", "another", "and another"]
     if await form.validate_on_submit():
         logger.debug(dict(form_data))
