@@ -19,7 +19,9 @@ def require_login(endpoint: Callable) -> Callable:
             return RedirectResponse(url="/user/login", status_code=303)
 
         else:
-            one_twenty = datetime.utcnow() - timedelta(minutes=config_settings.login_timeout)
+            one_twenty = datetime.utcnow() - timedelta(
+                minutes=config_settings.login_timeout
+            )
             current: bool = one_twenty < datetime.strptime(
                 request.session["updated"], "%Y-%m-%d %H:%M:%S.%f"
             )
@@ -34,5 +36,5 @@ def require_login(endpoint: Callable) -> Callable:
             logger.info(f"user {request.session['user_name']} within window: {current}")
             request.session["updated"] = str(datetime.utcnow())
         return await endpoint(request)
-    return check_login
 
+    return check_login
