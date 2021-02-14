@@ -7,7 +7,7 @@ from starlette.responses import RedirectResponse
 
 from app_functions import login_required
 from app_functions.db_setup import users
-from endpoints.notes.functions import users_notes
+from endpoints.notes.functions import users_notes, add_new_note
 from endpoints.user import crud as user_crud
 from resources import templates
 from endpoints.notes import forms
@@ -59,8 +59,14 @@ async def notes_new(request):
                 new_key = k.replace("tags-", "")
                 tag_dict: dict = {new_key: v}
                 tags_list.append(tag_dict)
-        tags_dict: dict = {"tags": tags_list}
+
+        # tags_dict: dict = {"tags": tags_list}
+        data: dict = {"form_data": form_data, "tags": tags_list}
+        logger.critical(data)
+        result = await add_new_note(data=data, user_name=user_name)
+        logger.critical(result)
         return RedirectResponse(url="/notes", status_code=303)
+
     template = f"{page_url}/new.html"
     context = {
         "request": request,
