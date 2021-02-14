@@ -3,5 +3,12 @@ set -e
 set -x
 
 # run dev
-# uvicorn main:app --workers 2 --port 5000
+read_var() {
+    VAR=$(grep $1 $2 | xargs)
+    IFS="=" read -ra VAR <<< "$VAR"
+    echo ${VAR[1],,}
+}
+
+LOGURU_LOGGING_LEVEL=$(read_var LOGURU_LOGGING_LEVEL .env)
+WORKERS=$(read_var WORKERS .env)
 gunicorn -c gunicorn_cfg.py main:app
