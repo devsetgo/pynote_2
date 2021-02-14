@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 import logging
-from pathlib import Path
+from pathlib import Path, PurePath,PurePosixPath
 
 from loguru import logger
 
-# from settings import LOGURU_LOGGING_LEVEL
-# from settings import LOGURU_RETENTION
-# from settings import LOGURU_ROTATION
 from settings import config_settings
 
 
 def config_log():
     # remove default logger
-    # logger.remove()
+    logger.remove()
     # set file path
-    log_path = Path.cwd().joinpath("log").joinpath("app_log.log")
+    cwd = Path.cwd()
+    p = cwd.parent
+    log_path = p.joinpath("logging").joinpath("log.log")
+    # log_path = p.joinpath("logfile").joinpath("log.log")
     # add new configuration
     logger.add(
         log_path,  # log file path
@@ -25,9 +25,10 @@ def config_log():
         rotation=config_settings.loguru_rotation,  # file size to rotate
         retention=config_settings.loguru_retention,  # how long a the logging data persists
         compression="zip",  # log rotation compression
-        serialize=False,  # if you want it JSON style, set to true. But also change the format
+        serialize=False,  # if you want it json style, set to true. but also change the format
+        
     )
-
+    
     # intercept standard logging
     class InterceptHandler(logging.Handler):
         def emit(self, record):
@@ -48,5 +49,6 @@ def config_log():
             )
 
     logging.basicConfig(
-        handlers=[InterceptHandler()], level=config_settings.loguru_logging_level.upper()
+        handlers=[InterceptHandler()],
+        level=config_settings.loguru_logging_level.upper(),
     )
