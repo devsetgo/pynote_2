@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block page_title %}| DataTables{% endblock %}
+{% block page_title %}| My Notes{% endblock %}
 {% block page_stylesheet %}
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ url_for('static' , path='plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
 {% endblock %}
-{% block page_breadcrumb %} DataTables{% endblock %}
-{% block page_head_title %}DataTables Page{% endblock %}
+{% block page_breadcrumb %} My Notes{% endblock %}
+{% block page_head_title %}My Notes{% endblock %}
 {% block body %}
 <!-- Main content -->
 
@@ -14,43 +14,49 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Your Notes</h3>
+          <h3 class="card-title">My Notes</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
           <table id="notes" class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th>Rendering engine</th>
-                <th>Browser</th>
-                <th>Platform(s)</th>
-                <th>Engine version</th>
+                <th>Date</th>
+                <th>Mood</th>
+                <th>Sentitment</th>
+                <th>Tags</th>
                 <th>CSS grade</th>
               </tr>
             </thead>
             <tbody>
-              {% for n in notes %}
+              {% for n in notes|sort(reverse=True) %}
               <tr>
-                <td>Trident</td>
-                <td>Internet
-                  Explorer 4.0
+                <td>{{n.date_created.strftime('%Y-%m-%d %H:%M:%S %z')}}</td>
+                <td>{{n.mood}}</td>
+                <td>{{n.sentiment_polarity}}</td>
+                <td>
+                  {%for tags in n.tags%}
+                    {% for k,v in tags.items() %}
+                      {{k}},
+                    {%endfor%}
+                  {%endfor%}
                 </td>
-                <td>Win 95+</td>
-                <td> 4</td>
-                <td>X</td>
+                <td>"bob"</td>
+
               </tr>
               {% endfor %}
             </tbody>
             <tfoot>
               <tr>
-                <th>Rendering engine</th>
-                <th>Browser</th>
-                <th>Platform(s)</th>
-                <th>Engine version</th>
+                <th>Date</th>
+                <th>Mood</th>
+                <th>Sentitment</th>
+                <th>Tags</th>
                 <th>CSS grade</th>
               </tr>
             </tfoot>
           </table>
+          
         </div>
         <!-- /.card-body -->
       </div>
@@ -87,14 +93,19 @@
 <script>
   $(function () {
 
-    $('#notes').DataTable({
-      "paging": true,
-      "lengthChange": true,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": true,
-    });
+    $('#notes').DataTable( {
+      "order": [[0, "desc" ]],
+    } );
   });
 </script>
 {% endblock %}
+
+<!--
+  "order": [[ 8, "desc" ]],
+   "paging": true,
+
+"lengthChange": true,
+"searching": true,
+"ordering": true,
+"info": true,
+"autoWidth": true, -->

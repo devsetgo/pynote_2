@@ -108,7 +108,7 @@ async def create_admin():
                 "phone": "727-456-7890",
                 "mobile_phone": "727-456-7890",
                 # system created fields
-                "user_id": str(uuid.uuid4()),
+                "id": str(uuid.uuid4()),
                 "date_created": datetime.datetime.now(),
                 "is_active": True,
                 "is_admin": True,
