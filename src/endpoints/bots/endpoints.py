@@ -8,12 +8,12 @@
 # from starlette.responses import RedirectResponse
 # from starlette_wtf import csrf_protect
 
-# from app_functions import login_required
-# from app_functions.crud_ops import execute_one_db
-# from app_functions.crud_ops import fetch_all_db
-# from app_functions.db_setup import bots
-# from app_functions.db_setup import lyrics
-# from com_lib.file_functions import open_csv
+# from core import login_required
+# from core.crud_ops import execute_one_db
+# from core.crud_ops import fetch_all_db
+# from core.db_setup import bots
+# from core.db_setup import lyrics
+# from core.file_functions import open_csv
 # from endpoints.bots import crud
 # from endpoints.bots import form_validators
 # from endpoints.bots import forms

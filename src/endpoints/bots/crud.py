@@ -5,11 +5,11 @@
 # from loguru import logger
 # from sqlalchemy.sql import and_
 
-# from app_functions.crud_ops import execute_one_db
-# from app_functions.crud_ops import fetch_all_db
-# from app_functions.crud_ops import fetch_one_db
-# from app_functions.db_setup import bots
-# from app_functions.db_setup import lyrics
+# from core.crud_ops import execute_one_db
+# from core.crud_ops import fetch_all_db
+# from core.crud_ops import fetch_one_db
+# from core.db_setup import bots
+# from core.db_setup import lyrics
 
 
 # async def lyrics_for_bot(twitter_name: str):

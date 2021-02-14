@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
 
 from loguru import logger
 from starlette.applications import Starlette

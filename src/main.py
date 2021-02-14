@@ -1,30 +1,26 @@
 # -*- coding: utf-8 -*-
 
-import logging
 
-from loguru import logger
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
-from starlette_prometheus import PrometheusMiddleware, metrics
+from starlette_prometheus import metrics
 from starlette_wtf import CSRFProtectMiddleware
 
 import resources
-from settings import config_settings
-from app_functions import exceptions
-from app_functions.logger_middleware import LoggerMiddleware
-from com_lib.logging_config import config_log
+from core import exceptions
+from core.logger_middleware import LoggerMiddleware
 from endpoints.admin import endpoints as admin_pages
-from endpoints.bots import endpoints as bot_pages
 from endpoints.dashboard import endpoints as dash_pages
 from endpoints.health import endpoints as health_pages
+from endpoints.htmx import endpoints as htmx_pages
 from endpoints.main import endpoints as main_pages
 from endpoints.notes import endpoints as note_pages
-from endpoints.htmx import endpoints as htmx_pages
 from endpoints.user import endpoints as user_pages
 from resources import init_app
+from settings import config_settings
 
 routes = [
     Route("/", main_pages.homepage, name="dashboard", methods=["GET", "POST"]),
@@ -56,6 +52,7 @@ routes = [
         routes=[
             Route("/", endpoint=note_pages.notes_index, methods=["GET"]),
             Route("/new", endpoint=note_pages.notes_new, methods=["GET", "POST"]),
+            Route("/{note_id}", endpoint=note_pages.notes_id, methods=["GET", "POST","PUT"]),
         ],
         name="notes",
     ),
@@ -72,7 +69,7 @@ routes = [
             Route("/tab2", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
             Route("/tab3", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
         ],
-        name="notes",
+        name="htmx",
     ),
     Mount(
         "/user",

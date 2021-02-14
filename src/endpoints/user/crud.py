@@ -4,10 +4,9 @@ import logging
 import uuid
 
 from loguru import logger
-from sqlalchemy.sql import and_
 
-from app_functions.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
-from app_functions.db_setup import users
+from core.crud_ops import execute_one_db, fetch_one_db
+from core.db_setup import users
 
 
 # register user

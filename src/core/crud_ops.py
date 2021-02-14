@@ -5,10 +5,9 @@ database simple functions. Pass query and where needed values and get result bac
 
 import logging
 
-from loguru import logger
 from sqlalchemy.sql import text
 
-from app_functions.db_setup import database
+from core.db_setup import database
 
 
 async def fetch_one_db(query):

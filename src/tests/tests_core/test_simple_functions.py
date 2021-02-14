@@ -4,7 +4,7 @@
 import datetime
 import unittest
 
-from com_lib.simple_functions import get_current_datetime
+from core.simple_functions import get_current_datetime
 
 
 class Test(unittest.TestCase):

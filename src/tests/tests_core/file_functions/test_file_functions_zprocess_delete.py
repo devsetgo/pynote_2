@@ -6,7 +6,7 @@ import unittest
 
 import pytest
 
-from com_lib.file_functions import delete_file
+from core.file_functions import delete_file
 
 time_str = datetime.datetime.now()
 

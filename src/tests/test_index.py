@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-import uuid
 
-from starlette.status import HTTP_200_OK
 from starlette.testclient import TestClient
 
 from main import app

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
 import json
-import logging
 import os
 import random
 from datetime import datetime

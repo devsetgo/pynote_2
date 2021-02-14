@@ -34,59 +34,7 @@
           <h3 class="card-title">Create a New Note</h3>
         </div>
         <!-- /.card-header -->
-        <div class="card-body">
-          <form action="/notes/new" method="post" enctype="multipart/form-data">
-            {{ form.csrf_token }}
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="input-group mb-5">
-                  {{ form.note(placeholder='Enter your note') }}
-                </div>
-                <div class="input-group mb-5">
-                  <p>
-                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note">Submit</button>
-                  </p>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="input-group mb-3">
-                  {{ form.mood(placeholder="Select an option") }}
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <span class="fas fa-clipboard-check" title="Select an option"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <!-- <span class="fas fa-clipboard-check" title="Select an option"></span> -->
-                    </div>
-                  </div>
-                </div>
-                <div class="input-group mb-6">
-                  <!-- checkbox -->
-                  <div class="form-group clearfix">
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <!-- checkbox -->
-
-                        {% for data_dict in some_tags %}
-                        {% for k,v in data_dict.items() %}
-                        <div class="icheck-success d-inline">
-                          <label class="d-inline" for="{{k}}"></label>
-                          <input type="checkbox" name="tags-{{k}}" id="{{k}}" data-bootstrap-switch
-                            data-on-color="success" data-off-color="danger" {% if v==True %} checked {% endif %}>
-                          {{k|title}}</label>
-                        </div>{%endfor%}
-                        {%endfor%}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </form>
-        </div>
+        {{note}}
         <!-- /.card-body -->
       </div>
       <!-- /.card -->

@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-import logging
 
 from loguru import logger
 from starlette.exceptions import HTTPException
 from starlette.responses import RedirectResponse
 
-from app_functions import login_required
-from endpoints.bots import crud as bot_crud
+from core import login_required
 from resources import templates
 
 

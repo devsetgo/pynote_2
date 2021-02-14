@@ -8,12 +8,12 @@ from loguru import logger
 from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
+from core import db_setup
+from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
+from core.db_setup import create_db, tags, users
+from core.logging_config import config_log
+from core.pass_lib import encrypt_pass
 from settings import config_settings
-from app_functions import db_setup
-from app_functions.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
-from app_functions.db_setup import create_db, users, tags
-from com_lib.logging_config import config_log
-from com_lib.pass_lib import encrypt_pass
 
 # templates and static files
 templates = Jinja2Templates(directory="templates")
@@ -59,8 +59,8 @@ async def add_default_tags():
                 "name": t.capitalize(),
                 "is_active": True,
                 "cannot_delete": True,
-                "date_created": datetime.datetime.utcnow(),
-                "date_updated": datetime.datetime.utcnow(),
+                "date_created": datetime.datetime.now(),
+                "date_updated": datetime.datetime.now(),
             }
             query = tags.insert()
             logging.info(f"Creating tag {t}")

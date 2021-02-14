@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-import logging
 
 from loguru import logger
 
-from app_functions.crud_ops import fetch_one_db
-from app_functions.db_setup import users
-from com_lib.pass_lib import verify_pass
+from core.crud_ops import fetch_one_db
+from core.db_setup import users
+from core.pass_lib import verify_pass
 
 
 async def user_name_check(user_name: str):

@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
-import logging
-from os import stat_result
-import re
 
+import httpx
 from loguru import logger
-from starlette.exceptions import HTTPException
-from starlette.responses import RedirectResponse, JSONResponse
+from starlette.responses import JSONResponse
 
-from app_functions import login_required
-from app_functions.db_setup import users
-from endpoints.notes.functions import users_notes
+from core import login_required
+from endpoints.notes import forms
+from endpoints.notes.functions import get_users_notes
 from endpoints.user import crud as user_crud
 from resources import templates
-from endpoints.notes import forms
-import httpx
 
 client = httpx.AsyncClient()
 
@@ -32,7 +27,7 @@ async def htmx_index(request):
     user_data: dict = dict(user_data)
     user_data.pop("password")
 
-    notes_result = await users_notes(user_name=user_name)
+    notes_result = await get_users_notes(user_name=user_name)
 
     template = f"{page_url}/index.html"
     context = {

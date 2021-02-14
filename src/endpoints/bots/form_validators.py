@@ -3,8 +3,8 @@
 
 # from loguru import logger
 
-# from app_functions.crud_ops import fetch_one_db
-# from app_functions.db_setup import bots
+# from core.crud_ops import fetch_one_db
+# from core.db_setup import bots
 
 # # async def botname_check(bot_name: str):
 

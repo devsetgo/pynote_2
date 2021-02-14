@@ -2,13 +2,12 @@
 import logging
 import re
 
-from loguru import logger
 from starlette_wtf import StarletteForm
 from wtforms import PasswordField, TextField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from wtforms.widgets import PasswordInput
 
-from com_lib.pass_lib import char_check, check_strength
+from core.pass_lib import char_check, check_strength
 
 
 class CreateAccountForm(StarletteForm):

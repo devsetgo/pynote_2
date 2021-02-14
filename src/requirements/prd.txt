@@ -23,3 +23,5 @@ starlette-prometheus==0.7.0
 pydantic==1.7.3
 email-validator==1.1.2
 python-dotenv==0.15.0
+textblob==0.15.3
+silly
