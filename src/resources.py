@@ -10,8 +10,8 @@ from starlette.templating import Jinja2Templates
 
 from settings import config_settings
 from app_functions import db_setup
-from app_functions.crud_ops import execute_one_db, fetch_all_db
-from app_functions.db_setup import create_db, users
+from app_functions.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
+from app_functions.db_setup import create_db, users, tags
 from com_lib.logging_config import config_log
 from com_lib.pass_lib import encrypt_pass
 
@@ -34,12 +34,50 @@ async def startup():
     await db_setup.connect_db()
 
     await create_admin()
+    await add_default_tags()
 
 
 async def shutdown():
 
     logger.info("shutting down services")
     await db_setup.disconnect_db()
+
+
+async def add_default_tags():
+    check_query = tags.select()
+    check_result = await fetch_all_db(query=check_query)
+    logger.debug(str(check_result))
+
+    default_tags: list = ["Fun", "Life", "Work", "Unknown"]
+
+    for t in default_tags:
+        check_query = tags.select().where(tags.c.name == t)
+        check_result = await fetch_one_db(query=check_query)
+        if check_result is None:
+            values: dict = {
+                "id": str(uuid.uuid4()),
+                "name": t.capitalize(),
+                "is_active": True,
+                "cannot_delete": True,
+                "date_created": datetime.datetime.utcnow(),
+                "date_updated": datetime.datetime.utcnow(),
+            }
+            query = tags.insert()
+            logging.info(f"Creating tag {t}")
+            try:
+                db_result = await execute_one_db(query=query, values=values)
+                logging.debug(type(db_result))
+                logging.warning(f"adding tag '{t}'")
+            except Exception as e:
+                logger.warning(f"An error occurred trying to update {t}")
+                return "error"
+    # Column("id", String, index=True, primary_key=True),
+    # Column("name", String(50), index=True),
+    # Column("user_id", String(50), index=True),
+    # Column("is_active", Boolean, index=True),
+    # Column("cannot_delete", Boolean, index=True),
+    # Column("date_created", DateTime),
+    # Column("date_updated", DateTime),
 
 
 async def create_admin():

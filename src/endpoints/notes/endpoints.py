@@ -49,13 +49,23 @@ async def notes_new(request):
     form_data = await request.form()
     form.note.data = "this is my textarea content!"
     form.mood.data = "sad"
+    some_tags = ["dev", "life", "code", "this", "that", "another", "and another"]
     if await form.validate_on_submit():
-        logger.critical(dict(form_data))
-        logger.warning(form_data["tags"])
+        logger.debug(dict(form_data))
+
+        tags_list: list = []
+        for k, v in form_data.items():
+            if k.startswith("tags-"):
+                new_key = k.replace("tags-", "")
+                tag_dict: dict = {new_key: v}
+                tags_list.append(tag_dict)
+        tags_dict: dict = {"tags": tags_list}
+        return RedirectResponse(url="/notes", status_code=303)
     template = f"{page_url}/new.html"
     context = {
         "request": request,
         "form": form,
+        "some_tags": some_tags,
     }
     logger.info("page accessed: /notes/new")
     return templates.TemplateResponse(template, context)
