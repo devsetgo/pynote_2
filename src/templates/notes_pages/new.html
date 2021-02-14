@@ -2,6 +2,25 @@
 {% block page_title %}| New Note{% endblock %}
 {% block page_stylesheet %}
 <link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/daterangepicker/daterangepicker.css">
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- Bootstrap Color Picker -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+<!-- Tempusdominus Bbootstrap 4 -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/select2/css/select2.min.css">
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- Bootstrap4 Duallistbox -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
 {% endblock %}
 {% block page_breadcrumb %} New Note{% endblock %}
 {% block page_head_title %}New Note{% endblock %}
@@ -39,10 +58,31 @@
                   </div>
                 </div>
                 <div class="input-group mb-3">
-                  {{ form.tags(placeholder="Select one or More Options", multiple=true)}}
                   <div class="input-group-append">
                     <div class="input-group-text">
-                      <span class="fas fa-clipboard-check" title="Select an option"></span>
+                      <!-- <span class="fas fa-clipboard-check" title="Select an option"></span> -->
+                    </div>
+                  </div>
+
+                  
+                </div>
+                <div class="input-group mb-3">
+
+                  <!-- checkbox -->
+                  <div class="form-group clearfix">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <!-- checkbox -->
+                       
+                        {%for t in some_tags %}
+                        <div class="icheck-success d-inline">
+                          <label class="d-inline" for="{{t}}"></label>
+                          <input type="checkbox" name="tags-{{t}}" id="{{t}}" data-bootstrap-switch data-on-color="success"
+                            data-off-color="danger"> {{t|upper}}</label>
+                        </div>
+                        {%endfor%}
+                      
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -71,7 +111,15 @@
 {% endblock %}
 {% block page_scripts %}
 <!-- page scripts-->
+<!-- Bootstrap Switch -->
+<script src="http://stardash.devsetgo.com/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
 <script src="{{ url_for('static' , path='plugins/toastr/toastr.min.js') }}"></script>
+<script>
+  $("input[data-bootstrap-switch]").each(function () {
+    $(this).bootstrapSwitch('state', $(this).prop('checked'));
+  });
+</script>
 
 {% for field, errors in form.errors.items() %}
 <script type=text/javascript>
