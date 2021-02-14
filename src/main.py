@@ -98,7 +98,12 @@ routes = [
 
 
 middleware = [
-    Middleware(SessionMiddleware, secret_key=config_settings.secret_key,max_age=600,same_site="strict"),
+    Middleware(
+        SessionMiddleware,
+        secret_key=config_settings.secret_key,
+        max_age=600,
+        same_site="strict",
+    ),
     Middleware(CSRFProtectMiddleware, csrf_secret=config_settings.csrf_secret),
     # Middleware(PrometheusMiddleware),
     Middleware(LoggerMiddleware),
@@ -113,9 +118,9 @@ exception_handlers = {
 init_app()
 
 if config_settings.release_env == "prd":
-    debug_value=False
+    debug_value = False
 else:
-    debug_value=config_settings.debug
+    debug_value = config_settings.debug
 
 app = Starlette(
     debug=debug_value,
