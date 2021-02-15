@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block page_title %}| New Note{% endblock %}
+{% block page_stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/daterangepicker/daterangepicker.css">
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- Bootstrap Color Picker -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+<!-- Tempusdominus Bbootstrap 4 -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/select2/css/select2.min.css">
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- Bootstrap4 Duallistbox -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+{% endblock %}
+{% block page_breadcrumb %} New Note{% endblock %}
+{% block page_head_title %}New Note{% endblock %}
+{% block body %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="card card-secondary col-sm-12">
+        <div class="card-header">
+          <h3 class="card-title">Create a New Note</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <form action="/notes/new" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="input-group mb-5">
+                  {{ form.note(placeholder="Enter your note") }}
+                  
+                </div>
+                <div class="input-group mb-5">
+                  <p>
+                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note">Submit</button>
+                  </p>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="input-group mb-3">
+                  {{ form.mood(placeholder="Select an option") }}
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-clipboard-check" title="Select an option"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group mb-6">
+                  <!-- checkbox -->
+                  <div class="form-group clearfix">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <!-- checkbox -->
+                        {% for t in some_tags %}
+                        <div class="icheck-success d-inline">
+                          <label class="d-inline" for="{{t.name}}"></label>
+                          <input type="checkbox" name="tags-{{t.name}}" id="{{t.name}}" data-bootstrap-switch
+                            data-on-color="success" data-off-color="danger" {% if t.default_value==True %} checked {% endif %}>
+                          {{t.name|title}}</label>
+                        </div>
+                        {%endfor%}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </form>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block page_sidebar_content %}
+<div class="p-3">
+  <h5>Title</h5>
+  <p>Sidebar content</p>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<!-- page scripts-->
+<!-- Bootstrap Switch -->
+<script src="http://stardash.devsetgo.com/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
+<script src="{{ url_for('static' , path='plugins/toastr/toastr.min.js') }}"></script>
+<script>
+  $("input[data-bootstrap-switch]").each(function () {
+    $(this).bootstrapSwitch('state', $(this).prop('checked'));
+  });
+</script>
+
+{% for field, errors in form.errors.items() %}
+<script type=text/javascript>
+  toastr.error("{{', '.join(errors)}}", "{{form[field].id }}")
+</script>
+{% endfor %}
+
+
+{% endblock %}

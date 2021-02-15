@@ -13,14 +13,14 @@ from resources import templates
 client = httpx.AsyncClient()
 
 
-section = "htmx"
+section = "configuration"
 page_url = f"/{section}"
 
 
 @login_required.require_login
 async def htmx_index(request):
     """
-    Index page for htmx
+    Index page for configuration
     """
     user_name = request.session["user_name"]
     user_data = await user_crud.user_info(user_name=user_name)

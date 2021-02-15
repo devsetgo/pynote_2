@@ -5,7 +5,7 @@ from loguru import logger
 from core import login_required
 from resources import templates
 
-page_url = "/dashboard_pages"
+page_url = "/dashboard"
 
 
 @login_required.require_login

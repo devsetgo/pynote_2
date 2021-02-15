@@ -20,7 +20,7 @@
 # from endpoints.bots.image_save import save_image
 # from resources import templates
 
-# page_url = "/bot_pages"
+# page_url = "/bot"
 
 
 # @csrf_protect
