@@ -15,7 +15,7 @@ from core.logger_middleware import LoggerMiddleware
 from endpoints.admin import endpoints as admin_pages
 from endpoints.dashboard import endpoints as dash_pages
 from endpoints.health import endpoints as health_pages
-from endpoints.htmx import endpoints as htmx_pages
+from endpoints.configuration import endpoints as config_pages
 from endpoints.main import endpoints as main_pages
 from endpoints.notes import endpoints as note_pages
 from endpoints.user import endpoints as user_pages
@@ -61,17 +61,17 @@ routes = [
         name="notes",
     ),
     Mount(
-        "/htmx",
+        "/configuration",
         routes=[
             Route(
                 "/",
-                endpoint=htmx_pages.htmx_index,
+                endpoint=config_pages.index,
                 methods=["GET", "POST", "PUT", "DELETE"],
             ),
-            Route("/new", endpoint=htmx_pages.htmx_new, methods=["GET", "POST"]),
-            Route("/user_search", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
-            Route("/tab2", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
-            Route("/tab3", endpoint=htmx_pages.filler, methods=["GET", "POST"]),
+            Route("/tag/new", endpoint=config_pages.tag_new, methods=["GET", "POST"]),
+            Route("/tag/view", endpoint=config_pages.tag_view, methods=["GET"]),
+            Route("/tag/edit", endpoint=config_pages.tag_edit, methods=["GET", "PUT"]),
+
         ],
         name="htmx",
     ),

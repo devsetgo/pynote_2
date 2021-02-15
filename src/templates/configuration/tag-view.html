@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block page_title %}| New Note{% endblock %}
+{% block page_stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
+<!-- Ionicons -->
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/daterangepicker/daterangepicker.css">
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+<!-- Bootstrap Color Picker -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+<!-- Tempusdominus Bbootstrap 4 -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/select2/css/select2.min.css">
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- Bootstrap4 Duallistbox -->
+<link rel="stylesheet"
+  href="http://stardash.devsetgo.com/static/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+{% endblock %}
+{% block page_breadcrumb %} New Note{% endblock %}
+{% block page_head_title %}New Note{% endblock %}
+{% block body %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="card card-secondary col-sm-12">
+        <div class="card-header">
+          <h3 class="card-title">Note</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-info">
+                <div class="card-header">
+                  <h3 class="card-title">Note</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="form-group white-space: pre-wrap;">
+                    <!-- <label for="exampleInputEmail1">Note</label><br> -->
+                    {{note.note|safe}}
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-success">
+                <div class="card-header">
+                  <h3 class="card-title">Mood and Tags</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <p>Mood: {{note.mood}}</p>
+                  {%for tags in note.tags %}
+                    {%for k,v in tags.items() %}
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-tags" title="Select an option"> </span>
+                        </div>
+                        <label>{{k}}</label>
+                      </div>
+                    {%endfor%}
+                  {%endfor%}
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <div class="card card-warning">
+                <div class="card-header">
+                  <h3 class="card-title">Analysis</h3>
+
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"> </span>
+                    </div>
+                    <label> Word Count: {{note.word_count}}</label>
+                  </div>
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"> </span>
+                    </div>
+                    <label> Character Count: {{note.char_count}}</label>
+                  </div>
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"></span>
+                    </div>
+                    <label> Polarity: {{note.sentiment_subjectivity}}</label>
+                  </div>
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"></span>
+                    </div>
+                    <label> Subjectivity: {{note.sentiment_polarity}}</label>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+            <!-- </div> -->
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block page_sidebar_content %}
+<div class="p-3">
+  <h5>Title</h5>
+  <p>Sidebar content</p>
+</div>
+{% endblock %}
+{% block page_scripts %}
+<!-- page scripts-->
+<script>$("#note_form :input").prop('readonly', true);</script>
+<!-- Bootstrap Switch -->
+<script src="http://stardash.devsetgo.com/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
+<script src="{{ url_for('static' , path='plugins/toastr/toastr.min.js') }}"></script>
+<script>
+  $("input[data-bootstrap-switch]").each(function () {
+    $(this).bootstrapSwitch('state', $(this).prop('checked'));
+  });
+</script>
+
+
+{% endblock %}

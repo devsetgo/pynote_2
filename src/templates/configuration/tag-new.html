@@ -28,62 +28,79 @@
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
+    <form action="/configuration/tag/new" method="post" enctype="multipart/form-data">
+    {{ form.csrf_token }}
     <div class="row">
-      <div class="card card-secondary col-sm-12">
-        <div class="card-header">
-          <h3 class="card-title">Create a New Note</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-          <form action="/notes/new" method="post" enctype="multipart/form-data">
-            {{ form.csrf_token }}
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="input-group mb-5">
-                  {{ form.note(placeholder="Enter your note") }}
-                  
+      <div class="col-md-6">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Tag</h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+            </div>
+            <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="form-group">
+              <label>Name:</label>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fas fa-plus"></i>
+                  </span>
                 </div>
-                <div class="input-group mb-5">
-                  <p>
-                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note">Submit</button>
-                  </p>
-                </div>
+                {{ form.name(placeholder="New Tag") }}
               </div>
-              <div class="col-sm-6">
-                <div class="input-group mb-3">
-                  {{ form.mood(placeholder="Select an option") }}
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <span class="fas fa-clipboard-check" title="Select an option"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="input-group mb-6">
-                  <!-- checkbox -->
-                  <div class="form-group clearfix">
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <!-- checkbox -->
-                        {% for t in some_tags %}
-                        <div class="icheck-success d-inline">
-                          <label class="d-inline" for="{{t.name}}"></label>
-                          <input type="checkbox" name="tags-{{t.name}}" id="{{t.name}}" data-bootstrap-switch
-                            data-on-color="success" data-off-color="danger" {% if t.default_value==True %} checked {% endif %}>
-                          {{t.name|title}}</label>
-                        </div>
-                        {%endfor%}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </form>
+              <!-- /.input group -->
+            </div>
+            
+            <div class="input-group mb-5">
+              <p>
+                <button type="submit" class="btn btn-primary btn-block" title="Add a New Tag">Submit</button>
+              </p>
+            </div>
+          </div>
+          <!-- /.card-body -->
         </div>
-        <!-- /.card-body -->
+
       </div>
-      <!-- /.card -->
+      <div class="col-md-6">
+        <div class="card card-warning">
+          <div class="card-header">
+            <h3 class="card-title">Settings</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+            </div>
+            <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="icheck-success d-inline">
+              <label class="d-inline" for="is_active"></label>
+              <input type="checkbox" name="is_active" id="is_active" data-bootstrap-switch
+                data-on-color="success" data-off-color="danger" checked>
+              Active Status</label>
+            </div>
+            <div class="icheck-success d-inline">
+              <label class="d-inline" for="default_value"></label>
+              <input type="checkbox" name="default_value" id="default_value" data-bootstrap-switch
+                data-on-color="success" data-off-color="danger">
+              Default Value</label>
+            </div>
+            
+          </div>
+          <!-- /.card-body -->
+        </div>
+
+      </div>
     </div>
 
+  </form>
     <!-- /.row -->
   </div>
   <!-- /.container-fluid -->

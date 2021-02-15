@@ -64,13 +64,13 @@ async def login(request):
             )
         else:
             # get user user_name
-
+            request.session["id"] = user_data["id"]
             request.session["user_name"] = user_data["user_name"]
             request.session["updated"] = str(datetime.datetime.now())
             request.session["admin"] = user_data["is_admin"]
-            request.session[
-                "realname"
-            ] = f'{user_data["first_name"]} {user_data["last_name"]}'
+            # request.session[
+            #     "realname"
+            # ] = f'{user_data["first_name"]} {user_data["last_name"]}'
             logger.info(
                 f'logger {request.session["user_name"]} and send to profile page'
             )

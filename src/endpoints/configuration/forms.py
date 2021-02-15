@@ -11,9 +11,24 @@ class NewTag(StarletteForm):
     name = wtforms.TextField(
         "name",
         validators=[
-            validators.DataRequired("Please enter your last name"),
+            validators.DataRequired("Tag name"),
         ],
     )
-    
-    is_active = wtforms.BooleanField("active state", default=True, render_kw={"checked": ""})
+    is_active = wtforms.BooleanField(
+        "active state", default=True, render_kw={"checked": ""}
+    )
     default_value = wtforms.BooleanField("default value", default=False)
+
+
+class EditTag(StarletteForm):
+
+    name = wtforms.TextField(
+        "name",
+        validators=[
+            validators.DataRequired("Tag name"),
+        ],
+    )
+    # is_active = wtforms.BooleanField(
+    #     "active state", default=True, render_kw={"checked": ""}
+    # )
+    # default_value = wtforms.BooleanField("default value", default=False)

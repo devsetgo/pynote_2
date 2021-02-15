@@ -70,8 +70,8 @@ Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi a
                 new_key = k.replace("tags-", "")
                 tag_dict: dict = {new_key: v}
                 tags_list.append(tag_dict)
-        
-        if len(tags_list)==0:
+
+        if len(tags_list) == 0:
             tags_list.append({"Unknown": True})
 
         # tags_dict: dict = {"tags": tags_list}
