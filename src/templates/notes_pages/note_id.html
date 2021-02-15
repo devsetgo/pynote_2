@@ -31,18 +31,110 @@
     <div class="row">
       <div class="card card-secondary col-sm-12">
         <div class="card-header">
-          <h3 class="card-title">Create a New Note</h3>
+          <h3 class="card-title">Note</h3>
         </div>
         <!-- /.card-header -->
-        {{note}}
-        <!-- /.card-body -->
-      </div>
-      <!-- /.card -->
-    </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-info">
+                <div class="card-header">
+                  <h3 class="card-title">Note</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="form-group white-space: pre-wrap;">
+                    <!-- <label for="exampleInputEmail1">Note</label><br> -->
+                    {{note.note|safe}}
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-success">
+                <div class="card-header">
+                  <h3 class="card-title">Mood and Tags</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <p>Mood: {{note.mood}}</p>
+                  {%for tags in note.tags %}
+                    {%for k,v in tags.items() %}
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-tags" title="Select an option"> </span>
+                        </div>
+                        <label>{{k}}</label>
+                      </div>
+                    {%endfor%}
+                  {%endfor%}
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <div class="card card-warning">
+                <div class="card-header">
+                  <h3 class="card-title">Analysis</h3>
 
-    <!-- /.row -->
-  </div>
-  <!-- /.container-fluid -->
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"> </span>
+                    </div>
+                    <label> Word Count: {{note.word_count}}</label>
+                  </div>
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"> </span>
+                    </div>
+                    <label> Character Count: {{note.char_count}}</label>
+                  </div>
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"></span>
+                    </div>
+                    <label> Polarity: {{note.sentiment_subjectivity}}</label>
+                  </div>
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-cog" title="Select an option"></span>
+                    </div>
+                    <label> Subjectivity: {{note.sentiment_polarity}}</label>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+            <!-- </div> -->
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
 </div>
@@ -57,6 +149,7 @@
 {% endblock %}
 {% block page_scripts %}
 <!-- page scripts-->
+<script>$("#note_form :input").prop('readonly', true);</script>
 <!-- Bootstrap Switch -->
 <script src="http://stardash.devsetgo.com/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
@@ -66,12 +159,6 @@
     $(this).bootstrapSwitch('state', $(this).prop('checked'));
   });
 </script>
-
-{% for field, errors in form.errors.items() %}
-<script type=text/javascript>
-  toastr.error("{{', '.join(errors)}}", "{{form[field].id }}")
-</script>
-{% endfor %}
 
 
 {% endblock %}

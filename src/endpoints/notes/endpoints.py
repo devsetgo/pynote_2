@@ -5,10 +5,15 @@ from starlette.responses import RedirectResponse
 
 from core import login_required
 from endpoints.notes import forms
-from endpoints.notes.functions import add_new_note, get_users_notes,get_note_id
+from endpoints.notes.functions import (
+    add_new_note,
+    get_users_notes,
+    get_note_id,
+    get_users_tags,
+)
 from endpoints.user import crud as user_crud
 from resources import templates
-
+import silly
 
 page_url = "/notes_pages"
 
@@ -45,12 +50,17 @@ async def notes_new(request):
     logger.debug(f"request")
     form = await forms.NewNote.from_formdata(request)
     form_data = await request.form()
-    import silly
-    form.note.data = silly.paragraph(length=10)
-    form.mood.data = "sad"
-    form.tags.life = "On"
-    # ToDo: make query to get Tags by user and standard
-    some_tags = [{"life": True},{"dev": False}, {"code": False}, {"this": False}, {"that": False}, {"another": False}, {"and another": False}]
+
+    form.note.data = """Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.
+
+Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.
+
+Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot green bean swiss chard seakale pumpkin onion chickpea gram corn pea. Brussels sprout coriander water chestnut gourd swiss chard wakame kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts nori azuki bean chickweed potato bell pepper artichoke.
+    """
+    # print(form.note.data)
+    form.mood.data = "happy"
+    some_tags = await get_users_tags(user_name=user_name)
+
     if await form.validate_on_submit():
         logger.debug(dict(form_data))
 
@@ -77,6 +87,7 @@ async def notes_new(request):
     logger.info("page accessed: /notes/new")
     return templates.TemplateResponse(template, context)
 
+
 @login_required.require_login
 async def notes_id(request):
     """
@@ -87,15 +98,12 @@ async def notes_id(request):
     user_data = await user_crud.user_info(user_name=user_name)
     user_data: dict = dict(user_data)
     user_data.pop("password")
-
-    notes_result = await get_note_id(user_name=user_name,note_id=note_id)
-
+    note_result = await get_note_id(user_name=user_name, note_id=note_id)
     template = f"{page_url}/note_id.html"
     context = {
         "request": request,
         "user_data": user_data,
-        "note": notes_result,
+        "note": note_result,
     }
     logger.info(f"page accessed: /notes/{note_id}")
     return templates.TemplateResponse(template, context)
-

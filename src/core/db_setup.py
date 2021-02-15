@@ -5,6 +5,7 @@ import databases
 from loguru import logger
 from sqlalchemy import (
     JSON,
+    Text,
     Boolean,
     Column,
     DateTime,
@@ -16,6 +17,7 @@ from sqlalchemy import (
     create_engine,
     pool,
 )
+from sqlalchemy.sql.sqltypes import Text
 
 from settings import config_settings
 
@@ -104,7 +106,7 @@ notes = Table(
     metadata,
     Column("id", String, index=True, primary_key=True),
     Column("user_id", String(50), index=True),
-    Column("note", String(5000), index=True),
+    Column("note", Text(), nullable=False),
     Column("preview", String(200), index=True),
     Column("tags", JSON()),
     Column("mood", String(20), index=True),
@@ -121,6 +123,7 @@ tags = Table(
     Column("id", String, index=True, primary_key=True),
     Column("name", String(50), index=True),
     Column("user_id", String(50), index=True),
+    Column("default_value", Boolean, index=True),
     Column("is_active", Boolean, index=True),
     Column("cannot_delete", Boolean, index=True),
     Column("date_created", DateTime),
