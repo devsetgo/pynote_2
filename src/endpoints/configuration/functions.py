@@ -12,7 +12,7 @@ from sqlalchemy import and_
 
 async def get_user_tags(user_name: str):
     user_data = await user_crud.user_info(user_name=user_name)
-    query = notes.select()  # .where(notes.c.user_id == user_data['id'])
+    query = tags.select().where(tags.c.user_id == user_data['id'])
     try:
         results = await fetch_all_db(query=query)
         return results

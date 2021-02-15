@@ -16,32 +16,8 @@
   
       {% include "notes/nav.html" %}
       {% include "configuration/nav.html" %}
-      {% if request.session.admin == true %}
-      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
-        <li class="nav-item has-treeview  menu-closed ">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>
-              Admin Section
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/admin/open" class="nav-link active">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Open Access Requests</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/all" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>All Access Requests</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        {% endif %}
+      {% include "admin/nav.html" %}
+      
         <li class="nav-item">
           <form action="/user/logout" method="POST">
             <p> &nbsp;</p>
