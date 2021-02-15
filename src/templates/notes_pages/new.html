@@ -40,7 +40,8 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="input-group mb-5">
-                  {{ form.note(placeholder='Enter your note') }}
+                  {{ form.note(placeholder="Enter your note") }}
+                  
                 </div>
                 <div class="input-group mb-5">
                   <p>
@@ -57,28 +58,19 @@
                     </div>
                   </div>
                 </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-append">
-                    <div class="input-group-text">
-                      <!-- <span class="fas fa-clipboard-check" title="Select an option"></span> -->
-                    </div>
-                  </div>
-                </div>
                 <div class="input-group mb-6">
                   <!-- checkbox -->
                   <div class="form-group clearfix">
                     <div class="row">
                       <div class="col-sm-6">
                         <!-- checkbox -->
-
-                        {% for data_dict in some_tags %}
-                        {% for k,v in data_dict.items() %}
+                        {% for t in some_tags %}
                         <div class="icheck-success d-inline">
-                          <label class="d-inline" for="{{k}}"></label>
-                          <input type="checkbox" name="tags-{{k}}" id="{{k}}" data-bootstrap-switch
-                            data-on-color="success" data-off-color="danger" {% if v==True %} checked {% endif %}>
-                          {{k|title}}</label>
-                        </div>{%endfor%}
+                          <label class="d-inline" for="{{t.name}}"></label>
+                          <input type="checkbox" name="tags-{{t.name}}" id="{{t.name}}" data-bootstrap-switch
+                            data-on-color="success" data-off-color="danger" {% if t.default_value==True %} checked {% endif %}>
+                          {{t.name|title}}</label>
+                        </div>
                         {%endfor%}
                       </div>
                     </div>

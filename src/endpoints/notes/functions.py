@@ -5,35 +5,59 @@ import uuid
 from loguru import logger
 from textblob import TextBlob
 
-from core.crud_ops import execute_one_db, fetch_all_db
-from core.db_setup import notes
+from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
+from core.db_setup import notes, tags
 from endpoints.user import crud as user_crud
 from sqlalchemy import and_
 
 # get notes for user
 async def get_users_notes(user_name: str):
+
     user_data = await user_crud.user_info(user_name=user_name)
     query = notes.select()  # .where(notes.c.user_id == user_data['id'])
-    results = await fetch_all_db(query=query)
-    logger.critical(f"HERE {results}")
-    return results
+    try:
+        results = await fetch_all_db(query=query)
+        return results
+    except Exception as e:
+        logger.error(f"error: {e}")
 
 
-async def get_note_id(user_name: str,note_id:str):
+async def get_note_id(user_name: str, note_id: str):
 
     user_data = await user_crud.user_info(user_name=user_name)
-    query = notes.select().where(and_(notes.c.user_id == user_data['id'], notes.c.id == note_id))
-    results = await fetch_all_db(query=query)
-    logger.critical(f"HERE {results}")
-    return results
+    query = notes.select().where(
+        and_(notes.c.user_id == user_data["id"], notes.c.id == note_id)
+    )
+    try:
+        results = await fetch_one_db(query=query)
+
+        return results
+    except Exception as e:
+        logger.error(f"error: {e}")
 
 
 async def get_users_tags(user_name: str):
-    return "x"
+
+    user_data = await user_crud.user_info(user_name=user_name)
+    query = (
+        tags.select()
+        .where(and_(tags.c.cannot_delete == True, tags.c.is_active == True))
+        .order_by(tags.c.default_value.desc())
+    )
+    try:
+        results = await fetch_all_db(query=query)
+        return results
+    except Exception as e:
+        logger.error(f"error: {e}")
+
 
 async def add_new_note(data: dict, user_name: str):
     logger.critical(data)
-    user_data = await user_crud.user_info(user_name=user_name)
+
+    try:
+        user_data = await user_crud.user_info(user_name=user_name)
+    except Exception as e:
+        logger.error(f"error: {e}")
 
     note = data["form_data"]["note"]
     sent = sentiment_check(text_str=note)
@@ -41,8 +65,8 @@ async def add_new_note(data: dict, user_name: str):
     values: dict = {
         "id": str(uuid.uuid4()),
         "user_id": user_data["id"],
-        "note": note,
-        "preview": note[0:100],
+        "note": note.replace("\n", "<br>"),
+        "preview": f"{note[0:30]}...",
         "tags": data["tags"],
         "mood": data["form_data"]["mood"],
         "word_count": len(note.strip().split(" ")),
@@ -52,8 +76,44 @@ async def add_new_note(data: dict, user_name: str):
         "date_created": datetime.datetime.now(),
         "date_updated": datetime.datetime.now(),
     }
-    await execute_one_db(query=query, values=values)
-    return "new note complete"
+    try:
+        await execute_one_db(query=query, values=values)
+        return "new note complete"
+    except Exception as e:
+        logger.error(f"error: {e}")
+
+
+async def update_note(data: dict, user_name: str):
+    logger.critical(data)
+
+    try:
+        user_data = await user_crud.user_info(user_name=user_name)
+    except Exception as e:
+        logger.error(f"error: {e}")
+
+    note = data["form_data"]["note"]
+
+    sent = sentiment_check(text_str=note)
+    query = notes.insert()
+    values: dict = {
+        "id": str(uuid.uuid4()),
+        "user_id": user_data["id"],
+        "note": note,
+        "preview": f"{note[0:30]}...",
+        "tags": data["tags"],
+        "mood": data["form_data"]["mood"],
+        "word_count": len(note.strip().split(" ")),
+        "char_count": len(note),
+        "sentiment_polarity": sent.polarity,
+        "sentiment_subjectivity": sent.subjectivity,
+        "date_created": datetime.datetime.now(),
+        "date_updated": datetime.datetime.now(),
+    }
+    try:
+        await execute_one_db(query=query, values=values)
+        return "new note complete"
+    except Exception as e:
+        logger.error(f"error: {e}")
 
 
 def sentiment_check(text_str: str):

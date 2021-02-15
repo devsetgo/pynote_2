@@ -52,7 +52,11 @@ routes = [
         routes=[
             Route("/", endpoint=note_pages.notes_index, methods=["GET"]),
             Route("/new", endpoint=note_pages.notes_new, methods=["GET", "POST"]),
-            Route("/{note_id}", endpoint=note_pages.notes_id, methods=["GET", "POST","PUT"]),
+            Route(
+                "/{note_id}",
+                endpoint=note_pages.notes_id,
+                methods=["GET", "POST", "PUT"],
+            ),
         ],
         name="notes",
     ),

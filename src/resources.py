@@ -54,11 +54,16 @@ async def add_default_tags():
         check_query = tags.select().where(tags.c.name == t)
         check_result = await fetch_one_db(query=check_query)
         if check_result is None:
+            if t == "Life":
+                default_value = True
+            else:
+                default_value = False
             values: dict = {
                 "id": str(uuid.uuid4()),
                 "name": t.capitalize(),
                 "is_active": True,
                 "cannot_delete": True,
+                "default_value": default_value,
                 "date_created": datetime.datetime.now(),
                 "date_updated": datetime.datetime.now(),
             }
