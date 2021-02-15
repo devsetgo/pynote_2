@@ -15,7 +15,7 @@ from endpoints.user import crud as user_crud
 from resources import templates
 import silly
 
-page_url = "/notes_pages"
+page_url = "/notes"
 
 
 @login_required.require_login
@@ -70,6 +70,9 @@ Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi a
                 new_key = k.replace("tags-", "")
                 tag_dict: dict = {new_key: v}
                 tags_list.append(tag_dict)
+        
+        if len(tags_list)==0:
+            tags_list.append({"Unknown": True})
 
         # tags_dict: dict = {"tags": tags_list}
         data: dict = {"form_data": form_data, "tags": tags_list}

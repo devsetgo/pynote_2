@@ -11,7 +11,7 @@ from endpoints.admin import crud as admin_crud
 from endpoints.admin import forms
 from resources import templates
 
-page_url = "/admin_pages"
+page_url = "/admin"
 
 
 @csrf_protect
