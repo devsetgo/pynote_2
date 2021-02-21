@@ -19,6 +19,7 @@ from settings import config_settings
 templates = Jinja2Templates(directory="templates")
 statics = StaticFiles(directory="statics")
 
+DEFAULT_TAGS: list = ["Fun", "Life", "Work", "Unknown"]
 
 def init_app():
 
@@ -48,9 +49,8 @@ async def add_default_tags():
     check_result = await fetch_all_db(query=check_query)
     logger.debug(str(check_result))
 
-    default_tags: list = ["Fun", "Life", "Work", "Unknown"]
-
-    for t in default_tags:
+   
+    for t in DEFAULT_TAGS:
         check_query = tags.select().where(tags.c.name == t)
         check_result = await fetch_one_db(query=check_query)
         if check_result is None:

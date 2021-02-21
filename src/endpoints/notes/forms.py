@@ -2,19 +2,12 @@
 
 import wtforms
 from starlette_wtf import StarletteForm
-from loguru import logger
 from wtforms import validators
 
-
-moods: list = ["-", "positive", "neutral", "negative"]
+MOODS: list = ["positive", "neutral", "negative"]
 
 
 class NewNote(StarletteForm):
-    def no_dash(form, field):
-        logger.debug(f"validate that '-' is not in {field.data}")
-        # data = re.match("^[A-Za-z0-9_-]*$", field.data)
-        if "-" in field.data:
-            raise wtforms.validators.ValidationError("Cannot select '-' as a mood")
 
     note = wtforms.TextAreaField(
         "Note",
@@ -24,17 +17,15 @@ class NewNote(StarletteForm):
             validators.Length(min=1, max=5000),
         ],
     )
-    mood = wtforms.SelectField(
-        "Choose an option", choices=moods, validate_choice=False, validators=[no_dash]
+    mood = wtforms.RadioField(
+        "Choose your moode",
+        choices=MOODS,
+        validate_choice=False,
+        validators=[validators.DataRequired()],
     )
 
 
 class EditNote(StarletteForm):
-    def no_dash(form, field):
-        logger.debug(f"validate that '-' is not in {field.data}")
-        # data = re.match("^[A-Za-z0-9_-]*$", field.data)
-        if field.data == "-":
-            raise wtforms.validators.ValidationError("Letters and numbers only")
 
     note = wtforms.TextAreaField(
         "Requirements",
@@ -44,6 +35,9 @@ class EditNote(StarletteForm):
             validators.Length(min=1, max=5000),
         ],
     )
-    mood = wtforms.SelectField(
-        "Choose an option", choices=moods, validate_choice=False, validators=[no_dash]
+    mood = wtforms.RadioField(
+        "Choose your moode",
+        choices=MOODS,
+        validate_choice=False,
+        validators=[validators.DataRequired()],
     )

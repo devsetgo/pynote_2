@@ -2,7 +2,6 @@
 
 import wtforms
 from starlette_wtf import StarletteForm
-
 from wtforms import validators
 
 

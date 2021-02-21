@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import datetime
-import logging
 import uuid
 
 from loguru import logger
@@ -33,12 +32,12 @@ async def user_register(data: dict):
         "is_active": False,
         "is_admin": False,
     }
-    logging.debug(values)
+    logger.debug(values)
     query = users.insert()
 
     try:
         db_result = await execute_one_db(query=query, values=values)
-        logging.debug(type(db_result))
+        logger.debug(type(db_result))
     except Exception as e:
         logger.warning(f"An error occurred trying to update {user_name}")
         return "error"
@@ -55,7 +54,7 @@ async def user_info(user_name: str):
         [type] -- [description]
     """
     query = users.select().where(users.c.user_name == user_name)
-    logger.info(query)
+    logger.debug(query)
 
     try:
 
@@ -87,11 +86,11 @@ async def user_update(data: dict):
         "email": data["email"].lower(),
     }
     user_name = data["user_name"]
-    logging.debug(values)
+    logger.debug(values)
     query = users.update().where(users.c.user_name == user_name)
     try:
         db_result = await execute_one_db(query=query, values=values)
-        logging.debug(type(db_result))
+        logger.debug(type(db_result))
         return "complete"
     except Exception as e:
         logger.warning(f"An error occurred trying to update {user_name}")

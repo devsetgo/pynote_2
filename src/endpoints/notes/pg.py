@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 p_1 = """Looking for a way to lift someone’s spirits? Sometimes all it takes is a few positive quotes or words of encouragement to immediately turn someone’s day around. Whether it’s your lifelong best friend or a stranger you pass on the street, taking a moment to deliver a positive message can have a long-lasting effect on the well-being of both individuals.
 
 In addition to being a mood-booster, giving and receiving compliments has uplifting effects on both parties. As the giver, giving a compliment can boost your self-confidence as well as enhance your social skills and spark creativity. If you find yourself on the receiving end of a positive message, it may boost your self-esteem.

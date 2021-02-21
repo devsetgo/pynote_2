@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import datetime
-import logging
 import uuid
 
 from loguru import logger
@@ -14,9 +13,9 @@ async def get_all_approvals():
 
     # get active bots
     query = user_approval.select()
-    logging.debug(f"query for bots: {query}")
+    logger.debug(f"query for bots: {query}")
     result = await fetch_all_db(query)
-    logging.debug(f"LOOK AT THIS query result = {result}")
+    logger.debug(f"LOOK AT THIS query result = {result}")
     return result
 
 
@@ -24,9 +23,9 @@ async def get_unreviewed_approvals():
 
     # get active bots
     query = user_approval.select().where(user_approval.c.is_reviewed == False)
-    logging.debug(f"query for bots: {query}")
+    logger.debug(f"query for bots: {query}")
     result = await fetch_all_db(query)
-    logging.debug(f"Query result = {result}")
+    logger.debug(f"Query result = {result}")
     return result
 
 
@@ -43,9 +42,9 @@ async def review_user(access_id: str):
     """
 
     query = user_approval.select().where(user_approval.c.access_id == access_id)
-    logging.debug(f"query for bots: {query}")
+    logger.debug(f"query for bots: {query}")
     result: dict = await fetch_one_db(query)
-    logging.debug(f"Query result = {result}")
+    logger.debug(f"Query result = {result}")
     return result
 
 
@@ -62,7 +61,7 @@ async def create_review_user(user_name: str):
         "is_admin": False,
     }
     query = user_approval.insert()
-    logging.debug(f"query for bots: {query}")
+    logger.debug(f"query for bots: {query}")
     result = await execute_one_db(query=query, values=values)
     logger.critical(str(result))
     result = send_user_review(access_id=str(id))

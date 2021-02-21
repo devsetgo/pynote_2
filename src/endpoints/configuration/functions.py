@@ -3,11 +3,10 @@ import datetime
 import uuid
 
 from loguru import logger
-from endpoints.user import crud as user_crud
-from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
-from core.db_setup import notes, tags
-from endpoints.user import crud as user_crud
 from sqlalchemy import and_
+
+from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
+from core.db_setup import tags
 
 
 async def get_user_tags(user_id: str):

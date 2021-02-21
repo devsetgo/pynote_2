@@ -13,9 +13,9 @@ import resources
 from core import exceptions
 from core.logger_middleware import LoggerMiddleware
 from endpoints.admin import endpoints as admin_pages
+from endpoints.configuration import endpoints as config_pages
 from endpoints.dashboard import endpoints as dash_pages
 from endpoints.health import endpoints as health_pages
-from endpoints.configuration import endpoints as config_pages
 from endpoints.main import endpoints as main_pages
 from endpoints.notes import endpoints as note_pages
 from endpoints.user import endpoints as user_pages
