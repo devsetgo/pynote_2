@@ -6,8 +6,7 @@ from starlette.responses import RedirectResponse
 
 from core import login_required
 from endpoints.configuration import forms
-from endpoints.configuration.functions import get_user_tags, add_new_tag
-from endpoints.user import crud as user_crud
+from endpoints.configuration.functions import add_new_tag, get_user_tags
 from resources import templates
 
 client = httpx.AsyncClient()
@@ -22,7 +21,7 @@ async def index(request):
     """
     Index page for configuration
     """
-    user_name = request.session["user_name"]
+
     user_id = request.session["id"]
     # user_data = await user_crud.user_info(user_id=user_name)
     # user_data: dict = dict(user_data)
@@ -47,14 +46,12 @@ async def tag_view(request):
     """
     view tag
     """
-    user_name = request.session["user_name"]
 
-    logger.debug(f"request")
     form = await forms.EditTag.from_formdata(request)
     form_data = await request.form()
-    form.name.data = "Cool"
+
     if await form.validate_on_submit():
-        logger.critical(dict(form_data))
+        logger.debug(dict(form_data))
         return RedirectResponse(url="/configuration", status_code=303)
     template = f"{page_url}/tag-edit.html"
     context = {
@@ -72,9 +69,9 @@ async def tag_new(request):
     """
     new tag
     """
-    
+
     user_id = request.session["id"]
-    logger.debug(f"request")
+
     form = await forms.NewTag.from_formdata(request)
     form_data = await request.form()
 
@@ -85,6 +82,9 @@ async def tag_new(request):
         logger.debug(result)
         if result == "is duplicate":
             form.name.errors.append(f"Duplicate tags not allowed")
+            logger.info(
+                f"form name {form_data['name']} is a duplicate for userid {user_id}"
+            )
         else:
             return RedirectResponse(url="/configuration", status_code=303)
 

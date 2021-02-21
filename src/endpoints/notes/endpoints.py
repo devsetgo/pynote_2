@@ -7,15 +7,14 @@ from core import login_required
 from endpoints.notes import forms
 from endpoints.notes.functions import (
     add_new_note,
-    get_users_notes,
     get_note_id,
+    get_users_notes,
     get_users_tags,
 )
 from endpoints.user import crud as user_crud
 from resources import templates
-import silly
 
-section="notes"
+section = "notes"
 page_url = f"/{section}"
 
 
@@ -24,6 +23,7 @@ async def notes_index(request):
     """
     Index page for notes
     """
+
     user_name = request.session["user_name"]
     user_data = await user_crud.user_info(user_name=user_name)
     user_data: dict = dict(user_data)
@@ -50,15 +50,18 @@ async def notes_new(request):
     """
     user_name = request.session["user_name"]
 
-    logger.debug(f"request")
     form = await forms.NewNote.from_formdata(request)
     form_data = await request.form()
 
     from endpoints.notes import pg
-    import random
-    para=[pg.p_1,pg.p_2,pg.p_3,]
 
-    form.note.data = para[random.randint(0,2)]
+    para = [
+        pg.p_1,
+        pg.p_2,
+        pg.p_3,
+    ]
+
+    # form.note.data = para[random.randint(0, 2)]
     # print(form.note.data)
     tags = await get_users_tags(user_name=user_name)
 
@@ -67,6 +70,7 @@ async def notes_new(request):
 
         tags_list: list = []
         for k, v in form_data.items():
+            print(k, v)
             if k.startswith("tags-"):
                 new_key = k.replace("tags-", "")
                 tag_dict: dict = {new_key: v}
@@ -81,7 +85,13 @@ async def notes_new(request):
         logger.debug(data)
         result = await add_new_note(data=data, user_name=user_name)
         logger.debug(result)
-        return RedirectResponse(url="/notes", status_code=303)
+        if result is not None:
+            d=await form.validate()
+            print(d)
+        if "btn-another" in form_data:
+            return RedirectResponse(url="/notes/new", status_code=303)
+        else:
+            return RedirectResponse(url="/notes", status_code=303)
 
     template = f"{page_url}/new.html"
     context = {
@@ -100,6 +110,7 @@ async def notes_id(request):
     """
     Index page for notes
     """
+
     note_id = request.path_params["note_id"]
     user_name = request.session["user_name"]
     user_data = await user_crud.user_info(user_name=user_name)

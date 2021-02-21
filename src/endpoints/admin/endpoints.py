@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
 
 from loguru import logger
 from starlette.responses import RedirectResponse
@@ -11,7 +10,7 @@ from endpoints.admin import crud as admin_crud
 from endpoints.admin import forms
 from resources import templates
 
-section="admin"
+section = "admin"
 page_url = f"/{section}"
 
 
@@ -24,12 +23,12 @@ async def admin_index(request):
 
     approval_list = await admin_crud.get_unreviewed_approvals()
 
-    logging.debug(str(approval_list))
+    logger.debug(str(approval_list))
     template = f"{page_url}/admin_open.html"
     context = {
         "request": request,
         "approval_list": approval_list,
-                "active": "admin-open",
+        "active": "admin-open",
         "section": section,
     }
     logger.info("page accessed: /admin")
@@ -45,11 +44,12 @@ async def admin_all_requests(request):
 
     approval_list = await admin_crud.get_all_approvals()
 
-    logging.debug(str(approval_list))
+    logger.debug(str(approval_list))
     template = f"{page_url}/admin_all.html"
     context = {
         "request": request,
-        "approval_list": approval_list,        "active": "admin-all",
+        "approval_list": approval_list,
+        "active": "admin-all",
         "section": section,
     }
     logger.info("page accessed: /admin")
@@ -113,7 +113,7 @@ async def admin_review(request):
             # update user_apprvoal
             await admin_crud.update_user_review(data)
             # send rejection email
-            logger.warning(user_email)
+            logger.debug(user_email)
             send_user_reject(user_email)
             logger.info("Redirecting user to index page /admin/open")
             return RedirectResponse(url="/admin/open", status_code=303)
@@ -124,7 +124,8 @@ async def admin_review(request):
         "request": request,
         "approval_info": approval_info,
         "user_info": user_info,
-        "form": form,        "active": "admin-open",
+        "form": form,
+        "active": "admin-open",
         "section": section,
     }
     logger.info(f"page accessed: {template}")

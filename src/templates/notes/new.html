@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ url_for('static' , path='plugins/toastr/toastr.min.css') }}">
 <!-- Ionicons -->
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
 <link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/daterangepicker/daterangepicker.css">
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="http://stardash.devsetgo.com/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
@@ -29,7 +28,7 @@
 <section class="content">
   <div class="container-fluid">
     <div class="row">
-      <div class="card card-secondary col-sm-12">
+      <div class="card card-success col-sm-12">
         <div class="card-header">
           <h3 class="card-title">Create a New Note</h3>
         </div>
@@ -39,20 +38,29 @@
             {{ form.csrf_token }}
             <div class="row">
               <div class="col-sm-6">
-                <div class="input-group mb-6">
-                  {{ form.mood(placeholder="Select an option") }}
-                  <div class="input-group-append">
+                <div class="btn-group">
+                  {% for m in form.mood %}
+                  <label class="btn btn-default">
+                    {{m}} {{m.label}}
+                  </label>
+                  {%endfor%}
+                  <!-- <div class="input-group-append">
                     <div class="input-group-text">
-                      <span class="fas fa-clipboard-check" title="Select an option"></span>
+                      <span class="fas fa-clipboard-check" title="Select a mood"></span>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="input-group mb-5">
                   {{ form.note(placeholder="Enter your note") }}
                 </div>
                 <div class="input-group mb-5">
                   <p>
-                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note"
+                      name="btn-sub">Submit</button>
+                  </p>
+                  <p>
+                    <button type="submit" class="btn btn-success btn-block" title="Add a New Note" name="btn-another">Add
+                      Another</button>
                   </p>
                 </div>
               </div>
@@ -86,7 +94,7 @@
                                 <label for="{{t.name}}">{{t.name|title}}</label>
                               </div>
                             </div>
-                            {%endfor%}
+                            {% endfor %}
                           </div>
                         </div>
                       </div>
@@ -105,7 +113,7 @@
                                 <label for="{{u.name}}">{{u.name|title}}</label>
                               </div>
                             </div>
-                            {%endfor%}
+                            {% endfor %}
                           </div>
                         </div>
                       </div>
@@ -121,6 +129,7 @@
       <!-- /.card -->
     </div>
     <!-- /.row -->
+    {{form}}
   </div>
   <!-- /.container-fluid -->
 </section>
@@ -128,7 +137,6 @@
 </div>
 <!-- /.content-wrapper -->
 {% endblock %}
-
 {% block page_sidebar_content %}
 <div class="p-3">
   <h5>Title</h5>
@@ -139,19 +147,37 @@
 <!-- page scripts-->
 <!-- Bootstrap Switch -->
 <script src="http://stardash.devsetgo.com/static/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-
 <script src="{{ url_for('static' , path='plugins/toastr/toastr.min.js') }}"></script>
 <script>
   $("input[data-bootstrap-switch]").each(function () {
     $(this).bootstrapSwitch('state', $(this).prop('checked'));
   });
 </script>
-
 {% for field, errors in form.errors.items() %}
 <script type=text/javascript>
   toastr.error("{{', '.join(errors)}}", "{{form[field].id }}")
 </script>
 {% endfor %}
-
-
+{% if form.validate==True %}
+<script type=text/javascript>
+  toastr.info("Successful Note Submission")
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "slideDown",
+    "hideMethod": "fadeOut"
+  }
+</script>
+{% endif %}
 {% endblock %}

@@ -5,7 +5,6 @@ import databases
 from loguru import logger
 from sqlalchemy import (
     JSON,
-    Text,
     Boolean,
     Column,
     DateTime,
@@ -14,6 +13,7 @@ from sqlalchemy import (
     MetaData,
     String,
     Table,
+    Text,
     create_engine,
     pool,
 )

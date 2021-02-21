@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import unittest
-from async_asgi_testclient import TestClient
-import pytest
 import uuid
 
-# from starlette.testclient import TestClient
+from async_asgi_testclient import TestClient
 
 from main import app
+
+# from starlette.testclient import TestClient
 
 
 class Test(unittest.TestCase):
