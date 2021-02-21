@@ -1,27 +1,25 @@
-aiofiles
+aiofiles==0.6.0 # from none
 aiosqlite==0.16.1
-alembic==1.5.4 # from 1.5.3
+alembic==1.5.4
 apscheduler==3.7.0
-asyncpg==0.21.0
+asyncpg==0.22.0 # from 0.21.0
 click==7.1.2
 databases[postgresql]==0.4.1
 email-validator==1.1.2
 gunicorn==20.0.4
 httpx==0.16.1
 itsdangerous==1.1.0
-jinja2==2.11.3 # from 2.11.2
+jinja2==2.11.3
 loguru==0.5.3
 passlib[bcrypt]==1.7.4
-pytz==2021.1 # from 2020.5
+pytz==2021.1
 safe==0.4
-sendgrid==6.5.0
-starlette==0.14.2 # from 0.14.1
+sendgrid==6.6.0 # from 6.5.0
+starlette==0.14.2
 starlette-wtf==0.3.0
 tweepy==3.10.0
-uvicorn==0.13.3
+uvicorn==0.13.4 # from 0.13.3
 starlette-prometheus==0.7.0
 pydantic==1.7.3
-email-validator==1.1.2
 python-dotenv==0.15.0
 textblob==0.15.3
-silly

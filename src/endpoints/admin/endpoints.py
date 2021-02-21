@@ -11,7 +11,8 @@ from endpoints.admin import crud as admin_crud
 from endpoints.admin import forms
 from resources import templates
 
-page_url = "/admin"
+section="admin"
+page_url = f"/{section}"
 
 
 @csrf_protect
@@ -28,6 +29,8 @@ async def admin_index(request):
     context = {
         "request": request,
         "approval_list": approval_list,
+                "active": "admin-open",
+        "section": section,
     }
     logger.info("page accessed: /admin")
     return templates.TemplateResponse(template, context)
@@ -46,7 +49,8 @@ async def admin_all_requests(request):
     template = f"{page_url}/admin_all.html"
     context = {
         "request": request,
-        "approval_list": approval_list,
+        "approval_list": approval_list,        "active": "admin-all",
+        "section": section,
     }
     logger.info("page accessed: /admin")
     return templates.TemplateResponse(template, context)
@@ -120,7 +124,8 @@ async def admin_review(request):
         "request": request,
         "approval_info": approval_info,
         "user_info": user_info,
-        "form": form,
+        "form": form,        "active": "admin-open",
+        "section": section,
     }
     logger.info(f"page accessed: {template}")
     return templates.TemplateResponse(template, context)

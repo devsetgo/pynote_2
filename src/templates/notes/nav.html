@@ -1,5 +1,5 @@
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
-    <li class="nav-item has-treeview  menu-closed ">
+    <li class="nav-item has-treeview  menu-{% if section=="notes"%}open{%else%}closed{%endif%} ">
       <a href="#" class="nav-link">
         <i class="nav-icon fas fa-pencil-alt"></i>
         <p>
@@ -9,7 +9,7 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="/notes/" class="nav-link">
+          <a href="/notes/" class="nav-link {% if active=="note-index"%} active{%endif%}">
             <i class="fas fa-list-ul nav-icon"></i>
             <p>Note List</p>
           </a>
@@ -21,7 +21,7 @@
           </a> -->
         </li>
         <li class="nav-item">
-          <a href="/notes/new" class="nav-link">
+          <a href="/notes/new" class="nav-link {% if active=="note-new"%} active{%endif%}">
             <i class="fas fa-edit nav-icon"></i>
             <p>New Note</p>
           </a>

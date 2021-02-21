@@ -38,7 +38,27 @@ async def get_note_id(user_name: str, note_id: str):
 
 async def get_users_tags(user_name: str):
 
+    user_tags=await get_users_created_tags(user_name=user_name)
+    global_tags=await get_global_tags()
+
+    result:dict={'user_tags':user_tags,'global_tags':global_tags}
+    return result
+
+async def get_users_created_tags(user_name: str):
+
     user_data = await user_crud.user_info(user_name=user_name)
+    query = (
+        tags.select()
+        .where(and_(tags.c.user_id == user_data['id'], tags.c.is_active == True))
+        .order_by(tags.c.default_value.desc())
+    )
+    try:
+        results = await fetch_all_db(query=query)
+        return results
+    except Exception as e:
+        logger.error(f"error: {e}")
+
+async def get_global_tags():
     query = (
         tags.select()
         .where(and_(tags.c.cannot_delete == True, tags.c.is_active == True))

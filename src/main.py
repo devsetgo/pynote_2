@@ -71,7 +71,6 @@ routes = [
             Route("/tag/new", endpoint=config_pages.tag_new, methods=["GET", "POST"]),
             Route("/tag/view", endpoint=config_pages.tag_view, methods=["GET"]),
             Route("/tag/edit", endpoint=config_pages.tag_edit, methods=["GET", "PUT"]),
-
         ],
         name="htmx",
     ),

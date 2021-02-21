@@ -39,18 +39,7 @@
             {{ form.csrf_token }}
             <div class="row">
               <div class="col-sm-6">
-                <div class="input-group mb-5">
-                  {{ form.note(placeholder="Enter your note") }}
-                  
-                </div>
-                <div class="input-group mb-5">
-                  <p>
-                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note">Submit</button>
-                  </p>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="input-group mb-3">
+                <div class="input-group mb-6">
                   {{ form.mood(placeholder="Select an option") }}
                   <div class="input-group-append">
                     <div class="input-group-text">
@@ -58,23 +47,71 @@
                     </div>
                   </div>
                 </div>
-                <div class="input-group mb-6">
-                  <!-- checkbox -->
-                  <div class="form-group clearfix">
+                <div class="input-group mb-5">
+                  {{ form.note(placeholder="Enter your note") }}
+                </div>
+                <div class="input-group mb-5">
+                  <p>
+                    <button type="submit" class="btn btn-primary btn-block" title="Add a New Note">Submit</button>
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card card-warning">
+                  <div class="card-header">
+                    <h3 class="card-title">Settings</h3>
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                          class="fas fa-minus"></i>
+                      </button>
+                    </div>
+                    <!-- /.card-tools -->
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <!-- Minimal style -->
                     <div class="row">
                       <div class="col-sm-6">
-                        <!-- checkbox -->
-                        {% for t in some_tags %}
-                        <div class="icheck-success d-inline">
-                          <label class="d-inline" for="{{t.name}}"></label>
-                          <input type="checkbox" name="tags-{{t.name}}" id="{{t.name}}" data-bootstrap-switch
-                            data-on-color="success" data-off-color="danger" {% if t.default_value==True %} checked {% endif %}>
-                          {{t.name|title}}</label>
+                        <label>Global Tags</label>
+                        <div class="input-group mb-6">
+                          <!-- checkbox -->
+                          <div class="form-group clearfix">
+                            <!-- checkbox -->
+                            {% for t in all_tags.global_tags %}
+                            <div class="row">
+                              <div class="icheck-success d-inline">
+                                <input type="checkbox" name="tags-{{t.name}}" id="{{t.name}}" data-bootstrap-switch
+                                  data-on-color="success" data-off-color="danger" {% if t.default_value==True %} checked
+                                  {% endif %}>
+                                <label for="{{t.name}}">{{t.name|title}}</label>
+                              </div>
+                            </div>
+                            {%endfor%}
+                          </div>
                         </div>
-                        {%endfor%}
+                      </div>
+                      <div class="col-sm-6">
+                        <label>Global Tags</label>
+                        <div class="input-group mb-6">
+                          <!-- checkbox -->
+                          <div class="form-group clearfix">
+                            <!-- checkbox -->
+                            {% for u in all_tags.user_tags %}
+                            <div class="row">
+                              <div class="icheck-success d-inline">
+                                <input type="checkbox" name="tags-{{u.name}}" id="{{u.name}}" data-bootstrap-switch
+                                  data-on-color="success" data-off-color="danger" {% if u.default_value==True %} checked
+                                  {% endif %}>
+                                <label for="{{u.name}}">{{u.name|title}}</label>
+                              </div>
+                            </div>
+                            {%endfor%}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <!-- /.card-body -->
                 </div>
               </div>
           </form>
@@ -83,7 +120,6 @@
       </div>
       <!-- /.card -->
     </div>
-
     <!-- /.row -->
   </div>
   <!-- /.container-fluid -->

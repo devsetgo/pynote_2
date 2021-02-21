@@ -1,38 +1,32 @@
 # -*- coding: utf-8 -*-
 import unittest
+from async_asgi_testclient import TestClient
+import pytest
+import uuid
 
-from starlette.testclient import TestClient
+# from starlette.testclient import TestClient
 
 from main import app
 
-# client = TestClient(app)
-
 
 class Test(unittest.TestCase):
-    def test_index(self):
+    async def test_index(self):
 
-        # url = f"/twitter-bots"
-        # client = TestClient(app)
-        # response = client.get(url)
-        # assert response.status_code == 200
-        with TestClient(app) as client:
-
-            url = f"/twitter-bots"
-            result = client.get(url)
-            # self.assertEqual(result.status_code, 303)
-            assert result.status_code == 200
-
-        # assert response.status_code == 200
-
-    # def test_index__error(self):
-    #     uid = uuid.uuid1()
-    #     url = f"/index/{uid}"
-    #     response = client.get(url)
-    #     assert response.status_code == 404
-
-    def test_health_pages(self):
-
-        url = f"/health"
-        client = TestClient(app)
+        client = await TestClient(app)
+        url = f"/"
         response = client.get(url)
         assert response.status_code == 200
+
+    async def test_health_pages(self):
+
+        client = await TestClient(app)
+        url = f"/health"
+        response = client.get(url)
+        assert response.status_code == 200
+
+    async def test_index__error(self):
+
+        url = f"/{uuid.uuid1()}.html"
+        client = await TestClient(app)
+        response = client.get(url)
+        assert response.status_code == 404

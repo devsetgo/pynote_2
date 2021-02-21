@@ -32,7 +32,7 @@
             <tbody>
               {% for n in notes|sort(reverse=True) %}
               <tr>
-                <td><a href="/notes/{{n.id}}">{{n.date_created.strftime('%Y-%m-%d %H:%M')}}</a></td>  
+                <td><a href="/notes/{{n.id}}">{{n.date_created.strftime('%Y-%m-%d %H:%M')}}</a></td>
                 <!-- %H:%M:%S %z' -->
                 <td>{{n.preview}}</td>
                 <td>{{n.mood}}</td>
