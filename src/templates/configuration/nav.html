@@ -1,5 +1,5 @@
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
-    <li class="nav-item has-treeview  menu-{% if active=="tag-new"%}open{%else%}closed{%endif%} ">
+    <li class="nav-item has-treeview  menu-{% if section=="configuration"%}open{%else%}closed{%endif%} ">
       <a href="#" class="nav-link">
         <i class="nav-icon fas fa-cogs"></i>
         <p>
@@ -9,7 +9,7 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="/configuration/" class="nav-link{% if active=="config"%} active{%endif%}">
+          <a href="/configuration/" class="nav-link {% if active=="config-index"%} active{%endif%}">
             <i class="fas fa-cog nav-icon"></i>
             <p>My Configurations</p>
           </a>

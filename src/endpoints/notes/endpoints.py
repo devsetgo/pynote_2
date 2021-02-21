@@ -15,7 +15,8 @@ from endpoints.user import crud as user_crud
 from resources import templates
 import silly
 
-page_url = "/notes"
+section="notes"
+page_url = f"/{section}"
 
 
 @login_required.require_login
@@ -35,6 +36,8 @@ async def notes_index(request):
         "request": request,
         "user_data": user_data,
         "notes": notes_result,
+        "active": "note-index",
+        "section": section,
     }
     logger.info("page accessed: /notes")
     return templates.TemplateResponse(template, context)
@@ -51,15 +54,13 @@ async def notes_new(request):
     form = await forms.NewNote.from_formdata(request)
     form_data = await request.form()
 
-    form.note.data = """Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.
+    from endpoints.notes import pg
+    import random
+    para=[pg.p_1,pg.p_2,pg.p_3,]
 
-Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.
-
-Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot green bean swiss chard seakale pumpkin onion chickpea gram corn pea. Brussels sprout coriander water chestnut gourd swiss chard wakame kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts nori azuki bean chickweed potato bell pepper artichoke.
-    """
+    form.note.data = para[random.randint(0,2)]
     # print(form.note.data)
-    form.mood.data = "happy"
-    some_tags = await get_users_tags(user_name=user_name)
+    tags = await get_users_tags(user_name=user_name)
 
     if await form.validate_on_submit():
         logger.debug(dict(form_data))
@@ -69,6 +70,7 @@ Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi a
             if k.startswith("tags-"):
                 new_key = k.replace("tags-", "")
                 tag_dict: dict = {new_key: v}
+                logger.debug(tag_dict)
                 tags_list.append(tag_dict)
 
         if len(tags_list) == 0:
@@ -76,16 +78,18 @@ Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi a
 
         # tags_dict: dict = {"tags": tags_list}
         data: dict = {"form_data": form_data, "tags": tags_list}
-        logger.critical(data)
+        logger.debug(data)
         result = await add_new_note(data=data, user_name=user_name)
-        logger.critical(result)
+        logger.debug(result)
         return RedirectResponse(url="/notes", status_code=303)
 
     template = f"{page_url}/new.html"
     context = {
         "request": request,
         "form": form,
-        "some_tags": some_tags,
+        "all_tags": tags,
+        "active": "note-new",
+        "section": section,
     }
     logger.info("page accessed: /notes/new")
     return templates.TemplateResponse(template, context)
@@ -107,6 +111,8 @@ async def notes_id(request):
         "request": request,
         "user_data": user_data,
         "note": note_result,
+        "active": "note-id",
+        "section": section,
     }
     logger.info(f"page accessed: /notes/{note_id}")
     return templates.TemplateResponse(template, context)

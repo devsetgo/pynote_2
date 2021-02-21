@@ -6,7 +6,7 @@ from starlette.responses import RedirectResponse
 
 from core import login_required
 from endpoints.configuration import forms
-from endpoints.configuration.functions import get_user_tags
+from endpoints.configuration.functions import get_user_tags, add_new_tag
 from endpoints.user import crud as user_crud
 from resources import templates
 
@@ -23,20 +23,24 @@ async def index(request):
     Index page for configuration
     """
     user_name = request.session["user_name"]
-    user_data = await user_crud.user_info(user_name=user_name)
-    user_data: dict = dict(user_data)
-    user_data.pop("password")
+    user_id = request.session["id"]
+    # user_data = await user_crud.user_info(user_id=user_name)
+    # user_data: dict = dict(user_data)
+    # user_data.pop("password")
 
-    tags_result = await get_user_tags(user_name=user_name)
+    tags_result = await get_user_tags(user_id=user_id)
 
     template = f"{page_url}/index.html"
     context = {
         "request": request,
-        "user_data": user_data,
+        # "user_data": user_data,
         "tags": tags_result,
+        "active": "config-index",
+        "section": section,
     }
     logger.info(f"page accessed: /{section}")
     return templates.TemplateResponse(template, context)
+
 
 @login_required.require_login
 async def tag_view(request):
@@ -56,11 +60,11 @@ async def tag_view(request):
     context = {
         "request": request,
         "form": form,
-        "active":"tag-view",
+        "active": "tag-view",
+        "section": section,
     }
     logger.info(f"page accessed: /{section}/tag-edit")
     return templates.TemplateResponse(template, context)
-
 
 
 @login_required.require_login
@@ -68,20 +72,28 @@ async def tag_new(request):
     """
     new tag
     """
+    
     user_id = request.session["id"]
     logger.debug(f"request")
     form = await forms.NewTag.from_formdata(request)
     form_data = await request.form()
+
     if await form.validate_on_submit():
-        logger.critical(dict(form_data))
-        print(dict(form_data))
-        return RedirectResponse(url="/configuration", status_code=303)
+
+        logger.debug(dict(form_data))
+        result = await add_new_tag(form_data=dict(form_data), user_id=user_id)
+        logger.debug(result)
+        if result == "is duplicate":
+            form.name.errors.append(f"Duplicate tags not allowed")
+        else:
+            return RedirectResponse(url="/configuration", status_code=303)
+
     template = f"{page_url}/tag-new.html"
     context = {
         "request": request,
         "form": form,
-        "active":"tag-new",
-        "open_section": "config"
+        "active": "tag-new",
+        "section": section,
     }
     logger.info(f"page accessed: /{section}/new")
     return templates.TemplateResponse(template, context)
@@ -106,8 +118,8 @@ async def tag_edit(request):
     context = {
         "request": request,
         "form": form,
+        "active": "tag-edit",
+        "section": section,
     }
     logger.info(f"page accessed: /{section}/tag-edit")
     return templates.TemplateResponse(template, context)
-
-
