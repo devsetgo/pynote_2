@@ -11,6 +11,7 @@ from starlette.templating import Jinja2Templates
 from core import db_setup
 from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
 from core.db_setup import create_db, tags, users
+from core.demo import create_demo_data
 from core.logging_config import config_log
 from core.pass_lib import encrypt_pass
 from settings import config_settings
@@ -19,7 +20,8 @@ from settings import config_settings
 templates = Jinja2Templates(directory="templates")
 statics = StaticFiles(directory="statics")
 
-DEFAULT_TAGS: list = ["Fun", "Life", "Work", "Unknown"]
+DEFAULT_TAGS: list = config_settings.default_tags
+
 
 def init_app():
 
@@ -49,10 +51,10 @@ async def add_default_tags():
     check_result = await fetch_all_db(query=check_query)
     logger.debug(str(check_result))
 
-   
     for t in DEFAULT_TAGS:
         check_query = tags.select().where(tags.c.name == t)
         check_result = await fetch_one_db(query=check_query)
+
         if check_result is None:
             if t == "Life":
                 default_value = True
@@ -90,6 +92,7 @@ async def create_admin():
     await asyncio.sleep(0.5)
 
     if config_settings.admin_create == True:
+        user_id = str(uuid.uuid4())
         check_query = users.select()
         check_result = await fetch_all_db(query=check_query)
         logger.debug(str(check_result))
@@ -113,7 +116,7 @@ async def create_admin():
                 "phone": "727-456-7890",
                 "mobile_phone": "727-456-7890",
                 # system created fields
-                "id": str(uuid.uuid4()),
+                "id": user_id,
                 "date_created": datetime.datetime.now(),
                 "is_active": True,
                 "is_admin": True,
@@ -136,3 +139,8 @@ async def create_admin():
             logger.warning(
                 "Skipping first account setup as there are existing users. DISABLE create ADMIN_CREATE for security."
             )
+
+    if config_settings.create_demo_data == True:
+        import time
+        time.sleep(.5)
+        await create_demo_data()

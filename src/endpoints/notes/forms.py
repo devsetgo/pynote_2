@@ -4,7 +4,7 @@ import wtforms
 from starlette_wtf import StarletteForm
 from wtforms import validators
 
-MOODS: list = ["positive", "neutral", "negative"]
+MOODS: list = ["Positive", "Neutral", "Negative"]
 
 
 class NewNote(StarletteForm):
