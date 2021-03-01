@@ -10,12 +10,14 @@ environment variables.
 import secrets
 from functools import lru_cache
 
+# from core.demo import create_demo_data
+
 from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
     # use_env = "dotenv"
-
+    default_tags: list = ["Fun", "Life", "Work", "Unknown"]
     app_version: str = "1.0.0"
     release_env: str = "prd"
     https_on: bool = False
@@ -59,6 +61,7 @@ class Settings(BaseSettings):
     admin_user_name: str = None
     admin_user_key: str = None
     admin_user_email: str = None
+    create_demo_data: bool = False
 
     class Config:
         env_file = ".env"

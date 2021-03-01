@@ -4,6 +4,7 @@ from loguru import logger
 
 from core import login_required
 from resources import templates
+from endpoints.dashboard.dashboard_metrics import get_metrics
 
 page_url = "/dashboard"
 
@@ -11,13 +12,15 @@ page_url = "/dashboard"
 @login_required.require_login
 async def dashboard(request):
     """
-    Index page for twitter bots
+    Dashboard
     """
+    user_id = request.session["id"]
+    dashboard_metrics = await get_metrics(user_id=user_id)
 
     template = f"{page_url}/index.html"
     context = {
         "request": request,
-        # "bots": bots_list,
+        "metrics": dashboard_metrics,
     }
     logger.info("page accessed: /dashboard")
     return templates.TemplateResponse(template, context)

@@ -70,7 +70,7 @@ async def notes_new(request):
 
         tags_list: list = []
         for k, v in form_data.items():
-            print(k, v)
+            
             if k.startswith("tags-"):
                 new_key = k.replace("tags-", "")
                 tag_dict: dict = {new_key: v}
@@ -86,8 +86,8 @@ async def notes_new(request):
         result = await add_new_note(data=data, user_name=user_name)
         logger.debug(result)
         if result is not None:
-            d=await form.validate()
-            print(d)
+            d = await form.validate()
+            
         if "btn-another" in form_data:
             return RedirectResponse(url="/notes/new", status_code=303)
         else:
