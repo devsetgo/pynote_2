@@ -28,7 +28,7 @@
           <span class="info-box-icon bg-info"><i class="far fa-sticky-note"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Notes</span>
-            <span class="info-box-number">{{metrics.total_notes}}</span>
+            <span class="info-box-number">{{ '{0:,}'.format(metrics.total_notes | int) }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -40,7 +40,7 @@
           <span class="info-box-icon bg-success"><i class="fas fa-plus"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Total Words</span>
-            <span class="info-box-number">{{metrics.total_words}}</span>
+            <span class="info-box-number">{{ '{0:,}'.format(metrics.total_words | int) }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -52,7 +52,7 @@
           <span class="info-box-icon bg-warning"><i class="fas fa-plus"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Total Characters</span>
-            <span class="info-box-number">{{metrics.total_characters}}</span>
+            <span class="info-box-number">{{ '{0:,}'.format(metrics.total_characters | int) }}</span>
           </div>
           <!-- /.info-box-content -->
         </div>

@@ -24,8 +24,8 @@ async def create_demo_data():
 
     if note_data is None:
         logger.warning("creating demo data")
-        for t in range(0,200):
-            
+        for t in range(0,300):
+            time.sleep(.01)
             logger.info(f"creating demo data #{t}")
             await create_demo_notes(user_id=user_data['id'])
 
