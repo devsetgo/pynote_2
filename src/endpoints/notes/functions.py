@@ -4,6 +4,7 @@ import uuid
 
 from loguru import logger
 from sqlalchemy import and_
+from sqlalchemy import desc
 from textblob import TextBlob
 
 from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
@@ -16,7 +17,7 @@ async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
 
     # set limit value if none
     if limit is None:
-        limit: int = 10
+        limit: int = 20
     # set off_set value if none
     if off_set is None:
         off_set: int = 0
@@ -24,7 +25,7 @@ async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
     # get user ID
     # user_data = await user_crud.user_info(user_name=user_name)
     query = (
-        notes.select().where(notes.c.user_id == user_id).limit(limit).offset(off_set)
+        notes.select().where(notes.c.user_id == user_id).limit(limit).offset(off_set).order_by(desc(notes.c.date_created))
     )
     count_query = notes.select().where(notes.c.user_id == user_id)
     try:
@@ -37,7 +38,7 @@ async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
         )
         results: dict = {
             "config": {"off_set": off_set, "limit": limit, "qty": len(count_results)},
-            "notes": sorted_results,
+            "notes": db_results,
         }
         return results
     except Exception as e:
@@ -69,7 +70,7 @@ async def get_users_tags(user_id: str):
 
 async def get_users_created_tags(user_id: str):
 
-    user_data = await user_crud.user_info(user_id=user_id)
+    # user_data = await user_crud.user_info(user_id=user_id)
     query = (
         tags.select()
         .where(and_(tags.c.user_id == user_id, tags.c.is_active == True))

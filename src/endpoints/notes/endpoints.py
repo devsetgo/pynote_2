@@ -110,7 +110,7 @@ async def notes_new(request):
 
     # form.note.data = para[random.randint(0, 2)]
     # print(form.note.data)
-    tags = await get_users_tags(user_name=user_name)
+    tags = await get_users_tags(user_id=user_id)
 
     if await form.validate_on_submit():
         logger.debug(dict(form_data))

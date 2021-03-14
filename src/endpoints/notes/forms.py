@@ -11,9 +11,9 @@ class Direction(StarletteForm):
     limit = wtforms.SelectField(
         "limit",
         choices=[
-            ("10", 10),
             ("20", 20),
             ("50", 50),
+            ("100", 100),
         ],
     )
     off_set = wtforms.HiddenField()
