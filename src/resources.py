@@ -142,5 +142,6 @@ async def create_admin():
 
     if config_settings.create_demo_data == True:
         import time
-        time.sleep(.5)
+
+        time.sleep(0.5)
         await create_demo_data()

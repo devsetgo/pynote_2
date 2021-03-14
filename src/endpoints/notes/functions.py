@@ -9,25 +9,46 @@ from textblob import TextBlob
 from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
 from core.db_setup import notes, tags
 from endpoints.user import crud as user_crud
-
+from operator import itemgetter
 
 # get notes for user
-async def get_users_notes(user_name: str):
+async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
 
-    user_data = await user_crud.user_info(user_name=user_name)
-    query = notes.select()  # .where(notes.c.user_id == user_data['id'])
+    # set limit value if none
+    if limit is None:
+        limit: int = 10
+    # set off_set value if none
+    if off_set is None:
+        off_set: int = 0
+
+    # get user ID
+    # user_data = await user_crud.user_info(user_name=user_name)
+    query = (
+        notes.select().where(notes.c.user_id == user_id).limit(limit).offset(off_set)
+    )
+    count_query = notes.select().where(notes.c.user_id == user_id)
     try:
-        results = await fetch_all_db(query=query)
+        # query database
+        db_results = await fetch_all_db(query=query)
+        count_results = await fetch_all_db(query=count_query)
+        # sort list by date_created in dictionary
+        sorted_results = sorted(
+            list(db_results), key=lambda k: k["date_created"], reverse=True
+        )
+        results: dict = {
+            "config": {"off_set": off_set, "limit": limit, "qty": len(count_results)},
+            "notes": sorted_results,
+        }
         return results
     except Exception as e:
         logger.error(f"error: {e}")
 
 
-async def get_note_id(user_name: str, note_id: str):
+async def get_note_id(user_id: str, note_id: str):
 
-    user_data = await user_crud.user_info(user_name=user_name)
+    # user_data = await user_crud.user_info(user_name=user_name)
     query = notes.select().where(
-        and_(notes.c.user_id == user_data["id"], notes.c.id == note_id)
+        and_(notes.c.user_id == user_id, notes.c.id == note_id)
     )
     try:
         results = await fetch_one_db(query=query)
@@ -37,21 +58,21 @@ async def get_note_id(user_name: str, note_id: str):
         logger.error(f"error: {e}")
 
 
-async def get_users_tags(user_name: str):
+async def get_users_tags(user_id: str):
 
-    user_tags = await get_users_created_tags(user_name=user_name)
+    user_tags = await get_users_created_tags(user_id=user_id)
     global_tags = await get_global_tags()
 
     result: dict = {"user_tags": user_tags, "global_tags": global_tags}
     return result
 
 
-async def get_users_created_tags(user_name: str):
+async def get_users_created_tags(user_id: str):
 
-    user_data = await user_crud.user_info(user_name=user_name)
+    user_data = await user_crud.user_info(user_id=user_id)
     query = (
         tags.select()
-        .where(and_(tags.c.user_id == user_data["id"], tags.c.is_active == True))
+        .where(and_(tags.c.user_id == user_id, tags.c.is_active == True))
         .order_by(tags.c.default_value.desc())
     )
     try:

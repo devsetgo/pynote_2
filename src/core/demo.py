@@ -16,18 +16,18 @@ from settings import config_settings
 
 async def create_demo_data():
     logger.warning("create demo data set to true")
-    query=users.select().where(users.c.is_admin==True)
-    user_data=await fetch_one_db(query=query)
+    query = users.select().where(users.c.is_admin == True)
+    user_data = await fetch_one_db(query=query)
 
-    note_query=notes.select()
-    note_data=await fetch_one_db(query=note_query)
+    note_query = notes.select()
+    note_data = await fetch_one_db(query=note_query)
 
     if note_data is None:
         logger.warning("creating demo data")
-        for t in range(0,300):
-            time.sleep(.01)
+        for t in range(0, 300):
+            time.sleep(0.01)
             logger.info(f"creating demo data #{t}")
-            await create_demo_notes(user_id=user_data['id'])
+            await create_demo_notes(user_id=user_data["id"])
 
 
 async def create_demo_notes(user_id: str):
@@ -49,7 +49,7 @@ async def create_demo_notes(user_id: str):
         "date_created": random_date(),
         "date_updated": datetime.datetime.now(),
     }
-    
+
     try:
         await execute_one_db(query=query, values=values)
         return "new note complete"
@@ -58,10 +58,11 @@ async def create_demo_notes(user_id: str):
 
 
 def random_date():
-    r=random.randint(0,3000)
-    now=datetime.datetime.now()
-    delta=datetime.timedelta(r)
+    r = random.randint(0, 3000)
+    now = datetime.datetime.now()
+    delta = datetime.timedelta(r)
     return now - delta
+
 
 def sentiment_check(text_str: str):
     data = TextBlob(text_str)
@@ -70,15 +71,15 @@ def sentiment_check(text_str: str):
 
 
 def rand_mood():
-    result = MOODS[random.randint(0,len(MOODS) - 1)]
+    result = MOODS[random.randint(0, len(MOODS) - 1)]
     return result
 
 
 def rand_tags():
-    tags:list=[{'Life': 'on'}, {'Fun': 'on'}, {'Work': 'on'}, {'Unknown': 'on'}]
-    r=random.randint(1,3)
-    result=[]
-    
+    tags: list = [{"Life": "on"}, {"Fun": "on"}, {"Work": "on"}, {"Unknown": "on"}]
+    r = random.randint(1, 3)
+    result = []
+
     # result=tags[random.randint(len(tags)-1)]
     return tags
 

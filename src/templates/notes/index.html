@@ -11,62 +11,60 @@
 
 <section class="content">
   <div class="row">
-    <div class="col-12">
-      <div class="card">
+    <div class="col-md-6 pad">
+      <form action="/notes/direction" method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ form.limit(placeholder="Number of Notes") }}
+        {{form.off_set(value=notes.config.off_set)}}
+
+        <div class="btn-group">
+          {% if notes.config.off_set==0 %}<button type="submit" class="btn btn-default" title="0 Prior" disabled>
+            < < < </button>{%else%}<button name="btn-previous" type="submit" class="btn btn-default"
+                title="{{notes.config.off_set}} Prior"><strong>
+                  < < < </strong></button>{%endif%}
+              {% if notes.config.qty - notes.config.off_set >= notes.config.limit %}<button name="btn-next"
+                type="submit" class="btn btn-default"
+                title="{{notes.config.qty - notes.config.off_set}} Remaining"><strong>> >
+                  ></strong></button>{%else%}<button name="btn-next" type="submit" class="btn btn-default"
+                title="0 Remaining" disabled><strong>> > ></strong></button>{%endif%}
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    {% for n in notes.notes %}
+    <div class="col-md-3">
+      <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">My Notes</h3>
+          <h3 class="card-title">{{n.mood}} | {{n.date_created.strftime('%Y-%m-%d %H:%M')}}</h3>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+            </button>
+          </div>
+          <!-- /.card-tools -->
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="notes" class="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Preview</th>
-                <th>Mood</th>
-                <th>Tags</th>
-                <th>Polarity</th>
-                <th>Subjectivity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for n in notes|sort(reverse=True) %}
-              <tr>
-                <td><a href="/notes/{{n.id}}">{{n.date_created.strftime('%Y-%m-%d %H:%M')}}</a></td>
-                <!-- %H:%M:%S %z' -->
-                <td>{{n.preview}}</td>
-                <td>{{n.mood}}</td>
-                <td>
-                  {%for tags in n.tags%}
-                    {% for k,v in tags.items() %}
-                      {{k}},
-                    {%endfor%}
-                  {%endfor%}
-                </td>
-                <td>{{n.sentiment_polarity}}</td>
-                <td>{{n.sentiment_subjectivity}}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>Date</th>
-                <th>Preview</th>
-                <th>Mood</th>
-                <th>Tags</th>
-                <th>Polarity</th>
-                <th>Subjectivity</th>
-              </tr>
-            </tfoot>
-          </table>
-
+          <dl>
+            <dt><span><a href="/notes/{{n.id}}"><i class="fas fa-book-open"></i> Open</a></span></dt>
+            <dt>Preview</dt>
+            <dd>{{n.preview}}</dd>
+            <dt>Tags</dt>
+            <dd>{%for tags in n.tags%}
+              {% for k,v in tags.items() %}
+              {{k}},
+              {%endfor%}
+              {%endfor%}</dd>
+            <dt>Sentiment Analysis</dt>
+            <dd>Polarity: {{n.sentiment_polarity}}</dd>
+            <dd>Subjectivity: {{n.sentiment_subjectivity}}</dd>
+          </dl>
         </div>
         <!-- /.card-body -->
       </div>
-
       <!-- /.card -->
     </div>
-    <!-- /.col -->
+    {% endfor %}
   </div>
   <!-- /.row -->
 </section>
@@ -96,19 +94,9 @@
 <script>
   $(function () {
 
-    $('#notes').DataTable( {
-      "order": [[0, "desc" ]],
-    } );
+    $('#notes').DataTable({
+      "order": [[0, "desc"]],
+    });
   });
 </script>
 {% endblock %}
-
-<!--
-  "order": [[ 8, "desc" ]],
-   "paging": true,
-
-"lengthChange": true,
-"searching": true,
-"ordering": true,
-"info": true,
-"autoWidth": true, -->
