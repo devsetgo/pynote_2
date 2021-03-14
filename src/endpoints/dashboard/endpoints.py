@@ -16,7 +16,7 @@ async def dashboard(request):
     """
     user_id = request.session["id"]
     dashboard_metrics = await get_metrics(user_id=user_id)
-
+    print(dashboard_metrics)
     template = f"{page_url}/index.html"
     context = {
         "request": request,
