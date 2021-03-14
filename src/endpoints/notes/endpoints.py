@@ -31,6 +31,7 @@ async def notes_index(request):
 
     notes_result = await get_users_notes(user_id=user_id)
     form = await forms.Direction.from_formdata(request)
+
     template = f"{page_url}/index.html"
     context = {
         "request": request,
@@ -52,7 +53,9 @@ async def notes_direction(request):
     user_id = request.session["id"]
     user_name = request.session["user_name"]
     form = await forms.Direction.from_formdata(request)
+
     form_data = await request.form()
+
     logger.debug(form_data)
     user_data = await user_crud.user_info(user_name=user_name)
     user_data: dict = dict(user_data)
@@ -98,6 +101,7 @@ async def notes_new(request):
     user_id = request.session["id"]
 
     form = await forms.NewNote.from_formdata(request)
+
     form_data = await request.form()
 
     from endpoints.notes import pg

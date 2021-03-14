@@ -17,7 +17,7 @@ async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
 
     # set limit value if none
     if limit is None:
-        limit: int = 20
+        limit: int = 10
     # set off_set value if none
     if off_set is None:
         off_set: int = 0
@@ -25,7 +25,11 @@ async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
     # get user ID
     # user_data = await user_crud.user_info(user_name=user_name)
     query = (
-        notes.select().where(notes.c.user_id == user_id).limit(limit).offset(off_set).order_by(desc(notes.c.date_created))
+        notes.select()
+        .where(notes.c.user_id == user_id)
+        .limit(limit)
+        .offset(off_set)
+        .order_by(notes.c.date_created.desc())
     )
     count_query = notes.select().where(notes.c.user_id == user_id)
     try:
