@@ -28,7 +28,6 @@ async def get_metrics(user_id: str):
         "mood_count": 7,
         "polarity_trend": 7,
         "subjectivity_trend": 7,
-    
     }
     logger.debug(results)
     return results

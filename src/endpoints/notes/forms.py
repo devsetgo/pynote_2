@@ -7,6 +7,18 @@ from wtforms import validators
 MOODS: list = ["Positive", "Neutral", "Negative"]
 
 
+class Direction(StarletteForm):
+    limit = wtforms.SelectField(
+        "limit",
+        choices=[
+            ("10", 10),
+            ("20", 20),
+            ("50", 50),
+        ],
+    )
+    off_set = wtforms.HiddenField()
+
+
 class NewNote(StarletteForm):
 
     note = wtforms.TextAreaField(

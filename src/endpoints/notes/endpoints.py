@@ -23,13 +23,58 @@ async def notes_index(request):
     """
     Index page for notes
     """
-
+    user_id = request.session["id"]
     user_name = request.session["user_name"]
     user_data = await user_crud.user_info(user_name=user_name)
     user_data: dict = dict(user_data)
     user_data.pop("password")
 
-    notes_result = await get_users_notes(user_name=user_name)
+    notes_result = await get_users_notes(user_id=user_id)
+    form = await forms.Direction.from_formdata(request)
+    template = f"{page_url}/index.html"
+    context = {
+        "request": request,
+        "user_data": user_data,
+        "notes": notes_result,
+        "active": "note-index",
+        "section": section,
+        "form": form,
+    }
+    logger.info("page accessed: /notes")
+    return templates.TemplateResponse(template, context)
+
+
+@login_required.require_login
+async def notes_direction(request):
+    """
+    Index page for notes
+    """
+    user_id = request.session["id"]
+    user_name = request.session["user_name"]
+    form = await forms.Direction.from_formdata(request)
+    form_data = await request.form()
+    logger.debug(form_data)
+    user_data = await user_crud.user_info(user_name=user_name)
+    user_data: dict = dict(user_data)
+    user_data.pop("password")
+
+    limit_value: int = int(form_data["limit"])
+    off_set_value: int = 0
+    if "btn-previous" in form_data:
+        off_set_value: int = int(form_data["off_set"]) - limit_value
+
+    elif "btn-next" in form_data:
+        off_set_value: int = int(form_data["off_set"]) + limit_value
+
+    if off_set_value < 0:
+        off_set_value: int = 0
+        logger.info(f"Offset value is less than zero, setting to 0 offset")
+
+    logger.info(f"offset set to {off_set_value}")
+
+    notes_result = await get_users_notes(
+        user_id=user_id, off_set=off_set_value, limit=limit_value
+    )
 
     template = f"{page_url}/index.html"
     context = {
@@ -38,6 +83,7 @@ async def notes_index(request):
         "notes": notes_result,
         "active": "note-index",
         "section": section,
+        "form": form,
     }
     logger.info("page accessed: /notes")
     return templates.TemplateResponse(template, context)
@@ -49,6 +95,7 @@ async def notes_new(request):
     new note
     """
     user_name = request.session["user_name"]
+    user_id = request.session["id"]
 
     form = await forms.NewNote.from_formdata(request)
     form_data = await request.form()
@@ -70,7 +117,7 @@ async def notes_new(request):
 
         tags_list: list = []
         for k, v in form_data.items():
-            
+
             if k.startswith("tags-"):
                 new_key = k.replace("tags-", "")
                 tag_dict: dict = {new_key: v}
@@ -87,7 +134,7 @@ async def notes_new(request):
         logger.debug(result)
         if result is not None:
             d = await form.validate()
-            
+
         if "btn-another" in form_data:
             return RedirectResponse(url="/notes/new", status_code=303)
         else:
@@ -113,10 +160,11 @@ async def notes_id(request):
 
     note_id = request.path_params["note_id"]
     user_name = request.session["user_name"]
+    user_id = request.session["id"]
     user_data = await user_crud.user_info(user_name=user_name)
     user_data: dict = dict(user_data)
     user_data.pop("password")
-    note_result = await get_note_id(user_name=user_name, note_id=note_id)
+    note_result = await get_note_id(user_id=user_id, note_id=note_id)
     template = f"{page_url}/note_id.html"
     context = {
         "request": request,
