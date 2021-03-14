@@ -9,7 +9,7 @@ from core.db_setup import notes, tags
 
 
 async def get_metrics(user_id: str):
-    query = notes.select().where(notes.c.user_id == user_id)
+    query = notes.select().where(notes.c.user_id == user_id).order_by(notes.c.date_created.desc())
     logger.debug(f"user posts query: {query}")
     data = await fetch_all_db(query)
     logger.debug(f"Query result = {data}")
