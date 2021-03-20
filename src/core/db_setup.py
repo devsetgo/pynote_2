@@ -116,6 +116,9 @@ notes = Table(
     Column("sentiment_subjectivity", Float, index=True),
     Column("date_created", DateTime),
     Column("date_updated", DateTime),
+    Column("created_year", Integer),
+    Column("created_month", Integer),
+    Column("created_day", Integer),
 )
 tags = Table(
     "tags",

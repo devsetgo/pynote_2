@@ -17,7 +17,7 @@ async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
 
     # set limit value if none
     if limit is None:
-        limit: int = 10
+        limit: int = 20
     # set off_set value if none
     if off_set is None:
         off_set: int = 0
@@ -111,6 +111,7 @@ async def add_new_note(data: dict, user_name: str):
     note = data["form_data"]["note"]
     sent = sentiment_check(text_str=note)
     query = notes.insert()
+    dt = datetime.datetime.now()
     values: dict = {
         "id": str(uuid.uuid4()),
         "user_id": user_data["id"],
@@ -122,8 +123,11 @@ async def add_new_note(data: dict, user_name: str):
         "char_count": len(note),
         "sentiment_polarity": sent.polarity,
         "sentiment_subjectivity": sent.subjectivity,
-        "date_created": datetime.datetime.now(),
-        "date_updated": datetime.datetime.now(),
+        "date_created": dt,
+        "date_updated": dt,
+        "created_year": dt.year,
+        "created_month": dt.month,
+        "created_day": dt.day,
     }
     try:
         await execute_one_db(query=query, values=values)

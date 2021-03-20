@@ -80,7 +80,6 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title">Area Chart</h3>
-
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
               </button>
@@ -117,8 +116,7 @@
         <!-- PIE CHART -->
         <div class="card card-danger">
           <div class="card-header">
-            <h3 class="card-title">Pie Chart</h3>
-
+            <h3 class="card-title">Posts Per Year</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
               </button>
@@ -126,12 +124,11 @@
             </div>
           </div>
           <div class="card-body">
-            <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            <canvas id="pieChartPostYear" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
           </div>
           <!-- /.card-body -->
         </div>
         <!-- /.card -->
-
       </div>
       <!-- /.col (LEFT) -->
       <div class="col-md-6">
@@ -139,7 +136,6 @@
         <div class="card card-info">
           <div class="card-header">
             <h3 class="card-title">Line Chart</h3>
-
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
               </button>
@@ -198,9 +194,7 @@
       </div>
       <!-- /.col (RIGHT) -->
     </div>
-    <!-- /.row -->
   </div>
-  <div>{{ metrics.post_per_year.data }}</div>
   <!-- /.container-fluid -->
 </div>
 <!-- /.content -->
@@ -311,11 +305,18 @@
     // Get context with jQuery - using jQuery's .get() method.
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
     var donutData        = {
-      labels: {{ metrics.post_per_year.years|safe }},
+      labels: [
+          'Chrome',
+          'IE',
+          'FireFox',
+          'Safari',
+          'Opera',
+          'Navigator',
+      ],
       datasets: [
         {
-          data: {{ metrics.post_per_year.data|safe }},
-          backgroundColor: {{ metrics.hex[:metrics.post_per_year.qty]|safe }},
+          data: [700,500,400,600,300,100],
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
         }
       ]
     }
@@ -336,15 +337,7 @@
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
     var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieData = {
-      labels: {{ metrics.post_per_year.years|safe }},
-      datasets: [
-        {
-          data: {{ metrics.post_per_year.data|safe }},
-          backgroundColor: {{ metrics.hex[:metrics.post_per_year.qty]|safe }},
-        }
-      ]
-    }
+    var pieData        = donutData;
     var pieOptions     = {
       maintainAspectRatio : false,
       responsive : true,
