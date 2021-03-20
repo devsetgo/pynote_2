@@ -21,20 +21,24 @@ async def create_demo_data():
 
     note_query = notes.select()
     note_data = await fetch_one_db(query=note_query)
-
+    print(type(note_data))
+    rd_num = random.randint(291, 321)
     if note_data is None:
         logger.warning("creating demo data")
-        for t in range(0, 300):
+        for t in range(0, rd_num):
             time.sleep(0.01)
             logger.info(f"creating demo data #{t}")
             await create_demo_notes(user_id=user_data["id"])
 
 
 async def create_demo_notes(user_id: str):
-
+    print(user_id)
     note = silly.paragraph(length=random.randint(1, 6))
     sent = sentiment_check(text_str=note)
     query = notes.insert()
+
+    dt = random_date()
+
     values: dict = {
         "id": str(uuid.uuid4()),
         "user_id": user_id,
@@ -46,8 +50,11 @@ async def create_demo_notes(user_id: str):
         "char_count": len(note),
         "sentiment_polarity": sent.polarity,
         "sentiment_subjectivity": sent.subjectivity,
-        "date_created": random_date(),
+        "date_created": dt,
         "date_updated": datetime.datetime.now(),
+        "created_year": dt.year,
+        "created_month": dt.month,
+        "created_day": dt.day,
     }
 
     try:

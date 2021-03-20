@@ -1,13 +1,14 @@
+devsetgo-lib==0.5.0
 aiofiles==0.6.0
-aiosqlite==0.17.0 # from 0.16.1
-alembic==1.5.7 # from 1.5.4
+aiosqlite==0.17.0
+alembic==1.5.7
 apscheduler==3.7.0
 asyncpg==0.22.0
 click==7.1.2
-databases[postgresql]==0.4.1
+databases[postgresql]==0.4.2 # from 0.4.1
 email-validator==1.1.2
 gunicorn==20.0.4
-httpx==0.17.0 # from 0.16.1
+httpx==0.17.1 # from 0.17.0
 itsdangerous==1.1.0
 jinja2==2.11.3
 loguru==0.5.3
@@ -20,6 +21,6 @@ starlette-wtf==0.3.0
 tweepy==3.10.0
 uvicorn==0.13.4
 starlette-prometheus==0.7.0
-pydantic==1.8.1 # from 1.7.3
+pydantic==1.8.1
 python-dotenv==0.15.0
 textblob==0.15.3
