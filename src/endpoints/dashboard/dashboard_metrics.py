@@ -19,7 +19,6 @@ async def get_metrics(user_id: str):
     logger.debug(f"user posts query: {query}")
     data = await fetch_all_db(query)
     logger.debug(f"Query result = {data}")
-    colors = get_colors(12)
     results: dict = {
         "total_notes": len(data),
         "post_per_month": await posts_per_month(data=data),
@@ -38,61 +37,37 @@ async def get_metrics(user_id: str):
         "rgba": RGBa_COLORS,
     }
     logger.debug(results)
-    print(results["post_per_year"])
     return results
-
-
-def get_colors(length: int):
-    return {"hex": HEX_COLORS[:length], "rgba": RGBa_COLORS[:length]}
-
 
 async def posts_per_month(data: list):
 
-    results: dict = {}
+    years: list = []
     for d in data:
         year = str(d["created_year"])
-        month = get_month(d["created_month"])
+        if year not in years:
+            years.append(year)
+    results: list = []
+    color_number: int = 0
+    for y in years:
 
-        if year not in results:
-            year_dict: dict = {
-                "January": 0,
-                "February": 0,
-                "March": 0,
-                "April": 0,
-                "May": 0,
-                "June": 0,
-                "July": 0,
-                "August": 0,
-                "September": 0,
-                "October": 0,
-                "November": 0,
-                "December": 0,
-            }
-            results[year] = year_dict
-            results[year][month] = 1
-
-        if year in results:
-            results[year][month] = results[year][month] + 1
-
-    result_dict: dict = {}
-    years: list = []
-    months_list: list = []
-    for k, v in results.items():
-        years.append(v)
-        month_data: list = []
-
-        for a, b in v.items():
-            month_data.append(b)
-
-        months_list.append(month_data)
-
-    result_dict: dict = {
-        "years": years,
-        "months": months_list,
-        "qty_years": len(years),
-    }
-    return result_dict
-
+        year_month: list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for m in data:
+            if str(m["created_year"]) == y:
+                year_month[m["created_month"] - 1] += 1
+        c = RGBa_COLORS[color_number]
+        year_data: dict = {
+            "year": y,
+            "data": year_month,
+            "backgroundColor": f"rgba({c[0]},{c[1]},{c[2]},0.9)",
+            "borderColor": f"rgba({c[0]},{c[1]},{c[2]},0.8)",
+            "pintStrokeColor": f"rgba({c[0]},{c[1]},{c[2]},1)",
+            "pointHighlightStroke": f"rgba({c[0]},{c[1]},{c[2]},1)",
+        }
+        results.append(year_data)
+        color_number += 1
+    logger.debug(results)
+    return results
+    # return years
 
 async def posts_per_year(data: list):
     data_dict: dict = {}
@@ -110,122 +85,134 @@ async def posts_per_year(data: list):
         "data": list(data_dict.values()),
         "qty": len(list(data_dict.keys())),
     }
+    logger.debug(results)
     return results
-
 
 async def total_characters(data: list):
     counts: list = []
     for d in data:
         counts.append(d["char_count"])
     results: int = sum(counts)
+    logger.debug(results)
     return results
-
 
 async def total_words(data: list):
     counts: list = []
     for d in data:
         counts.append(d["word_count"])
     results: int = sum(counts)
+    logger.debug(results)
     return results
-
 
 async def character_per_month(data: list):
-    results: dict = {}
+
+    years: list = []
     for d in data:
         year = str(d["created_year"])
-        month = get_month(d["created_month"])
+        if year not in years:
+            years.append(year)
+    results: list = []
+    color_number: int = 0
+    for y in years:
 
-        if year not in results:
-            year_dict: dict = {
-                "January": 0,
-                "February": 0,
-                "March": 0,
-                "April": 0,
-                "May": 0,
-                "June": 0,
-                "July": 0,
-                "August": 0,
-                "September": 0,
-                "October": 0,
-                "November": 0,
-                "December": 0,
-            }
-            results[year] = year_dict
-            results[year][month] = d["char_count"]
-
-        if year in results:
-            results[year][month] = results[year][month] + d["char_count"]
+        year_month: list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for m in data:
+            if str(m["created_year"]) == y:
+                year_month[m["created_month"] - 1] += m["char_count"]
+        c = RGBa_COLORS[color_number]
+        year_data: dict = {
+            "year": y,
+            "data": year_month,
+            "backgroundColor": f"rgba({c[0]},{c[1]},{c[2]},0.9)",
+            "borderColor": f"rgba({c[0]},{c[1]},{c[2]},0.8)",
+            "pintStrokeColor": f"rgba({c[0]},{c[1]},{c[2]},1)",
+            "pointHighlightStroke": f"rgba({c[0]},{c[1]},{c[2]},1)",
+        }
+        results.append(year_data)
+        color_number += 1
+    logger.debug(results)
+    # print(results)
     return results
-
 
 async def words_per_month(data: list):
-    results: dict = {}
+
+    years: list = []
     for d in data:
         year = str(d["created_year"])
-        month = get_month(d["created_month"])
+        if year not in years:
+            years.append(year)
+    results: list = []
+    color_number: int = 0
+    for y in years:
 
-        if year not in results:
-            year_dict: dict = {
-                "January": 0,
-                "February": 0,
-                "March": 0,
-                "April": 0,
-                "May": 0,
-                "June": 0,
-                "July": 0,
-                "August": 0,
-                "September": 0,
-                "October": 0,
-                "November": 0,
-                "December": 0,
-            }
-            results[year] = year_dict
-            results[year][month] = d["word_count"]
-
-        if year in results:
-            results[year][month] = results[year][month] + d["word_count"]
+        year_month: list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for m in data:
+            if str(m["created_year"]) == y:
+                year_month[m["created_month"] - 1] += m["word_count"]
+        c = RGBa_COLORS[color_number]
+        year_data: dict = {
+            "year": y,
+            "data": year_month,
+            "backgroundColor": f"rgba({c[0]},{c[1]},{c[2]},0.9)",
+            "borderColor": f"rgba({c[0]},{c[1]},{c[2]},0.8)",
+            "pintStrokeColor": f"rgba({c[0]},{c[1]},{c[2]},1)",
+            "pointHighlightStroke": f"rgba({c[0]},{c[1]},{c[2]},1)",
+        }
+        results.append(year_data)
+        color_number += 1
+    logger.debug(results)
+    # print(results)
     return results
-
 
 async def character_per_year(data: list):
-    results: dict = {}
+    data_dict: dict = {}
+
     for d in data:
         year = str(d["created_year"])
 
-        if year not in results:
-            results[year] = d["char_count"]
+        if year not in data_dict:
+            data_dict[year] = d["char_count"]
         else:
-            results[year] += d["char_count"]
-    return results
+            data_dict[year] += d["char_count"]
 
+    results: dict = {
+        "years": list(data_dict.keys()),
+        "data": list(data_dict.values()),
+        "qty": len(list(data_dict.keys())),
+    }
+    logger.debug(results)
+    return results
 
 async def words_per_year(data: list):
-    results: dict = {}
+    data_dict: dict = {}
+
     for d in data:
         year = str(d["created_year"])
 
-        if year not in results:
-            results[year] = d["word_count"]
+        if year not in data_dict:
+            data_dict[year] = d["word_count"]
         else:
-            results[year] += d["word_count"]
-    return results
+            data_dict[year] += d["word_count"]
 
+    results: dict = {
+        "years": list(data_dict.keys()),
+        "data": list(data_dict.values()),
+        "qty": len(list(data_dict.keys())),
+    }
+    logger.debug(results)
+    return results
 
 async def tags_count(data: list):
     pass
 
-
 async def mood_trends(data: list):
     pass
-
 
 async def polarity_trend(user_id: str):
     pass
 
-
 async def subjectivity_trend(user_id: str):
     pass
-
 
 async def mood_per_month(user_id: str):
     pass
