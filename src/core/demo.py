@@ -21,8 +21,7 @@ async def create_demo_data():
 
     note_query = notes.select()
     note_data = await fetch_one_db(query=note_query)
-    print(type(note_data))
-    rd_num = random.randint(291, 321)
+    rd_num = random.randint(2091, 3210)
     if note_data is None:
         logger.warning("creating demo data")
         for t in range(0, rd_num):
@@ -32,7 +31,7 @@ async def create_demo_data():
 
 
 async def create_demo_notes(user_id: str):
-    print(user_id)
+
     note = silly.paragraph(length=random.randint(1, 6))
     sent = sentiment_check(text_str=note)
     query = notes.insert()
