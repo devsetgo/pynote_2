@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import datetime
+import random
 import time
 import uuid
-import random
-from loguru import logger
-from sqlalchemy import and_
-from textblob import TextBlob
+
 import silly
-from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
-from core.db_setup import notes, tags, users
-from endpoints.user import crud as user_crud
+from loguru import logger
+from textblob import TextBlob
+
+from core.crud_ops import execute_one_db, fetch_one_db
+from core.db_setup import notes, users
 from endpoints.notes.forms import MOODS
-from settings import config_settings
 
 
 async def create_demo_data():
@@ -21,7 +20,7 @@ async def create_demo_data():
 
     note_query = notes.select()
     note_data = await fetch_one_db(query=note_query)
-    rd_num = random.randint(2091, 3210)
+    rd_num = random.randint(1000, 1001)
     if note_data is None:
         logger.warning("creating demo data")
         for t in range(0, rd_num):

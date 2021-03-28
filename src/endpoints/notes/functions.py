@@ -4,13 +4,12 @@ import uuid
 
 from loguru import logger
 from sqlalchemy import and_
-from sqlalchemy import desc
-from textblob import TextBlob
 
 from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
 from core.db_setup import notes, tags
+from core.sentiment import sentiment_check
 from endpoints.user import crud as user_crud
-from operator import itemgetter
+
 
 # get notes for user
 async def get_users_notes(user_id: str, limit: int = None, off_set: int = None):
@@ -137,8 +136,9 @@ async def add_new_note(data: dict, user_name: str):
 
 
 async def update_note(data: dict, user_name: str):
-    logger.critical(data)
 
+    logger.debug(f"update note data:{data}")
+    logger.debug(f"update note user_name:{user_name}")
     try:
         user_data = await user_crud.user_info(user_name=user_name)
     except Exception as e:
@@ -167,9 +167,3 @@ async def update_note(data: dict, user_name: str):
         return "new note complete"
     except Exception as e:
         logger.error(f"error: {e}")
-
-
-def sentiment_check(text_str: str):
-    data = TextBlob(text_str)
-    result = data.sentiment
-    return result

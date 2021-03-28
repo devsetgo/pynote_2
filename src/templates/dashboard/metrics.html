@@ -1,0 +1,52 @@
+<!-- Begin Metrics -->
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-info"><i class="far fa-sticky-note"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Notes</span>
+          <span class="info-box-number">{{ '{0:,}'.format(metrics.total_notes | int) }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-success"><i class="fas fa-font"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Total Words</span>
+          <span class="info-box-number">{{ '{0:,}'.format(metrics.total_words | int) }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-warning"><i class="fas fa-text-height"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Total Characters</span>
+          <span class="info-box-number">{{ '{0:,}'.format(metrics.total_characters | int) }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-12">
+      <div class="info-box">
+        <span class="info-box-icon bg-danger"><i class="fas fa-tags"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Tags</span>
+          <span class="info-box-number">12</span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->

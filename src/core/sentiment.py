@@ -8,4 +8,5 @@ from textblob import TextBlob
 def sentiment_check(text_str: str):
     data = TextBlob(text_str)
     result = data.sentiment
+    print(result)
     return result

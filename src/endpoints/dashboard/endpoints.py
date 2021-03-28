@@ -3,8 +3,8 @@
 from loguru import logger
 
 from core import login_required
-from resources import templates
 from endpoints.dashboard.dashboard_metrics import get_metrics
+from resources import templates
 
 page_url = "/dashboard"
 
