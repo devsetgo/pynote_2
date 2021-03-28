@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
+
 from loguru import logger
-from datetime import datetime
-from core import login_required
-from resources import templates
-from core.crud_ops import execute_one_db, fetch_all_db, fetch_one_db
-from core.db_setup import notes, tags
+
 from core.colors import HEX_COLORS, RGBa_COLORS
-from devsetgo_lib.calendar_functions import get_month
+from core.crud_ops import fetch_all_db
+from core.db_setup import notes
 
 
 async def get_metrics(user_id: str):
@@ -39,6 +37,7 @@ async def get_metrics(user_id: str):
     logger.debug(results)
     return results
 
+
 async def posts_per_month(data: list):
 
     years: list = []
@@ -69,6 +68,7 @@ async def posts_per_month(data: list):
     return results
     # return years
 
+
 async def posts_per_year(data: list):
     data_dict: dict = {}
 
@@ -88,6 +88,7 @@ async def posts_per_year(data: list):
     logger.debug(results)
     return results
 
+
 async def total_characters(data: list):
     counts: list = []
     for d in data:
@@ -96,6 +97,7 @@ async def total_characters(data: list):
     logger.debug(results)
     return results
 
+
 async def total_words(data: list):
     counts: list = []
     for d in data:
@@ -103,6 +105,7 @@ async def total_words(data: list):
     results: int = sum(counts)
     logger.debug(results)
     return results
+
 
 async def character_per_month(data: list):
 
@@ -134,6 +137,7 @@ async def character_per_month(data: list):
     # print(results)
     return results
 
+
 async def words_per_month(data: list):
 
     years: list = []
@@ -164,6 +168,7 @@ async def words_per_month(data: list):
     # print(results)
     return results
 
+
 async def character_per_year(data: list):
     data_dict: dict = {}
 
@@ -182,6 +187,7 @@ async def character_per_year(data: list):
     }
     logger.debug(results)
     return results
+
 
 async def words_per_year(data: list):
     data_dict: dict = {}
@@ -202,17 +208,22 @@ async def words_per_year(data: list):
     logger.debug(results)
     return results
 
+
 async def tags_count(data: list):
     pass
+
 
 async def mood_trends(data: list):
     pass
 
+
 async def polarity_trend(user_id: str):
     pass
 
+
 async def subjectivity_trend(user_id: str):
     pass
+
 
 async def mood_per_month(user_id: str):
     pass

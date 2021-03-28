@@ -10,9 +10,9 @@ environment variables.
 import secrets
 from functools import lru_cache
 
-# from core.demo import create_demo_data
-
 from pydantic import BaseSettings
+
+# from core.demo import create_demo_data
 
 
 class Settings(BaseSettings):
@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     database_type: str = "sqlite"
     db_name: str = "sqlite_db/api.db"
     sqlalchemy_database_uri: str = "sqlite:///sqlite_db/api.db"
-    workers: int = 2
+    workers: int = None
     csrf_secret = secrets.token_urlsafe(64)
     secret_key = secrets.token_hex(64)
     invalid_character_list: list = [

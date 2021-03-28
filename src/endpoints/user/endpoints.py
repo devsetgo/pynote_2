@@ -57,6 +57,7 @@ async def login(request):
             await execute_one_db(query=fail_query, values=fail_values)
             logger.warning(f"User login failure for {user_name} from {client_host}")
             form.user_name.errors.append(f"user_name or Password is invalid")
+            # return RedirectResponse(url="/user/login", status_code=404)
 
         elif user_data["is_active"] == False:
             form.user_name.errors.append(

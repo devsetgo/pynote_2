@@ -19,215 +19,13 @@
 {% block page_breadcrumb %} Dashboard{% endblock %}
 {% block page_head_title %}Dashboard{% endblock %}
 {% block body %}
-<!-- Main content -->
-<div class="content">
-  <div class="container-fluid">
-    <!-- <h5 class="mb-2">Metrics</h5> -->
-    <div class="row">
-      <div class="col-md-3 col-sm-6 col-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-info"><i class="far fa-sticky-note"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Notes</span>
-            <span class="info-box-number">{{ '{0:,}'.format(metrics.total_notes | int) }}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-      <div class="col-md-3 col-sm-6 col-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-success"><i class="fas fa-chart-line"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Total Words</span>
-            <span class="info-box-number">{{ '{0:,}'.format(metrics.total_words | int) }}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-      <div class="col-md-3 col-sm-6 col-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-warning">><i class="fas fa-chart-line"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Total Characters</span>
-            <span class="info-box-number">{{ '{0:,}'.format(metrics.total_characters | int) }}</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-      <div class="col-md-3 col-sm-6 col-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-danger">><i class="fas fa-chart-line"></i></span>
-          <div class="info-box-content">
-            <span class="info-box-text">Likes</span>
-            <span class="info-box-number">93,139</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
-    <div class="row">
-      <div class="col-md-6">
-        <!-- AREA CHART -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Area Chart</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart">
-              <canvas id="areaChart"
-                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-            </div>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-        <!-- DONUT CHART -->
-        <div class="card card-danger">
-          <div class="card-header">
-            <h3 class="card-title">Donut Chart</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-            </div>
-          </div>
-          <div class="card-body">
-            <canvas id="donutChart"
-              style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-        <!-- PIE CHART -->
-        <div class="card card-danger">
-          <div class="card-header">
-            <h3 class="card-title">Pie Chart</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-            </div>
-          </div>
-          <div class="card-body">
-            <canvas id="pieChart"
-              style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-      </div>
-      <!-- /.col (LEFT) -->
-      <div class="col-md-6">
-        <!-- LINE CHART -->
-        <div class="card card-info">
-          <div class="card-header">
-            <h3 class="card-title">Line Chart</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart">
-              <canvas id="lineChart"
-                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-            </div>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-        <!-- BAR CHART -->
-        <div class="card card-success">
-          <div class="card-header">
-            <h3 class="card-title">Bar Chart</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart">
-              <canvas id="barChart"
-                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-            </div>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-        <!-- STACKED BAR CHART -->
-        <div class="card card-success">
-          <div class="card-header">
-            <h3 class="card-title">Stacked Bar Chart</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="chart">
-              <canvas id="stackedBarChart"
-                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-            </div>
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-
-      </div>
-      <!-- /.col (RIGHT) -->
-    </div>
-    <!-- /.row -->
-  </div>
-  <!-- <div>
-
-  </div> -->
-  <!-- /.container-fluid -->
-</div>
-<!-- /.content -->
-</div>
-<!-- /.content-wrapper -->
-
-{% endblock %}
-
-
-{% block page_sidebar_content %}
-<!-- blank and demo script adds page configuration example -->
-
-{% endblock %}
 {% block page_scripts %}
 <!-- page scripts-->
 <!-- OPTIONAL SCRIPTS -->
 <script src="{{ url_for('static' , path='plugins/chart.js/Chart.min.js') }}"></script>
 <script src="{{ url_for('static' , path='dist/js/demo.js') }}"></script>
 <script src="{{ url_for('static' , path='dist/js/pages/dashboard3.js') }}"></script>
+
 <script>
   $(function () {
     /* ChartJS
@@ -245,7 +43,7 @@
     var areaChartData = {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', "Aug", "Sep", "Oct", "Nov", "Dec"],
       datasets: [
-        
+
       {% for m in metrics.post_per_month%}
       {
         label: {{m['year']}},
@@ -266,17 +64,17 @@
       maintainAspectRatio: false,
       responsive: true,
       legend: {
-        display: false
+        display: true
       },
       scales: {
         xAxes: [{
           gridLines: {
-            display: false,
+            display: true,
           }
         }],
         yAxes: [{
           gridLines: {
-            display: false,
+            display: true,
           }
         }]
       }
@@ -406,4 +204,29 @@
   })
   })
 </script>
+<script>
+  
+</script>
+{% endblock %}
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    {% include "dashboard/metrics.html" %}
+    {% include "dashboard/posts.html" %}
+  </div>
+  <!-- <div>
+
+  </div> -->
+  <!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}
+
+
+{% block page_sidebar_content %}
+<!-- blank and demo script adds page configuration example -->
+
 {% endblock %}
