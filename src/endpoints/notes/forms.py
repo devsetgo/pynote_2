@@ -26,7 +26,7 @@ class NewNote(StarletteForm):
         render_kw={"rows": 10, "cols": 80},
         validators=[
             validators.DataRequired("Enter your note!"),
-            validators.Length(min=1, max=5000),
+            validators.Length(min=10, max=5000),
         ],
     )
     mood = wtforms.RadioField(

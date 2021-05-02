@@ -104,16 +104,6 @@ async def notes_new(request):
 
     form_data = await request.form()
 
-    from endpoints.notes import pg
-
-    para = [
-        pg.p_1,
-        pg.p_2,
-        pg.p_3,
-    ]
-
-    # form.note.data = para[random.randint(0, 2)]
-    # print(form.note.data)
     tags = await get_users_tags(user_id=user_id)
 
     if await form.validate_on_submit():
@@ -131,7 +121,6 @@ async def notes_new(request):
         if len(tags_list) == 0:
             tags_list.append({"Unknown": True})
 
-        # tags_dict: dict = {"tags": tags_list}
         data: dict = {"form_data": form_data, "tags": tags_list}
         logger.debug(data)
         result = await add_new_note(data=data, user_name=user_name)

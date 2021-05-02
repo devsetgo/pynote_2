@@ -10,7 +10,7 @@ environment variables.
 import secrets
 from functools import lru_cache
 
-from pydantic import BaseSettings
+from pydantic import BaseSettings, HttpUrl
 
 # from core.demo import create_demo_data
 
@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     release_env: str = "prd"
     https_on: bool = False
     prometheus_on: bool = True
+    sentry_key: HttpUrl = None
     database_type: str = "sqlite"
     db_name: str = "sqlite_db/api.db"
     sqlalchemy_database_uri: str = "sqlite:///sqlite_db/api.db"
