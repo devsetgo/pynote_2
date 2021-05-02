@@ -9,7 +9,7 @@ jobs:
       USING_COVERAGE: '3.8'
     strategy:
       matrix:
-        python: ['3.8','3.7']
+        python: ['3.9','3.8']
     steps:
     - uses: actions/checkout@master
     - name: Python ${{ matrix.python }} version
@@ -28,12 +28,3 @@ jobs:
         cp .env_sample .env
         python3 -m pytest
       if: "contains(env.USING_COVERAGE, matrix.python-version)"
-    - name: Upload coverage to Codecov
-      if: "contains(env.USING_COVERAGE, matrix.python-version)"
-      uses: codecov/codecov-action@master
-      with:
-        fail_ci_if_error: true
-        token: ${{secrets.CODECOV_TOKEN}}
-        file: ./app/coverage.xml
-        flags: unittests
-        name: codecov-umbrella
