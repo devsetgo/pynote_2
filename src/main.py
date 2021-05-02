@@ -21,6 +21,21 @@ from endpoints.notes import endpoints as note_pages
 from endpoints.user import endpoints as user_pages
 from resources import init_app
 from settings import config_settings
+import sentry_sdk
+
+if config_settings.sentry_key is not None:
+    sentry_sdk.init(
+        config_settings.sentry_key,
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+    )
+    try:
+        div_err = 1 / 0
+    except ZeroDivisionError as e:
+        sentry_sdk.capture_message(e)
+
 
 routes = [
     Route("/", main_pages.homepage, name="dashboard", methods=["GET", "POST"]),

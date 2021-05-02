@@ -5,7 +5,7 @@ from wtforms import BooleanField
 
 
 class ApprovalReviewForm(StarletteForm):
-    """ Approve or Reject User """
+    """Approve or Reject User"""
 
     is_active = BooleanField()
     is_admin = BooleanField(

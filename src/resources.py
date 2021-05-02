@@ -16,6 +16,7 @@ from core.logging_config import config_log
 from core.pass_lib import encrypt_pass
 from settings import config_settings
 
+
 # templates and static files
 templates = Jinja2Templates(directory="templates")
 statics = StaticFiles(directory="statics")
@@ -27,6 +28,7 @@ def init_app():
 
     config_log()
     logger.info("Initiating application")
+
     create_db()
     logging.info("Initiating database-standard logging")
 
