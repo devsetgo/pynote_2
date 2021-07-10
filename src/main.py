@@ -11,7 +11,7 @@ from starlette_wtf import CSRFProtectMiddleware
 
 import resources
 from core import exceptions
-from core.logger_middleware import LoggerMiddleware
+from core.custom_middleware import LoggerMiddleware
 from endpoints.admin import endpoints as admin_pages
 from endpoints.configuration import endpoints as config_pages
 from endpoints.dashboard import endpoints as dash_pages
