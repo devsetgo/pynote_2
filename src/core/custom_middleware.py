@@ -5,6 +5,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 
 class LoggerMiddleware(BaseHTTPMiddleware):
+    """
+    Middleware to log all requests made to application
+    """
     async def dispatch(self, request, call_next):
         response = await call_next(request)
         
