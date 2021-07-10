@@ -80,13 +80,6 @@ async def add_default_tags():
             except Exception as e:
                 logger.warning(f"An error occurred trying to update {t}")
                 return "error"
-    # Column("id", String, index=True, primary_key=True),
-    # Column("name", String(50), index=True),
-    # Column("user_id", String(50), index=True),
-    # Column("is_active", Boolean, index=True),
-    # Column("cannot_delete", Boolean, index=True),
-    # Column("date_created", DateTime),
-    # Column("date_updated", DateTime),
 
 
 async def create_admin():
