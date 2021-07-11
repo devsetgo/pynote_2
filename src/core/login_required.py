@@ -33,7 +33,7 @@ def require_login(endpoint: Callable) -> Callable:
                 return RedirectResponse(url="/user/login", status_code=303)
 
             # update datetime of last use
-            logger.info(f"user {request.session['user_name']} within window: {current}")
+            logger.info(f"user {request.session['id']} within timeout window: {current}")
             request.session["updated"] = str(datetime.now())
         return await endpoint(request)
 

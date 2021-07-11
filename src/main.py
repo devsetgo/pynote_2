@@ -19,6 +19,7 @@ from endpoints.health import endpoints as health_pages
 from endpoints.main import endpoints as main_pages
 from endpoints.notes import endpoints as note_pages
 from endpoints.user import endpoints as user_pages
+from endpoints.htmx import endpoints as htmx_pages
 from resources import init_app
 from settings import config_settings
 import sentry_sdk
@@ -88,7 +89,7 @@ routes = [
             Route("/tag/view", endpoint=config_pages.tag_view, methods=["GET"]),
             Route("/tag/edit", endpoint=config_pages.tag_edit, methods=["GET", "PUT"]),
         ],
-        name="htmx",
+        name="configuration",
     ),
     Mount(
         "/user",
@@ -107,6 +108,20 @@ routes = [
             Route("/register", endpoint=user_pages.register, methods=["GET", "POST"]),
         ],
         name="user",
+    ),
+    Mount(
+        "/htmx",
+        routes=[
+            Route(
+                "/",
+                endpoint=htmx_pages.index,
+                methods=["GET", "POST", "PUT", "DELETE"],
+            ),
+            Route(
+                "/user_search", endpoint=htmx_pages.user_search, methods=["GET", "POST"]
+            ),
+        ],
+        name="htmx",
     ),
     Route("/health", endpoint=health_pages.health_status, methods=["GET"]),
     Mount("/static", app=StaticFiles(directory="statics"), name="static"),

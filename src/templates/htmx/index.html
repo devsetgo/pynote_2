@@ -5,107 +5,37 @@
 <link rel="stylesheet" href="{{ url_for('static' , path='plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
 
 {% endblock %}
-{% block page_breadcrumb %} DataTables{% endblock %}
-{% block page_head_title %}DataTables Page{% endblock %}
+{% block page_breadcrumb %} HTMX{% endblock %}
+{% block page_head_title %}HTMX Page{% endblock %}
 {% block body %}
 <!-- Main content -->
 
 <section class="content">
   <div class="row">
-    <!-- left column -->
-    <div class="col-md-6">
-      <!-- general form elements -->
-      <div class="card card-primary">
-        <div class="card-header">
-          <h3 class="card-title">HTMX Example</h3>
-        </div>
-        <!-- /.card-header -->
-        <!-- form start -->
-        <div class="tab-list">
-          <a hx-get="/htmx/tab1" class="selected">Tab 1</a>
-          <a hx-get="/htmx/tab2">Tab 2</a>
-          <a hx-get="/htmx/tab3">Tab 3</a>
-        </div>
-
-        <h3>
-          Search Contacts
-          <span class="htmx-indicator">
-            <img src="/img/bars.svg"/> Searching...
-           </span>
-        </h3>
-        <input class="form-control" type="text"
-               name="search" placeholder="Begin Typing To Search Users..."
-               hx-post="/htmx/user_search"
-               hx-trigger="keyup changed delay:500ms"
-               hx-target="#search-results"
-               hx-indicator=".htmx-indicator">
-
-        <table class="table">
-            <thead>
-            <tr>
-              <th>group name</th>
-              <th>date</th>
-              <th>group type</th>
-
-            </tr>
-            </thead>
-            <tbody id="search-results">
-              {% include "htmx/user_data.html" %}
-            </tbody>
-        </table>
-
-        </div>
-      </div>
-    </div>
+    <div class="col-md-12">
+    <h3> 
+      Search Contacts 
+      <span class="htmx-indicator"> 
+        <img src="{{ url_for('static' , path='img/bars.svg') }}"/> Searching... 
+       </span> 
+    </h3>
+    <input class="form-control" type="text" 
+           name="search" placeholder="Begin Typing To Search Users..." 
+           hx-get="/htmx/user_search" 
+           hx-trigger="keyup changed delay:500ms" 
+           hx-target="#search-results" 
+           hx-indicator=".htmx-indicator">
+    
+    <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th><th>Preview</th><th>Word Count</th><th>Created</th>
+        </tr>
+        </thead>
+        <tbody id="search-results">
+        </tbody>
+    </table>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Your Notes</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-          <table id="notes" class="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th>Rendering engine</th>
-                <th>Browser</th>
-                <th>Platform(s)</th>
-                <th>Engine version</th>
-                <th>CSS grade</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for n in notes %}
-              <tr>
-                <td>Trident</td>
-                <td>Internet
-                  Explorer 4.0
-                </td>
-                <td>Win 95+</td>
-                <td> 4</td>
-                <td>X</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-            <tfoot>
-              <tr>
-                <th>Rendering engine</th>
-                <th>Browser</th>
-                <th>Platform(s)</th>
-                <th>Engine version</th>
-                <th>CSS grade</th>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        <!-- /.card-body -->
-      </div>
-
-      <!-- /.card -->
-    </div>
-    <!-- /.col -->
   </div>
   <!-- /.row -->
 </section>

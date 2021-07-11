@@ -11,9 +11,7 @@ def config_log():
     # remove default logger
     logger.remove()
     # set file path
-    cwd = Path.cwd()
-    p = cwd.parent
-    log_path = p.joinpath("logging").joinpath("log.log")
+    log_path = Path.cwd().joinpath("log").joinpath("log.log")
     # log_path = p.joinpath("logfile").joinpath("log.log")
     # add new configuration
     logger.add(

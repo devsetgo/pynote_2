@@ -34,17 +34,16 @@ async def login(request):
         result = await form_validators.valid_login(pwd=pwd, user_name=user_name)
         logger.debug(f"loging valid = {result}")
 
-        # user_name = user_name.lower()
         logger.debug(f"checking if {user_name.lower()} has valid login")
         query = users.select().where(users.c.user_name == user_name)
-        logger.info(f"fetch user_name: {user_name}")
         user_data = await fetch_one_db(query)
+        logger.info(f"fetch user_name: {user_data['id']}")
         logger.debug(f"LOOK AT THIS query result = {user_data}")
 
         last_login_values = {"last_login": datetime.datetime.now()}
-        last_login_query = users.update().where(users.c.user_name == user_name)
+        last_login_query = users.update().where(users.c.user_name == user_data['id'])
         await execute_one_db(query=last_login_query, values=last_login_values)
-        logger.info(f"updating last login for {user_name}")
+        logger.info(f"updating last login for {user_data['id']}")
         if result == False:
             client_host = request.client.host
             fail_values: dict = {
@@ -73,7 +72,7 @@ async def login(request):
             #     "realname"
             # ] = f'{user_data["first_name"]} {user_data["last_name"]}'
             logger.info(
-                f'logger {request.session["user_name"]} and send to profile page'
+                f'logger {request.session["id"]} and send to profile page'
             )
             return RedirectResponse(url="/", status_code=303)
 

@@ -27,8 +27,8 @@ class Settings(BaseSettings):
     db_name: str = "sqlite_db/api.db"
     sqlalchemy_database_uri: str = "sqlite:///sqlite_db/api.db"
     workers: int = None
-    csrf_secret = secrets.token_urlsafe(64)
-    secret_key = secrets.token_hex(64)
+    csrf_secret = secrets.token_hex(128)
+    secret_key = secrets.token_hex(128)
     invalid_character_list: list = [
         " ",
         ";",
@@ -44,7 +44,8 @@ class Settings(BaseSettings):
         "=",
         "?",
         "&",
-        "," ":",
+        ",",
+        ":",
         "'",
         ".",
         '"',

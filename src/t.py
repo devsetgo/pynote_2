@@ -1,8 +1,10 @@
-
-
 def create_data():
     print(f"hi")
 
+
 def run():
-    
-if __name__=="__main__":
+    pass
+
+
+if __name__ == "__main__":
+    run()

@@ -167,3 +167,40 @@ async def update_note(data: dict, user_name: str):
         return "new note complete"
     except Exception as e:
         logger.error(f"error: {e}")
+
+
+# get notes for user
+async def get_search_notes(user_id: str, limit: int = None, off_set: int = None):
+
+    # set limit value if none
+    if limit is None:
+        limit: int = 20
+    # set off_set value if none
+    if off_set is None:
+        off_set: int = 0
+
+    # get user ID
+    # user_data = await user_crud.user_info(user_name=user_name)
+    query = (
+        notes.select()
+        .where(notes.c.user_id == user_id)
+        .limit(limit)
+        .offset(off_set)
+        .order_by(notes.c.date_created.desc())
+    )
+    count_query = notes.select().where(notes.c.user_id == user_id)
+    try:
+        # query database
+        db_results = await fetch_all_db(query=query)
+        count_results = await fetch_all_db(query=count_query)
+        # sort list by date_created in dictionary
+        sorted_results = sorted(
+            list(db_results), key=lambda k: k["date_created"], reverse=True
+        )
+        results: dict = {
+            "config": {"off_set": off_set, "limit": limit, "qty": len(count_results)},
+            "notes": db_results,
+        }
+        return results
+    except Exception as e:
+        logger.error(f"error: {e}")

@@ -29,7 +29,7 @@ async def create_demo_data():
             await create_demo_notes(user_id=user_data["id"])
 
 
-async def create_demo_notes(user_id: str,dt:datetime=None):
+async def create_demo_notes(user_id: str, dt: datetime = None):
 
     note = silly.paragraph(length=random.randint(1, 6))
     sent = sentiment_check(text_str=note)

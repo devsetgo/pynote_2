@@ -2,7 +2,7 @@
 
 from loguru import logger
 from starlette.responses import RedirectResponse
-
+import time
 from core import login_required
 from endpoints.notes import forms
 from endpoints.notes.functions import (
@@ -167,4 +167,32 @@ async def notes_id(request):
         "section": section,
     }
     logger.info(f"page accessed: /notes/{note_id}")
+    return templates.TemplateResponse(template, context)
+
+@login_required.require_login
+async def note_search(request):
+
+    # data = await search_notes(
+    #     user_id=request.session["id"], terms=request.query_params["search"]
+    # )
+    user_id=request.session["id"]
+    terms=request.query_params["search"]
+    query = (
+        notes.select()
+        .where(notes.c.user_id == user_id)
+        .where(notes.c.note.ilike(f"%{terms}%"))
+        .limit(100)
+        .order_by(notes.c.date_created.desc())
+    )
+
+    try:
+        # query database
+        results = await fetch_all_db(query=query)
+    except Exception as e:
+        logger.error(f"error: {e}")
+        results = []
+    time.sleep(5)
+    template = f"htmx/note_data.html"
+    context = {"request": request, "data": results}
+    logger.info(f"page accessed: /htmx/{template}")
     return templates.TemplateResponse(template, context)

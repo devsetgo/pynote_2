@@ -1,0 +1,8 @@
+{% for d in data %}
+<TR>
+    <td><a href="/notes/{{ d.id }}">link</a></td>
+    <td>{{ d.note }}</td>
+    <td>{{ d.word_count }}</td>
+    <td>{{ d.date_created }}</td>
+</TR>
+{%endfor%}

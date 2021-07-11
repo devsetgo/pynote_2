@@ -34,8 +34,8 @@ async def valid_login(user_name: str, pwd: str):
     user_name = user_name.lower()
     logger.debug(f"checking if {user_name} has valid id")
     query = users.select().where(users.c.user_name == user_name)
-    logger.info(f"fetch user_name: {user_name}")
     user_data = await fetch_one_db(query)
+    logger.info(f"fetch user_name: {user_data['id']}")
     logger.debug(f"LOOK AT THIS query result = {user_data}")
 
     if user_data == None:
